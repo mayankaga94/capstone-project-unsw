@@ -1,0 +1,18 @@
+Week-1
+Formed a project group.
+Added additional members needed.
+Decided on the project we are interested and willing to do.
+
+Week-2
+Decided to be acting scrum master.
+Created a Jira account and added all the team members.
+Recognised dataset to build user database and Book collection database.
+Recognised the technology and skill set needed for the project.
+
+Week-3
+Participated in preparing project proposal.
+Submitted Project Proposal.
+Created user stories in Jira.
+Added user stories to sprint-1.
+Assigned user stories to scrum members and started the sprint.
+Created Book-collection database.
