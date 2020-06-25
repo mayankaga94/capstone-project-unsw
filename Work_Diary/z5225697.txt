@@ -1,0 +1,11 @@
+Week 1
+Formed group, decided on project topic
+
+Week 2
+Took part in group discussion, researched on the group topic and technologies to use.
+
+Week 3
+Contributed overall to the group proposal. 
+Added user stories. 
+Uploaded app.js to github along with sample user model installed required libraries.
+added initial routes.
