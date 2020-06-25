@@ -8,4 +8,4 @@ Week 3
 Contributed overall to the group proposal. 
 Added user stories. 
 Uploaded app.js to github along with sample user model installed required libraries.
-added initial routes.
+Added initial routes.
