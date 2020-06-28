@@ -1,0 +1,16 @@
+Week-1
+Formed a project group.
+Added additional members needed.
+After discussion with the team members, decided the project topic 
+
+Week-2
+Decided  not to act as a  scrum master.
+Pitched in ideas to decide the goal and flow of the project.
+Created low fidelity designs/wireframes.
+Shared my thoughts on database design.
+As a group we decided on the technology to be used.
+
+Week-3
+Participated in preparing project proposal.
+Made  the design for the sytem.
+developed a fraction of front-end.
