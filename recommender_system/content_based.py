@@ -9,7 +9,7 @@ from sklearn.metrics.pairwise import linear_kernel
 
 dataset_path = "dataset/goodbooks-10k"
 
-class ContextRecommenderSystem:
+class ContentRecommenderSystem:
     def __init__(self):
         self.load_dataset(dataset_path)
         self.similarity_matrix = self.fit()
@@ -48,6 +48,7 @@ class ContextRecommenderSystem:
           self.book_to_index[book_id] = index
         
     def fit(self):
+    
         vectorizer = TfidfVectorizer(analyzer='word',ngram_range=(1,1),min_df=0.002, stop_words='english')
         book_feature_matrix = vectorizer.fit_transform(self.books['all_features'])
         similarity_matrix = linear_kernel(book_feature_matrix, book_feature_matrix)
@@ -70,5 +71,5 @@ class ContextRecommenderSystem:
         
 
 if __name__ == '__main__':
-    rs = ContextRecommenderSystem()
+    rs = ContentRecommenderSystem()
     recommendations = rs.get_recommendations(99, 5)
