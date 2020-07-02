@@ -13,14 +13,14 @@ const db = require('./config/keys').MongoURI
 //     .catch(err => console.log(err));
 
 // body-parser
-app.use(express.urlencoded({extended:false}))
+app.use(express.urlencoded({extended:false}));
 
 // Routes
 app.get('/',(req,res) => {
     res.send("Welcome")
-})
+});
 
-app.use('/user',require('./routes/user'))
+app.use('/user',require('./routes/user'));
 
 
 const PORT = process.env.PORT || 5000;

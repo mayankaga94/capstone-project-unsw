@@ -27,6 +27,7 @@ pool.getConnection((err, connection) => {
   return
 })
 
+// Implement later
 // Promisify for Node.js async/await.
 // pool.query = util.promisify(pool.query)
 
@@ -38,6 +39,7 @@ module.exports = pool
 //     password: "E6beiBZqqV",
 //     database: "sql12350649"
 //   }
+
 // local options (always comment out)
 
 // db_options = {
