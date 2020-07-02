@@ -1,6 +1,7 @@
 
 #/usr/bin/python3
 import os
+import sys
 import pandas as pd
 import numpy as np
 
@@ -62,5 +63,20 @@ class CFRecommenderSystem:
         
 
 if __name__ == '__main__':
+    # Construct model
     rs = CFRecommenderSystem()
-    recommendations = rs.get_recommendations(99, 5)
+    
+    # Get recommendations
+    while True:
+        print('===============================================================================')
+        print("Enter book ID and the number of recommendations to display (or 'q' to exit):")
+        input_str = input() 
+        
+        if input_str == 'q':
+            sys.exit()
+            
+        input_values = input_str.split()
+        if len(input_values) != 2 or not input_values[0].isdigit or not input_values[1].isdigit:
+            print('Invalid input')
+            continue 
+        recommendations = rs.get_recommendations(int(input_values[0]), int(input_values[1]))
