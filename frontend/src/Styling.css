@@ -1,0 +1,116 @@
+
+.clearfix:after {
+    content: " "; /* Older browser do not support empty content */
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
+ }
+ .carouselSection{
+    width : 70%;
+    float : left;
+    padding:50px;
+    padding-top: 25px;
+    margin-top: 70px;
+}
+button:focus {outline:0;}
+h1{
+    font-size: 35px;
+    margin: 72px;
+    color:#262525;
+  }
+  
+.carousel{
+    border : 1px solid #ccc;
+    padding: 15px;
+}
+.waves{
+    position : absolute; 
+    width:100%;
+    left: 0 ;
+}
+.registrationSection h1{
+    margin : 0 auto;
+    max-width: 50%;
+
+    /* margin-top: -95px; */
+    
+}
+/* .registrationSection{
+    /* margin-top: -95px; }*/
+/* for the header wave */
+/* svg{
+    min-height: 300px;
+    /* background : white !important; */
+/* } */
+svg {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    vertical-align: middle;
+    overflow: hidden;
+  }
+
+/* .headerImage{
+    width: 100%;
+    height:350px;
+} */
+/* for registration */
+.registrationHeading{
+    color :#7a7a7a;
+    font-size: 24px;
+    font-weight: 600;
+    padding-bottom: 10px;
+}
+.registrationButton{
+    width : 85%;
+    color : #302f2f;
+    font-size: 16px;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding : 10px;
+    background: rgb(144,144,144);
+background: linear-gradient(90deg, rgba(144,144,144,1) 0%, rgba(214,214,214,1) 35%, rgba(255,255,255,1) 100%);
+    border : none;
+    outline : none;
+    font-weight:  600;
+    transition: 0.2s;
+
+}
+.registrationButton:hover  {
+    color:white;
+    background: rgb(45,43,43);
+    background: linear-gradient(90deg, rgba(45,43,43,1) 0%, rgba(156,152,152,1) 32%, rgba(237,237,237,1) 86%, rgba(255,255,255,1) 100%);
+}
+
+.registrationFields{
+    width : 85%;
+    padding:15px 0 15px 0 ;
+    margin: 0 auto;
+}
+.registrationFields input{
+    width: 100%;
+    padding: 10px 2px 10px 2px;
+    background: #f1f1f1;
+    outline: 1px solid #ccc;
+    font-size: 12px;
+    border: none;
+}
+
+.book_description{
+    /* padding: 5px; */
+}
+.tabsSection li {
+    transition: .3s ;
+}
+.tabsSection li:hover {
+    background :#a6a1a1;
+
+}
