@@ -1,1 +1,7 @@
 Yunhe HU z3351805
+
+Week1:
+Formed assignment group
+
+Week4:
+Added Admin login and registe functions on backend
