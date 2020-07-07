@@ -21,7 +21,7 @@ app.get('/',(req,res) => {
 });
 
 app.use('/user',require('./routes/user'));
-
+app.use('/admin', require('./routes/adminroutes.js'));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
