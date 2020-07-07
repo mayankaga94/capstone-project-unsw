@@ -81,7 +81,7 @@ router.post('/register',(req,res) => {
                     pool.query(query,[firstName,lastName,email,password,dob],(err,result) => {
                         if (err) throw err;
                         console.log(result);
-                        res.redirect('login');
+                        res.send('Registration Successful');
                     });
                 });
             }
