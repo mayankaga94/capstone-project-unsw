@@ -10,4 +10,7 @@ Wrote most of the background, existing systems and drawbacks sections.
 Added a bunch of user stories to the proposal.
 
 Week 4
+Created CF based and content based recommender systems.
 
+Week 5
+Updated recommender system to better display recommendations.
