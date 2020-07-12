@@ -7,15 +7,24 @@ import numpy as np
 
 from sklearn.metrics.pairwise import cosine_similarity
 
-dataset_path = "dataset/goodbooks-10k"
+dataset_path = "../dataset/goodbooks-10k"
 
 class CFRecommenderSystem:
     def __init__(self):
-        self.load_dataset(dataset_path)
-        self.similarity_matrix = self.fit()
+        if dataset_path is not None:
+            self.load_from_csv(dataset_path)    
+            self.fit()
 
-    def load_dataset(self, dataset_path):
-    
+    # Mapping from index to book_id and vice versa
+    def set_index_mapping(self):
+        self.index_to_book = {}
+        self.book_to_index = {}
+        for index, book_id in enumerate(self.books['book_id'].values):
+          self.index_to_book[index] = book_id
+          self.book_to_index[book_id] = index
+
+    # Load dataset from csv
+    def load_from_csv(self, dataset_path):
         # Paths
         ratings_path = os.path.join(dataset_path, "ratings.csv")
         books_path = os.path.join(dataset_path, "books.csv")
@@ -30,24 +39,21 @@ class CFRecommenderSystem:
         self.ratings = pd.read_csv(ratings_path)
         
         # Mapping from index to book_id and vice versa
-        self.index_to_book = {}
-        self.book_to_index = {}
-        for index, book_id in enumerate(self.books['book_id'].values):
-          self.index_to_book[index] = book_id
-          self.book_to_index[book_id] = index
-        
+        self.set_index_mapping()
+      
+    # Load dataset from db      
+    def load_from_db(self, engine):
+        # Load tables
+        self.books = pd.read_sql("SELECT * FROM books", con=engine)
+        self.ratings = pd.read_sql("SELECT * FROM ratings", con=engine)
         
     def fit(self):
-
         user_book_matrix = self.ratings.pivot_table(index='book_id', columns='user_id', values='rating')
         user_book_matrix.fillna(0, inplace=True)
-        similarity_matrix = cosine_similarity(user_book_matrix.to_numpy())
-        
-        return similarity_matrix
+        self.similarity_matrix = cosine_similarity(user_book_matrix.to_numpy())
         
     
-    
-    def get_recommendations(self, book_id, count=5, verbose=True):
+    def get_recommendations(self, book_id, count=5, verbose=False):
         print("Input Book:")
         print(self.books[self.books['book_id'] == book_id][['book_id', 'title', 'author', 'average_rating']].set_index('book_id').to_string())
         idx = self.book_to_index[book_id]
@@ -65,6 +71,8 @@ class CFRecommenderSystem:
 if __name__ == '__main__':
     # Construct model
     rs = CFRecommenderSystem()
+    rs.load_from_csv(dataset_path)
+    rs.fit()
     
     # Get recommendations
     while True:
@@ -79,4 +87,4 @@ if __name__ == '__main__':
         if len(input_values) != 2 or not input_values[0].isdigit or not input_values[1].isdigit:
             print('Invalid input')
             continue 
-        recommendations = rs.get_recommendations(int(input_values[0]), int(input_values[1]))
+        recommendations = rs.get_recommendations(int(input_values[0]), int(input_values[1]), True)
