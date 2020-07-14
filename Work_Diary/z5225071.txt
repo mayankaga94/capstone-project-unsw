@@ -16,3 +16,17 @@ Created user stories in Jira.
 Added user stories to sprint-1.
 Assigned user stories to scrum members and started the sprint.
 Created Book-collection database.
+
+Week-4
+Created MYSQL database online for easy access.
+created user table.
+
+Week-5
+Developed SQL scripts for data upload and modification
+Completed all user stories assigned.
+Completed sprint 1.
+
+Week-7
+Prepared Book dataset with web scraping.
+Prepared a huge book collection with respect to genre.
+Created Books database with all related information.
