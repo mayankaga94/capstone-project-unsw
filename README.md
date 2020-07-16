@@ -6,6 +6,10 @@ updated google doc v2 : https://docs.google.com/document/d/1Cs-mEViEUEBAjJC1WO_H
 
 Team formation for UNSW COMP9900 Capstone Project
 
-Please enter name, zID and role below
+Contributors:
 
-Yunhe Hu, z3351805, backend dev
+Rakesh Rangaraju
+Neelabh Singh
+Yunhe hu
+Mayank Agarwal
+Marvin Chui
