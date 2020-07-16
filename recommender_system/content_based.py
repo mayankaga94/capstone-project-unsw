@@ -27,9 +27,9 @@ class ContentRecommenderSystem:
     # Load dataset from csv
     def load_from_csv(self, dataset_path):
         # Paths
-        books_path = os.path.join(dataset_path, "books.csv")
-        tags_path = os.path.join(dataset_path, "tags.csv")
-        book_tags_path = os.path.join(dataset_path, "book_tags.csv")
+        books_path = os.path.join(dataset_path, "books_cleaned.csv")
+        tags_path = os.path.join(dataset_path, "tags_cleaned.csv")
+        book_tags_path = os.path.join(dataset_path, "book_tags_cleaned.csv")
         
         # Load tables
         self.tags = pd.read_csv(tags_path)
@@ -37,12 +37,12 @@ class ContentRecommenderSystem:
         books = pd.read_csv(books_path, encoding = "ISO-8859-1")
         
         # Bit of cleaning and feature extraction
-        books['author'] = books['authors'].apply(lambda x:  x.split(',')[0]) # Only use name of main author
-        books = books[['book_id', 'goodreads_book_id', 'title', 'average_rating', 'author']]
+        #books['author'] = books['authors'].apply(lambda x:  x.split(',')[0]) # Only use name of main author
+        #books = books[['book_id', 'goodreads_book_id', 'title', 'average_rating', 'author']]
         all_features = pd.merge(self.book_tags, self.tags, on='tag_id')
-        all_features = pd.merge(books, all_features, on='goodreads_book_id')
+        all_features = pd.merge(books, all_features, on='book_id')
         all_features = all_features.groupby('book_id')['tag_name'].apply(' '.join).reset_index()
-        books['all_features'] = books['author'].apply(lambda x: x.replace(' ','')) + ' ' + books['title'] + ' ' + all_features['tag_name']
+        books['all_features'] = books['author'].apply(lambda x: x.replace(' ','')) + ' ' + books['original_title'] + ' ' + all_features['tag_name']
 
         self.books = books
         self.set_index_mapping()
@@ -57,9 +57,9 @@ class ContentRecommenderSystem:
         
         # Bit of cleaning and feature extraction
         all_features = pd.merge(self.book_tags, self.tags, on='tag_id')
-        all_features = pd.merge(books, all_features, on='goodreads_book_id')
+        all_features = pd.merge(books, all_features, on='book_id')
         all_features = all_features.groupby('book_id')['tag_name'].apply(' '.join).reset_index()
-        books['all_features'] = books['author'].apply(lambda x: x.replace(' ','')) + ' ' + books['title'] + ' ' + all_features['tag_name']
+        books['all_features'] = books['author'].apply(lambda x: x.replace(' ','')) + ' ' + books['original_title'] + ' ' + all_features['tag_name']
         
         self.books = books
         self.set_index_mapping()
@@ -72,10 +72,10 @@ class ContentRecommenderSystem:
     
     def get_recommendations(self, book_id, count=5, verbose=False):
         print("Input book:")
-        print(self.books[self.books['book_id'] == book_id][['book_id', 'title', 'author', 'average_rating']].set_index('book_id').to_string())
+        print(self.books[self.books['book_id'] == book_id][['book_id', 'original_title', 'author', 'average_rating']].set_index('book_id').to_string())
         idx = self.book_to_index[book_id]
         book_indices = np.argsort(self.similarity_matrix[idx])[::-1][1:count + 1]
-        recommendations = self.books.iloc[book_indices][['book_id', 'title', 'author', 'average_rating']].set_index('book_id')
+        recommendations = self.books.iloc[book_indices][['book_id', 'original_title', 'author', 'average_rating']].set_index('book_id')
         
         if verbose:
             print("\nRecommendations:")
