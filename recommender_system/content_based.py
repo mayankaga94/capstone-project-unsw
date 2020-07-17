@@ -4,6 +4,9 @@ import os
 import sys
 import pandas as pd
 import numpy as np
+from collections import defaultdict
+from sqlalchemy import create_engine
+import pymysql
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
@@ -23,6 +26,10 @@ class ContentRecommenderSystem:
         for index, book_id in enumerate(self.books['book_id'].values):
           self.index_to_book[index] = book_id
           self.book_to_index[book_id] = index
+          
+        self.book_tags_dict = defaultdict(list)
+        for i in range(len(self.book_tags)):
+            self.book_tags_dict[self.book_tags['book_id'].iloc[i]].append(self.book_tags['tag_id'].iloc[i])
 
     # Load dataset from csv
     def load_from_csv(self, dataset_path):
@@ -70,12 +77,35 @@ class ContentRecommenderSystem:
         book_feature_matrix = vectorizer.fit_transform(self.books['all_features'])
         self.similarity_matrix = linear_kernel(book_feature_matrix, book_feature_matrix)
     
-    def get_recommendations(self, book_id, count=5, verbose=False):
-        print("Input book:")
-        print(self.books[self.books['book_id'] == book_id][['book_id', 'original_title', 'author', 'average_rating']].set_index('book_id').to_string())
-        idx = self.book_to_index[book_id]
-        book_indices = np.argsort(self.similarity_matrix[idx])[::-1][1:count + 1]
+    # def get_recommendations(self, book_id, count=5, verbose=False):
+    #     print("Input book:")
+    #     print(self.books[self.books['book_id'] == book_id][['book_id', 'original_title', 'author', 'average_rating']].set_index('book_id').to_string())
+        
+    #     idx = self.book_to_index[book_id]
+    #     book_indices = np.argsort(self.similarity_matrix[idx])[::-1][1:count + 1]
+    #     recommendations = self.books.iloc[book_indices][['book_id', 'original_title', 'author', 'average_rating']].set_index('book_id')
+        
+    #     if verbose:
+    #         print("\nRecommendations:")
+    #         print(recommendations.to_string())
+            
+    #     return recommendations
+        
+    def get_recommendations(self, book_ids, tag_ids, count=5, verbose=False):
+        # Have each book contribute to a total score
+        # so just add similarity_matrix[idx] for all indices
+        indices = [self.book_to_index[book_id] for book_id in book_ids]
+        score = np.sum(self.similarity_matrix[indices], axis=0)
+
+        # then get top argmax indices that are not input
+        mask = self.books['book_id'].apply(lambda x: all(e in self.book_tags_dict[x] for e in tag_ids))
+        book_indices = [i for i in np.argsort(score) if i not in indices][::-1]
+        book_indices = [i for i in book_indices if mask[i]][:count]
+
         recommendations = self.books.iloc[book_indices][['book_id', 'original_title', 'author', 'average_rating']].set_index('book_id')
+        
+        print("Input books:")
+        print(self.books.iloc[indices,:][['book_id', 'original_title', 'author', 'average_rating']].set_index('book_id').to_string())
         
         if verbose:
             print("\nRecommendations:")
@@ -94,14 +124,47 @@ if __name__ == '__main__':
     # Get recommendations
     while True:
         print('===============================================================================')
-        print("Enter book ID and the number of recommendations to display (or 'q' to exit):")
-        input_str = input() 
-        
+        print("Enter book IDs separated by a space (or 'q' to exit):")
+        input_str = input()
         if input_str == 'q':
             sys.exit()
             
-        input_values = input_str.split()
-        if len(input_values) != 2 or not input_values[0].isdigit or not input_values[1].isdigit:
+        try:
+            book_ids = list(map(int, input_str.split()))
+        except:
+            print("Invalid input")
+            continue
+        
+        print("Enter tag IDs separated by a space (or 'q' to exit):")
+        input_str = input()
+        if input_str == 'q':
+            sys.exit()
+        try:       
+            tag_ids = list(map(int, input_str.split()))
+        except:
+            print("Invalid input")
+            continue
+        
+        print("Enter the number of recommendations to display (or 'q' to exit):")
+        input_str = input()
+        if input_str == 'q':
+            sys.exit()
+            
+        if input_str.isdigit:
+            nb_recommendations = int(input_str)
+        else:
             print('Invalid input')
-            continue 
-        recommendations = rs.get_recommendations(int(input_values[0]), int(input_values[1]), True)
+            continue
+        
+            
+        recommendations = rs.get_recommendations(book_ids, tag_ids, nb_recommendations, True)
+        '''
+        Books similar to The Hunger Games and Harry Potter and the Philosopher's Stone that include a love triangle
+        
+        Enter book IDs separated by a space (or 'q' to exit):
+        1 2
+        Enter tag IDs separated by a space (or 'q' to exit):
+        100
+        Enter the number of recommendations to display (or 'q' to exit):
+        10
+        '''
