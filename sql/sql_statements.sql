@@ -19,7 +19,7 @@ create TABLE book_ratings
 bookid MEDIUMINT, 
 userid MEDIUMINT, 
 rating longtext, 
-date  DATETIME
+[date]  DATETIME
 )
 
 
