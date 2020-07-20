@@ -18,7 +18,7 @@ create TABLE book_ratings
 ( ratingid MEDIUMINT primary key AUTO_INCREMENT, 
 bookid MEDIUMINT, 
 userid MEDIUMINT, 
-rating longtext, 
+rating FLOAT, 
 [date]  DATETIME
 )
 
