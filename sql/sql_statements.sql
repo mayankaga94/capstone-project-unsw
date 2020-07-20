@@ -1,7 +1,26 @@
---Create user table
+--Create user table-----------
 
-create TABLE User( userid int primary key, firstname longtext, lastname longtext, emailid longtext, password longtext, avatarpath longtext, level int, dob date 
+create TABLE User
+( userid MEDIUMINT AUTO_INCREMENT primary key , 
+firstname longtext, 
+lastname longtext, 
+emailid longtext, 
+password longtext, 
+avatarpath longtext, 
+level int, 
+dob date) 
+
+----Book Table: upload from Book_dataset.csv -----------------
 
 
---	user id auto increment
-ALTER TABLE sql12350649.User MODIFY userid MEDIUMINT NOT NULL AUTO_INCREMENT
+-----book rating table------
+create TABLE book_ratings
+( ratingid MEDIUMINT primary key AUTO_INCREMENT, 
+bookid MEDIUMINT, 
+userid MEDIUMINT, 
+rating longtext, 
+date  DATETIME
+)
+
+
+
