@@ -16,7 +16,7 @@ export class Registration extends Component {
     state = {
         firstName : "",
         lastName : "",
-        email : "",
+        emailID : "",
         password : "",
         password2 : "",
         dob : ""
@@ -31,29 +31,34 @@ export class Registration extends Component {
         
         fetch('http://localhost:5000/user/register',
            { method : "POST",
-            headers :  {
-                    "Accept"        : "application/json",
-                    "Content-Type" : "application/json",
+                headers: {
+                    "Accept": "application/json , text/plain ,*/*",
+                    "Content-type": "application/json"
             },
             body: JSON.stringify(this.state)
         })
-            console.log(this.state)
-       
+       .then((response) => {
+        response.json().then((data) => {
+                console.log(data);
+            });
+        });
+        
+        
+            // console.log(this.state)
+    //    
     }
-
-
     render() {
         return (
             <div>
                     <Register>
                         <div className = "registrationHeading">Register</div>
                         <form>
-                            <div className = "registrationFields"><input name="firstName" id="registerfirstname"  placeholder="Enter First Name" onChange = {e =>this.onChange(e)} value = {this.state.firstname}></input></div>
+                            <div className = "registrationFields"><input  name="firstName" id="registerfirstname"  placeholder="Enter First Name" onChange = {e =>this.onChange(e)} value = {this.state.firstname}></input></div>
                             <div className = "registrationFields"><input name="lastName" id="registerlastname"  placeholder="Enter Last name" onChange = {e =>this.onChange(e)} value = {this.state.lastname}></input></div>
-                            <div className = "registrationFields"><input name="password"  id="registerPassword"  placeholder="Enter Password" onChange = {e =>this.onChange(e)} value = {this.state.password}></input></div>
-                            <div className = "registrationFields"><input name="password2"  id="registerPassword2"  placeholder="reEnter Password" onChange = {e =>this.onChange(e)} value = {this.state.password2}></input></div>
+                            <div className = "registrationFields"><input type = "password" name="password"  id="registerPassword"  placeholder="Enter Password" onChange = {e =>this.onChange(e)} value = {this.state.password}></input></div>
+                            <div className = "registrationFields"><input type = "password" name="password2"  id="registerPassword2"  placeholder="reEnter Password" onChange = {e =>this.onChange(e)} value = {this.state.password2}></input></div>
                             <div className = "registrationFields"><input id="dob" name="dob" placeholder="Enter dob yyy/mm/dd" onChange = {e =>this.onChange(e)} value = {this.state.dob}></input></div>
-                            <div className = "registrationFields"><input id="email" name="email" placeholder="Enter Email-id" onChange = {e =>this.onChange(e)} value = {this.state.emailid}></input></div>
+                            <div className = "registrationFields"><input id="emailID" name="emailID" placeholder="Please enter your Email-id" onChange = {e =>this.onChange(e)} value = {this.state.emailID}></input></div>
                             {/* <div className = "registrationFields"><input type="tel" id="phone" name="phone" placeholder="Enter Email-id"></input></div> */}
                             <button className = "registrationButton"  type = "button" onClick = { () =>this.onSubmit()}>Submit</button>
                         </form>          

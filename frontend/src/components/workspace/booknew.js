@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-
+import { Link } from 'react-router-dom'
 export const Wrapper = styled.div`
 font-size:20px;
 text-align :left;
@@ -21,8 +21,8 @@ font-size: ${props => props.author ? "14px" : "14px"};
 line-height: ${props => props.author ? "1.1" : "1"};
 `
 export const Bookimg = styled.img`
-height: 220px;
-width: 150px;
+height: 210px;
+// width: 150px;
 `
 export const Price = styled.div`
     font-size :14px;
@@ -40,14 +40,13 @@ export class Booknew extends Component {
     render() {
         return (
             <Wrapper>
-                <div><Bookimg src ={this.props.bookName.url}></Bookimg></div>
-                <div className = "book_description">
-                <Bookname>{this.props.bookName.name}</Bookname>
-                <Bookname author>{this.props.bookName.author}</Bookname>
-                <div></div>
-                {/* <Rating> Rating: 4.3</Rating> */}
-                <Price>{this.props.bookName.price}</Price>     
-                </div>       
+                  <Link to  ={'/bookdetails/' + this.props.id}>
+                        <div><Bookimg src ={this.props.url}></Bookimg></div>
+                        <div className = "book_description">
+                            <Bookname>{this.props.name}</Bookname>
+                            <Bookname author>{this.props.author}</Bookname>                       
+                        </div>       
+                </Link> 
             </Wrapper>
         )
     }
