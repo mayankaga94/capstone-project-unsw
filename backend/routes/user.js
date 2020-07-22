@@ -8,6 +8,7 @@ require("dotenv").config();
 
 router.route('/register',cors())
     .post(userFunction.register)
+
 //---------------Login ------------------------//
 router.route('/logIn',cors())
     .post(userFunction.logIn)
@@ -24,9 +25,13 @@ router.route('/homepage')
 
 router.route('/book')
     .post(userFunction.book)
+
 // ----------for fetching all the books--------//
 router.route('/booksFetch')
     .get(userFunction.booksFetch)
 
+// Posting a review
+router.route('/book/review')
+    .post(userFunction.postReview)
 //------------export all the routes------------//
 module.exports = router

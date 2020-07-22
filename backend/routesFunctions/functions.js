@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const pool = require('../config/sql_config')
+const Review = require('../models/Review')
 
 module.exports = {
     // next is not needed at the moment 
@@ -115,8 +116,7 @@ module.exports = {
 
             }
     },
-
-    book : async ( req, res) =>{
+    book : ( req, res) =>{
         try{
             const bookid = req.body.id
             console.log(bookid)
@@ -127,6 +127,26 @@ module.exports = {
         }
         catch{
 
+        }
+    },
+    postReview : async(req, res) =>  {
+        try {
+            let {bookid,userid,comment} = req.body
+            // check if user exists
+            
+            let newReview = new Review({
+                'userid': userid,
+                'bookid': bookid,
+                'comment': comment
+            });
+
+            console.log(req.body)
+            // insert review
+            await newReview.save();
+            res.status(200).send('success')
+        }
+        catch(err) {
+            res.status(500).send(err);
         }
     }
 }

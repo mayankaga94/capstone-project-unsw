@@ -1,17 +1,20 @@
 const mysql = require('mysql')
 const Sequelize = require('sequelize')
+const pool = require('./sql_key')
 
-const  pool = mysql.createPool({
-  host : 'localhost',
-  user: 'root',
-  password : 'root',
-  database : 'users',
-  port : '8889',
-});
+// Change this key according to your mysql database and 
+// store it into another file and import into pool as above
+// put that file in .gitignore so it remains different for everyone
+
+// const  pool = mysql.createPool({
+//   host : 'localhost',
+//   user: 'projectx',
+//   password : 'projectx',
+//   database : 'book_database',
+//   port : '3306',
+// });
 
 // Ping database to check for common exception errors.
-
-
 
 pool.getConnection((err, connection) => {
   if (err) {
@@ -28,7 +31,9 @@ pool.getConnection((err, connection) => {
     console.log("[mysql error]",err);
   }
   if (connection) connection.release()
+  console.log("sql connected")
   return
 })
+
 pool.Sequelize = Sequelize
 module.exports = pool
