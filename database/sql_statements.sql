@@ -19,7 +19,7 @@ create TABLE book_ratings
 ISBN MEDIUMINT, 
 userid MEDIUMINT, 
 rating FLOAT, 
-[date]  DATETIME,
+date  DATETIME,
 FOREIGN KEY (ISBN) REFERENCES book_dataset(ISBN),
 FOREIGN KEY (userid) REFERENCES User(userid),
 )
