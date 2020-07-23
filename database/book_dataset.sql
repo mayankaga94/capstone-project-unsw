@@ -747,3 +747,12 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+create table adminLogin(
+username varchar(30) primary key,
+firstname varchar(30) not null,
+lastname varchar(30) not null,
+email varchar(30) not null unique,
+password varchar(200) not null
+);
