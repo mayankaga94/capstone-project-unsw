@@ -3,5 +3,20 @@ Yunhe HU z3351805
 Week1:
 Formed assignment group
 
+Week2:
+Started working on assignment proposal
+
+Week3:
+Contributed into assignment proposal 
+
 Week4:
 Added Admin login and registe functions on backend
+
+Week5:
+Worked on book dataset cleaning
+Generated a book information .CSV file
+
+Week6:
+Added admin addBook and removeBook functions
+
+Week7:
