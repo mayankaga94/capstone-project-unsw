@@ -16,11 +16,11 @@ dob date)
 -----book rating table------
 create TABLE book_ratings
 ( ratingid MEDIUMINT primary key AUTO_INCREMENT, 
-bookid MEDIUMINT, 
+ISBN MEDIUMINT, 
 userid MEDIUMINT, 
 rating FLOAT, 
 [date]  DATETIME,
-FOREIGN KEY (bookid) REFERENCES book_dataset(bookid),
+FOREIGN KEY (ISBN) REFERENCES book_dataset(ISBN),
 FOREIGN KEY (userid) REFERENCES User(userid),
 )
 
@@ -34,9 +34,9 @@ ADD COLUMN points MEDIUMINT AFTER dob;
 create TABLE wishlist
 ( wishlistid MEDIUMINT primary key AUTO_INCREMENT, 
 userid MEDIUMINT, 
-bookid MEDIUMINT, 
+ISBN MEDIUMINT, 
 purchased varchar(255) DEFAULT 'N',
-FOREIGN KEY (bookid) REFERENCES book_dataset(bookid),
+FOREIGN KEY (ISBN) REFERENCES book_dataset(ISBN),
 FOREIGN KEY (userid) REFERENCES User(userid),
 )
 
