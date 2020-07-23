@@ -19,7 +19,9 @@ create TABLE book_ratings
 bookid MEDIUMINT, 
 userid MEDIUMINT, 
 rating FLOAT, 
-[date]  DATETIME
+[date]  DATETIME,
+FOREIGN KEY (bookid) REFERENCES book_dataset(bookid),
+FOREIGN KEY (userid) REFERENCES User(userid),
 )
 
 -----------------Add points to User table-------------------------
@@ -27,5 +29,17 @@ rating FLOAT,
 Alter Table User
 ADD COLUMN points MEDIUMINT AFTER dob;
 
+-----------------------User wish list----------------------------------
+
+create TABLE wishlist
+( wishlistid MEDIUMINT primary key AUTO_INCREMENT, 
+userid MEDIUMINT, 
+bookid MEDIUMINT, 
+purchased varchar(255) DEFAULT 'N',
+FOREIGN KEY (bookid) REFERENCES book_dataset(bookid),
+FOREIGN KEY (userid) REFERENCES User(userid),
+)
+
+----------------
 
 
