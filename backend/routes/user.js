@@ -33,5 +33,10 @@ router.route('/booksFetch')
 // Posting a review
 router.route('/book/review')
     .post(userFunction.postReview)
+
+// Posting a rating
+router.route('/book/rating')
+    .post(userFunction.postRating)
+
 //------------export all the routes------------//
 module.exports = router

@@ -1,3 +1,4 @@
+// const util = require('util')
 const mysql = require('mysql')
 const Sequelize = require('sequelize')
 const pool = require('./sql_key')
@@ -35,5 +36,6 @@ pool.getConnection((err, connection) => {
   return
 })
 
-pool.Sequelize = Sequelize
+// pool.Sequelize = Sequelize
+// pool.query = util.promisify(pool.query)
 module.exports = pool

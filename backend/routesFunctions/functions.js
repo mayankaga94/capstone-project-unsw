@@ -48,7 +48,7 @@ module.exports = {
                                         return res.status(200).send({
                                         success: true,
                                         message: 'Registered'
-                                    });
+                                        });
                                     });
                                 });
                             }
@@ -116,7 +116,7 @@ module.exports = {
 
             }
     },
-    book : ( req, res) =>{
+    book : async ( req, res) =>{
         try{
             const bookid = req.body.id
             console.log(bookid)
@@ -132,8 +132,33 @@ module.exports = {
     postReview : async(req, res) =>  {
         try {
             let {bookid,userid,comment} = req.body
+
             // check if user exists
-            
+            // userExists(userid,res);
+            // pool.query('SELECT * FROM User WHERE userid=?',userid,userExists);
+            // pool.query('SELECT * FROM User WHERE userid=?',userid,(err,result) => {
+            // pool.query('SELECT * FROM User WHERE userid=?',userid,(err,result) => {
+            //     if(err) throw err;
+            //     if (result.length == 0){
+            //         return res.status(200).send({
+            //             success: false,
+            //             message: 'User does not exist'
+            //         });
+            //     }
+            // });
+            // check if book exists
+            // bookExists(bookid,res);
+            // console.log("bad")
+            // pool.query('SELECT * FROM book_dataset WHERE ISBN=?',bookid,(err,result) => {
+            //     if(err) throw err;
+            //     if (result.length == 0){
+            //         return res.status(200).send({
+            //             success: false,
+            //             message: 'book does not exist'
+            //         });
+            //     }
+            // });
+
             let newReview = new Review({
                 'userid': userid,
                 'bookid': bookid,
@@ -147,6 +172,35 @@ module.exports = {
         }
         catch(err) {
             res.status(500).send(err);
+        }
+    },
+    postRating : (req, res) => {
+        try {
+            let {bookid,userid,rating} = req.body
+
+            // check if user has rated this book before
+            // pool.query('SELECT * FROM book_ratings WHERE userid=? AND bookid=?',[userid,bookid],(err,result) => {
+            //     if (err) throw err;
+            //     if (result.length > 0){
+            //         // console.log(result);
+            //         return res.status(200).send({
+            //                 success: false,
+            //                 message: 'User has already rated this book'
+            //             });
+            //     }
+            // });
+            let query = "INSERT INTO book_ratings(bookid,userid,rating) VALUES (?,?,?)";
+            pool.query(query,[bookid,userid,rating],(err,result) => {
+                if (err) throw err;
+                return res.status(200).send({
+                success: true
+                });
+            });
+            // res.status(200).send('success');
+        }
+        catch(err) {
+            console.log(err)
+            return res.status(500).send(err);
         }
     }
 }
