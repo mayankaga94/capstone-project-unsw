@@ -182,7 +182,6 @@ module.exports = {
             // pool.query('SELECT * FROM book_ratings WHERE userid=? AND bookid=?',[userid,bookid],(err,result) => {
             //     if (err) throw err;
             //     if (result.length > 0){
-            //         // console.log(result);
             //         return res.status(200).send({
             //                 success: false,
             //                 message: 'User has already rated this book'
@@ -202,5 +201,161 @@ module.exports = {
             console.log(err)
             return res.status(500).send(err);
         }
+    },
+    adminRegister : async (req,res) => {
+        try{
+            let {userName,firstName,lastName,emailID,password,password2,secretKey} = req.body
+            let errors = []
+            // Empty fields
+            if ( !userName || !firstName || !lastName || !emailID || !password || !password2 || !secretKey ){
+                errors.push('empty fields');
+            }
+            //pre-defined secret key for admin, key is hard coded 
+            if (secretKey != 'secretAdminKey'){
+                errors.push('Secret Key Does Not Match, Please Contact Website Owner.')
+            }
+            // Passwords do not match
+            if ( password !== password2 ){
+                errors.push('passwords do not match');
+            }
+            // Check password length. TODO: Add more parameters for password!
+            if ( password.length < 6){
+                errors.push('passwords too short');
+            }
+            if ( errors.length > 1){
+                res.status(500).send(errors);
+            }
+            // Validation passed. now check if user already exists
+            else {
+                let query = "SELECT * FROM adminlogin WHERE username = ? or email = ?";
+                pool.query(query,[userName, emailID],(err,result) => {
+                    if (err) throw err;
+                    if (result.length > 0){
+                        // console.log(result);
+                        return res.status(200).send({
+                                success: true,
+                                message: 'Admin already exists'
+                            });
+                    }
+                    else {
+                        bcrypt.hash(password,10,(err,hash) => {
+                            if (err) throw err;
+                            password = hash;
+                            let query = "INSERT INTO adminlogin(username,firstname,lastname,email,password) VALUES (?,?,?,?,?)";
+                            pool.query(query,[userName,firstName,lastName,emailID,password],(err,result) => {
+                                if (err) throw err;
+                                return res.status(200).send({
+                                success: true,
+                                message: 'Admin Registered'
+                            });
+                            });
+                        });
+                    }
+                });
+            }
     }
+    catch{
+        //--------blank at the moment------------// 
+    }
+    },
+    adminLogin : async (req,res) => {
+        try{
+            let {userName, password} = req.body
+            if(!userName || !password){
+                return res.status(400), res.send("enter both the fields")        
+            }
+            // query to get email id
+            let query = "SELECT * FROM adminlogin WHERE username=?"
+            pool.query(query,userName,(err,result) => {
+                //login failure
+                if (err) throw err;
+                bcrypt.hash(password,10,(err,hash) =>{
+                    password = hash;
+                });
+                if (result.length < 1 || !bcrypt.compare(password, result[0].password) ){      
+                    return res.status(401).send({
+                        message: "Invalid username",
+                    });
+                }
+                else{
+                    // -------------if login success create jwt-----------//
+                    const match = bcrypt.compare(password, result[0].password, function (err,isMatch){
+                        if (err) throw err;
+                        if (!isMatch){
+                            return res.status(401).send({
+                                message: "Invalid password",
+                            });
+                        }
+                        else{
+                            //return res.status(200).send({message: 'You are now signed in'});
+                            let token = jwt.sign(userName, ""+process.env.SECRET_KEY);
+                            return res.status(200).send({
+                            success : true,
+                            auth_token : token
+                            });
+                        }
+                    });
+                }
+            });
+        }
+        catch{
+        }
+    },
+    addBook : async (req,res) => {
+        let {title, author, description, ISBN, genre, image, pagecount} = req.body;
+        if ( !title || !author || !description || !ISBN || !genre || !image || !pagecount ){
+            res.status(500).send('empty fields')
+        }
+        else{
+            let query = "SELECT * FROM book_dataset WHERE ISBN = ?";
+            pool.query(query, ISBN, (err, result) => {
+                if (err) throw err;
+                if (result.length > 0){
+                    return res.status(200).send({
+                        success: true,
+                        message: 'Book already exists'
+                    });
+                }
+                else{
+                    let query = "INSERT INTO book_dataset VALUES (?,?,?,?,?,?,?,?,?,?)";
+                    pool.query(query, [title, author, 1.0, 0, "0", description, ISBN, genre, image, pagecount], (err, result) => {
+                        if (err) throw err;
+                        return res.status(200).send({
+                            success : true,
+                            message : "Book Added"
+                        })
+                    })
+                }
+            })
+        }
+    },
+    removeBook: async (req,res) => {
+        let {ISBN} = req.body;
+        console.log("ISBN IS " + ISBN);
+        if (!ISBN){
+            res.status(500).send('empty fields')
+        }
+        else {
+            let query = "SELECT * FROM book_dataset WHERE ISBN = ?";
+            pool.query(query, ISBN, (err, result) => {
+                if (err) throw err;
+                if (result.length == 0){
+                    return res.status(200).send({
+                        success: true,
+                        message: 'Book does not exist'
+                    });
+                }
+                else{
+                    let query = "DELETE FROM book_dataset WHERE ISBN = ?";
+                    pool.query(query, ISBN, (err, result) => {
+                        if (err) throw err;
+                        return res.status(200).send({
+                            success : true,
+                            message : "Book Removed"
+                        })
+                    })
+                }
+            })
+        }
+    },
 }

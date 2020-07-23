@@ -38,5 +38,23 @@ router.route('/book/review')
 router.route('/book/rating')
     .post(userFunction.postRating)
 
+
+// ---------------Admin Registration ----------------//
+
+router.route('/admin/register',cors())
+    .post(userFunction.adminRegister)
+
+//---------------Admin Login ------------------------//
+router.route('/admin/login',cors())
+    .post(userFunction.adminLogin)
+
+//---------------Admin Add Book ------------------------//
+router.route('/admin/addBook',cors())
+    .post(userFunction.addBook)
+
+//---------------Admin Remove Book ------------------------//
+router.route('/admin/removeBook',cors())
+    .post(userFunction.removeBook)
+
 //------------export all the routes------------//
 module.exports = router
