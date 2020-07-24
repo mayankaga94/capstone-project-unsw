@@ -77,19 +77,6 @@ class ContentRecommenderSystem:
         book_feature_matrix = vectorizer.fit_transform(self.books['all_features'])
         self.similarity_matrix = linear_kernel(book_feature_matrix, book_feature_matrix)
     
-    # def get_recommendations(self, book_id, count=5, verbose=False):
-    #     print("Input book:")
-    #     print(self.books[self.books['book_id'] == book_id][['book_id', 'original_title', 'author', 'average_rating']].set_index('book_id').to_string())
-        
-    #     idx = self.book_to_index[book_id]
-    #     book_indices = np.argsort(self.similarity_matrix[idx])[::-1][1:count + 1]
-    #     recommendations = self.books.iloc[book_indices][['book_id', 'original_title', 'author', 'average_rating']].set_index('book_id')
-        
-    #     if verbose:
-    #         print("\nRecommendations:")
-    #         print(recommendations.to_string())
-            
-    #     return recommendations
         
     def get_recommendations(self, book_ids, tag_ids, count=5, verbose=False):
         # Have each book contribute to a total score
@@ -102,14 +89,18 @@ class ContentRecommenderSystem:
         book_indices = [i for i in np.argsort(score) if i not in indices][::-1]
         book_indices = [i for i in book_indices if mask[i]][:count]
 
+        # Return recommendations by book indices
+        if verbose == False:
+            return book_indices
+        
+        # Return the dataframe and print results
         recommendations = self.books.iloc[book_indices][['book_id', 'original_title', 'author', 'average_rating']].set_index('book_id')
         
         print("Input books:")
         print(self.books.iloc[indices,:][['book_id', 'original_title', 'author', 'average_rating']].set_index('book_id').to_string())
         
-        if verbose:
-            print("\nRecommendations:")
-            print(recommendations.to_string())
+        print("\nRecommendations:")
+        print(recommendations.to_string())
             
         return recommendations
 
