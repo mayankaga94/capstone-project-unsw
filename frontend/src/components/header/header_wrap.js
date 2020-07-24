@@ -80,7 +80,7 @@ export default function  Headerwrap () {
             },
             body: JSON.stringify(loginUser),
         }
-        fetch('http://localhost:5000/user/login',options)
+        fetch('http://localhost:5000/login',options)
         .then((response) => {
                       response.json().then((data) => {
                       localStorage.setItem("auth-token", data.auth_token);

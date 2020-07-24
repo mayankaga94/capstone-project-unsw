@@ -10,7 +10,7 @@ export default function Discoverbook () {
     }, [])
 
     const getBooks = async() =>{
-    const url = "http://localhost:5000/user/booksFetch";
+    const url = "http://localhost:5000/booksFetch";
     const response = await fetch(url);
     const data = await response.json();
 

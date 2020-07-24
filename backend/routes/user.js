@@ -21,6 +21,15 @@ router.route('/authentication')
 
 router.route('/homepage')
     .get(verify, userFunction.homepage)
+
+
+
+// -------------get detials of the user -------//
+router.route('/getUser')
+.get(verify,userFunction.userDetails)
+
+// ---------------------------------------------//
+
 // --------Get details of a specific book -----//
 
 router.route('/book')

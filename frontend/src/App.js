@@ -20,9 +20,7 @@ function App() {
     const checkLoggedIn =  async () =>{
 
         let token = localStorage.getItem("auth-token")
-
-
-           fetch('http://localhost:5000/user/getUser',
+           fetch('http://localhost:5000/getUser',
            { method : "GET",
                 headers: {
                       "auth_token" : token

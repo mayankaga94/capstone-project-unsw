@@ -15,7 +15,7 @@ const Bookdetails = () =>  {
         }, [])
     
         const getBook = async() =>{
-            const url = "http://localhost:5000/user/book"
+            const url = "http://localhost:5000/book"
             fetch(url,
             { method : "POST",
             headers: {

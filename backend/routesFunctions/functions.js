@@ -61,6 +61,8 @@ module.exports = {
             },
     logIn : async (req,res) => {
             try{
+
+                console.log("hi")
                 const {email, password} = req.body
                 if(!email || !password){
                     return res.status(400), res.send("enter both the fields")        
@@ -83,9 +85,9 @@ module.exports = {
                         let token = jwt.sign(email, process.env.SECRET_KEY);
                         // return res.status(200).send({message: 'You are now signed in', token: token});
                         return res.status(200).send({
-                            success : true,
-                            auth_token : token
-                        });
+                                                        auth_token : token,
+                                                        userEmail : email
+                                                    });
 
 
                     }
@@ -94,6 +96,17 @@ module.exports = {
             catch{
             }
     },
+    userDetails : async( req, res) =>{
+                    const userDetails = req.user
+                    let query = "SELECT * FROM user WHERE emailID=?"
+                    pool.query(query,userDetails,(err,result) => {
+                        if (err) throw err;
+                        return res.status(200).send({
+                            result
+                        });
+                    });
+                 },
+
     homepage : async ( req, res) =>{
  
         res.send({
@@ -106,26 +119,26 @@ module.exports = {
 
     },
     booksFetch :  async (req,res) => {
-            try { 
-                let query = "SELECT * FROM bookv3 LIMIT 10";
-                pool.query(query,(err,result) => {
-                    return res.status(200).send({result})
-                      })
-                }
-            catch{
+                    try { 
+                        let query = "SELECT * FROM book_dataset LIMIT 30";
+                        pool.query(query,(err,result) => {
+                            return res.status(200).send({result})
+                            })
+                        }
+                    catch{
+                    }
+            },
 
-            }
-    },
     book : async ( req, res) =>{
-        try{
-            const bookid = req.body.id
-            console.log(bookid)
-            let query = "SELECT * FROM bookv3 WHERE id=? ";
-                pool.query(query,bookid,(err,result) => {
-                    return res.status(200).send({result})
-                      })
-        }
-        catch{
+            try{
+                const bookid = req.body.id
+                console.log(bookid)
+                let query = "SELECT * FROM book_dataset WHERE ISBN=? ";
+                    pool.query(query,bookid,(err,result) => {
+                        return res.status(200).send({result})
+                        })
+            }
+            catch{
 
         }
     },

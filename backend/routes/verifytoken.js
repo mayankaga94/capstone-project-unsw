@@ -4,7 +4,7 @@ module.exports = function (req,res, next ){
 
     const token = req.header('auth_token')
     if(!token ){
-        res.status("401").send("dont try to act smart");
+        res.status("401").send("Please login...");
     }
     try{
          const verified = jwt.verify(token, process.env.SECRET_KEY)

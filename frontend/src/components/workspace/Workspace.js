@@ -25,7 +25,7 @@ useEffect(() => {
 }, [userData])
 
 const getUser = async() =>{
-    const url = "http://localhost:5000/user/getUser"
+    const url = "http://localhost:5000/getUser"
     fetch(url,
     { method : "Get",
     headers: {

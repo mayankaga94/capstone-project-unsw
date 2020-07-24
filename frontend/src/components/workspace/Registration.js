@@ -24,7 +24,7 @@ export default function Registration () {
 
                 e.preventDefault();
                 const newUser = { firstName, lastName ,emailID, password, password2, dob}
-                fetch('http://localhost:5000/user/register',
+                fetch('http://localhost:5000/register',
                 { method : "POST",
                 headers: {
                     "Content-type": "application/json"
