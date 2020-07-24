@@ -1,6 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component , useState, useContext} from 'react'
+import UserContext from '../../context/usercontext'
 import styled, {css} from 'styled-components'
-// import Auth from './auth'
+import { redirect, Redirect} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import AuthOptions from './authoptions'
 
 export const Nav = styled.div`
 
@@ -8,6 +12,9 @@ background : none;
 color: white;
 font-weight : 600;
 margin-bottom :30px;
+position : absolute;
+top: -1px;
+width:100%;
 `
 export const Tabs =styled.li`
 
@@ -51,34 +58,102 @@ export const Button = styled.span`
     cursor:pointer;
 ` 
 
-class Headerwrap extends Component {
+export default function  Headerwrap () {
 
-render(){
+    const [email, setEmail] = useState();
+    const [password, setPassword]  = useState();
+    let history = useHistory();
+    const { userData, setUserData } = useContext(UserContext);
 
+    React.useEffect( () => {
+
+    }, [])
+
+    const loginSubmit = async(e) => {
+        e.preventDefault()
+        let loginUser = { email, password }
+        console.log(loginUser)
+        const options = {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json" ,  
+            },
+            body: JSON.stringify(loginUser),
+        }
+        fetch('http://localhost:5000/user/login',options)
+        .then((response) => {
+                      response.json().then((data) => {
+                      localStorage.setItem("auth-token", data.auth_token);
+                      history.push("/home");
+
+                      setUserData({
+                        token : data.auth_token,
+                        user : data.userEmail
+                    })
+                    setEmail('');
+                    setPassword('');
+                });
+            });
+    }
+
+    const logout = () =>{
+        localStorage.clear()
+        setUserData({
+            token : undefined,
+            user : undefined
+        })
+        history.push("/")
+    }
     return(
+        // creating header
         <header style = {{position : "relative"}}>
                 <div style={{height: "150px", overflow: "hidden"}}>
                     <svg viewBox="0 0 500 150" preserveAspectRatio="none" style= {{height: "100%", width: "100%"}}>
-                        <path d="M0.00,92.27 C216.83,192.92 304.30,8.39 500.00,109.03 L500.00,0.00 L0.00,0.00 Z" style={{stroke: "none", fill: "rgb(119, 119, 119"}}></path>
+                        <path d="M0.00,92.27 C216.83,192.92 304.30,8.39 500.00,109.03 L500.00,0.00 L0.00,0.00 Z" style={{stroke: "none", fill: "rgb(184 184 184)"}}></path>
                     </svg>
                 </div>
-                <Nav>
-                    <Logo> Bookshelf</Logo>
-                    <div> 
-                        <ul>
-                            <Tabs>Home</Tabs>
-                            <Tabs>Contact US</Tabs>
-                            <Tabs>Sign up</Tabs>
-                        </ul>
-                    </div>
-                    <LoginSection >   
-                    <Input><input style = {{minHeight : "30px", border:"none", outline: "none",padding: "10px 0 10px 5px", fontSize: "12px", minWidth : "200px" }} type="tel" id="username"  placeholder="Enter Username"></input></Input>
-                    <Input><input  style = {{minHeight : "30px", border:"none", outline: "none", padding: "10px 0 10px 5px", fontSize: "12px", minWidth : "200px"}} type="tel" id="password" placeholder="Enter Password"></input></Input>
-                        <Button>Login </Button>
-                    </LoginSection>
-                </Nav>
+                {userData.user ? (
+                                <Nav>
+                                    <Logo> Bookshelf</Logo>
+                                        <ul className = "float-right">
+
+                                        <Link to  ={'/home' }>
+                                            <li  className = "padding-top-20  headerItems float-left"><span className = "">Home</span></li>
+                                        </Link>
+                                            <li className = "padding-top-20 headerItems float-left"><span className = "">Dashboard</span></li>
+                                            <li className = "headerItems float-left">   
+                                                <div >                                                                                   
+                                                <span className =" "><i class="fa fa-shopping-cart" aria-hidden="true"></i> 
+                                                <p>Cart</p>
+                                                </span>   
+                                                </div>
+                                            </li>
+                                            <li className = "headerItems float-left">                
+                                            <div>                            
+                                                 <span className =" "><i class="fa fa-heart" aria-hidden="true"></i> 
+                                                 <p>Wishlist</p>
+                                                 </span>   
+                                                 </div>
+                                            </li>
+
+                                            <li className = " headerItems float-left"> <button className = " logoutButton" onClick =  { logout }>Log out</button></li>
+                                        </ul>
+                                </Nav>
+                 ) :  
+                 (
+                        <>
+                          <Nav>
+                          <Logo> Bookshelf</Logo>
+                                 <LoginSection >     
+                                    <form onSubmit = {loginSubmit}>
+                                            <input  placeholder ="Enter Your Email ID" className ="credentials" id="loginID" onChange = {(e) =>setEmail(e.target.value)}></input>   
+                                            <input  placeholder ="Enter Password" className ="credentials" type = "password" id="loginPassword"  onChange = {(e) =>setPassword(e.target.value)}></input> 
+                                            <input  className = "loginButton" type="submit" value="Login" />
+                                        </form>    
+                                </LoginSection>
+                            </Nav>
+                        </>
+          )}
         </header>
     );
  }
-}
-export default Headerwrap;

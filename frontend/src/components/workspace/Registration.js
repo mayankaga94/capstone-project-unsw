@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component , useState, useContext} from 'react'
+import UserContext from '../../context/usercontext'
 import styled from 'styled-components'
 import '../../Styling.css'
 export const Register = styled.div`
@@ -11,61 +12,46 @@ padding: 35px 0 50px 0;
 z-index :999;
 
 `
-export class Registration extends Component {
+export default function Registration () {
 
-    state = {
-        firstName : "",
-        lastName : "",
-        emailID : "",
-        password : "",
-        password2 : "",
-        dob : ""
-    
-    }
-    onChange = (e) =>{
-        this.setState({
-            [e.target.name] :e.target.value
-         });
-    }
-    onSubmit = (e) =>{
-        
-        fetch('http://localhost:5000/user/register',
-           { method : "POST",
+        const [firstName, setfirstname] = useState();
+        const [lastName, setlastname] = useState();
+        const [password, setpassword] = useState();
+        const [password2, setpasswordCheck] = useState();
+        const [dob, setdob] = useState();
+        const [emailID, setemail] = useState();
+        const submit = async (e) =>{
+
+                e.preventDefault();
+                const newUser = { firstName, lastName ,emailID, password, password2, dob}
+                fetch('http://localhost:5000/user/register',
+                { method : "POST",
                 headers: {
-                    "Accept": "application/json , text/plain ,*/*",
                     "Content-type": "application/json"
-            },
-            body: JSON.stringify(this.state)
-        })
-       .then((response) => {
-        response.json().then((data) => {
-                console.log(data);
-            });
-        });
-        
-        
-            // console.log(this.state)
-    //    
-    }
-    render() {
+                 },
+                 body: JSON.stringify(newUser),
+             })
+            .then((response) => {
+             response.json().then((data) => {
+                     console.log(data);
+                 });
+             });
+        }
+
         return (
             <div>
                     <Register>
                         <div className = "registrationHeading">Register</div>
-                        <form>
-                            <div className = "registrationFields"><input  name="firstName" id="registerfirstname"  placeholder="Enter First Name" onChange = {e =>this.onChange(e)} value = {this.state.firstname}></input></div>
-                            <div className = "registrationFields"><input name="lastName" id="registerlastname"  placeholder="Enter Last name" onChange = {e =>this.onChange(e)} value = {this.state.lastname}></input></div>
-                            <div className = "registrationFields"><input type = "password" name="password"  id="registerPassword"  placeholder="Enter Password" onChange = {e =>this.onChange(e)} value = {this.state.password}></input></div>
-                            <div className = "registrationFields"><input type = "password" name="password2"  id="registerPassword2"  placeholder="reEnter Password" onChange = {e =>this.onChange(e)} value = {this.state.password2}></input></div>
-                            <div className = "registrationFields"><input id="dob" name="dob" placeholder="Enter dob yyy/mm/dd" onChange = {e =>this.onChange(e)} value = {this.state.dob}></input></div>
-                            <div className = "registrationFields"><input id="emailID" name="emailID" placeholder="Please enter your Email-id" onChange = {e =>this.onChange(e)} value = {this.state.emailID}></input></div>
-                            {/* <div className = "registrationFields"><input type="tel" id="phone" name="phone" placeholder="Enter Email-id"></input></div> */}
-                            <button className = "registrationButton"  type = "button" onClick = { () =>this.onSubmit()}>Submit</button>
-                        </form>          
+                        <form onSubmit = {submit} >
+                            <input  placeholder ="Enter Your First Name" id="firstnam"  className = "registerDetails" onChange = {(e) =>setfirstname(e.target.value)}></input>
+                            <input placeholder ="Enter your Last name" id="lastname" className = "registerDetails"  onChange = {(e) =>setlastname(e.target.value)}></input>
+                            <input  placeholder ="Enter Password"type = "password" className = "registerDetails" id="registerPassword"  onChange = {(e) =>setpassword(e.target.value)}></input>
+                            <input  placeholder ="Enter Password Again"type = "password" className = "registerDetails" id="registerPassword2" onChange = {(e) =>setpasswordCheck(e.target.value)} ></input>                    
+                            <input  placeholder ="Enter DOB in (yyy-mm-dd) "id="dob" className = "registerDetails" onChange = {(e) =>setdob(e.target.value)} ></input>
+                            <input  placeholder ="Enter Your Email ID" id="emailID"  className = "registerDetails"onChange = {(e) =>setemail(e.target.value)} ></input>        
+                            <input  className = "registrationButton" type="submit" value="Register" />
+                        </form >          
                     </Register>
             </div>
         )
-    }
 }
-
-export default Registration

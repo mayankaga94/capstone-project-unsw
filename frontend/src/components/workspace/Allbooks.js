@@ -15,15 +15,16 @@ const Allbooks = () => {
     const url = "http://localhost:5000/user/booksFetch";
     const response = await fetch(url);
     const data = await response.json();
-    
+
+
     setsbooks(data.result)
     }
         return (
             <div>
-                <h1> All Books</h1>
+                <h1 > All Books</h1>
                 <Searchbar />
                 {books.map(books => (
-                    <Booknew  author = {books.author}  id = {books.id} url = {books.image} name = {books.title}  route = "Home"/>  ))}
+                    <Booknew  author = {books.author}  ISBN = {books.ISBN} url = {books.image} name = {books.title}  route = "Home"/>  ))}
             </div>
         )
 }

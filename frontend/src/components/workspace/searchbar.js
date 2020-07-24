@@ -35,7 +35,7 @@ transition: 0.3s;
 export class Searchbar extends Component {
     render() {
         return (
-            <div style= {{paddingBottom: "30px"}}>     
+            <div>     
                 <SearchbarInput  type="text" placeholder="Search for a book" aria-label="Search" />
                 <Seatchbutton color="unique" type="submit">Search  </Seatchbutton>
             </div>

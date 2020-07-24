@@ -1,9 +1,11 @@
 import React, { useEffect, useState  } from 'react'
 import { useParams} from 'react-router-dom'
+import Allbooks from './Allbooks'
 
 import Book  from './bookPage'
 
 const Bookdetails = () =>  {
+
     // fetch the particular id of the book
         const id  = useParams();
         const [book, setbook] = useState([]);
@@ -21,6 +23,7 @@ const Bookdetails = () =>  {
                 "Content-type": "application/json"
              },
              body: JSON.stringify(id)
+
             })
             .then((response) => {
                 response.json().then((data) => {
@@ -48,6 +51,7 @@ const Bookdetails = () =>  {
                         </h1>             
                       </div>
                       <div className= "similarbooks">
+                              <Allbooks /> 
                           
                       </div>
                   </div>
