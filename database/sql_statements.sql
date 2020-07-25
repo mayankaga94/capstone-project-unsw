@@ -22,7 +22,6 @@ ISBN MEDIUMINT,
 userid MEDIUMINT, 
 rating FLOAT, 
 date  DATETIME,
-FOREIGN KEY (ISBN) REFERENCES book_dataset(ISBN),
 FOREIGN KEY (userid) REFERENCES User(userid),
 )
 
@@ -38,8 +37,7 @@ create TABLE wishlist
 userid MEDIUMINT, 
 ISBN MEDIUMINT, 
 purchased varchar(255) DEFAULT 'N',
-FOREIGN KEY (ISBN) REFERENCES book_dataset(ISBN),
-FOREIGN KEY (userid) REFERENCES User(userid),
+FOREIGN KEY (userid) REFERENCES User(userid)
 )
 
 ----------------user tasklist----------------------------------
@@ -57,10 +55,9 @@ create TABLE review
 ( 
 reviewid MEDIUMINT primary key AUTO_INCREMENT, 
 userid MEDIUMINT, 
-bookid longtext, 
+bookid bigint, 
 comment longtext,
 votes MEDIUMINT DEFAULT 0,
-FOREIGN KEY (ISBN) REFERENCES book_dataset(ISBN),
 FOREIGN KEY (userid) REFERENCES User(userid)
 )
 -------------------Vote----------------------------------------
@@ -69,6 +66,6 @@ create TABLE vote
 reviewid MEDIUMINT,
 userid MEDIUMINT, 
 vote MEDIUMINT,
-FOREIGN KEY (reviewid) REFERENCES Review(reviewid),
-FOREIGN KEY (userid) REFERENCES User(userid)
+FOREIGN KEY (reviewid) REFERENCES review(reviewid),
+FOREIGN KEY (userid) REFERENCES user(userid)
 )
