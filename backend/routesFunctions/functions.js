@@ -29,7 +29,7 @@ module.exports = {
                     }
                     // Validation passed. now check if user already exists
                     else {
-                        let query = "SELECT * FROM User WHERE emailid = ?";
+                        let query = "SELECT * FROM user WHERE emailid = ?";
                         result = await pool.query(query,emailID);
                         if (result[0].length > 0){
                             return res.status(200).send({
@@ -38,8 +38,8 @@ module.exports = {
                                 });
                         }
                         password = bcrypt.hashSync(password,10)
-                        console.log(password)
-                        let query2 = "INSERT INTO User(firstname,lastname,emailID,password,dob,level) VALUES (?,?,?,?,?,0)";
+                        // console.log(password)
+                        let query2 = "INSERT INTO user(firstname,lastname,emailID,password,dob,level) VALUES (?,?,?,?,?,0)";
                         await pool.query(query2,[firstName,lastName,emailID,password,dob]);
                         return res.status(200).send({
                             success: true,
@@ -56,44 +56,49 @@ module.exports = {
             try{
                 const {email, password} = req.body
                 if(!email || !password){
-                    return res.status(400), res.send("enter both the fields")        
+                    return res.status(400).send("enter both the fields")        
                 }
                 // query to get email id
                 let query = "SELECT * FROM user WHERE emailID=?"
-                pool.query(query,email,(err,result) => {
-                    //login failure
+                var result = await pool.query(query,email);
+                if(result[0].length == 0){
+                    return res.status(401).send({
+                        message: "User does not exist",
+                    });
+                }
+                bcrypt.compare(password,result[0][0].password,(err,isMatch) => {
                     if (err) throw err;
-
-                    if (result.length < 1 || (result[0].password!=password) ){      
-                        return res.status(401).send({
-                            message: "Invalid username or password",
-                           
-                        });
-                    }
-                    else{
+                    if (isMatch) {
                         // -------------if login success create jwt-----------//
-
                         let token = jwt.sign(email, process.env.SECRET_KEY);
                         // return res.status(200).send({message: 'You are now signed in', token: token});
                         return res.status(200).send({
-                                                        auth_token : token,
-                                                        userEmail : email
-                                                    });
+                            auth_token : token,
+                            userEmail : email
+                        });
+                    }
+                    else {
+                        res.send("Email or password incorrect!");
                     }
                 });
             }
             catch{
+                return res.status(500).send(err);
             }
     },
     userDetails : async( req, res) =>{
-                    const userDetails = req.user
-                    let query = "SELECT * FROM user WHERE emailID=?"
-                    pool.query(query,userDetails,(err,result) => {
-                        if (err) throw err;
-                        return res.status(200).send({
-                            result
-                        });
-                    });
+        try{
+            const userDetails = req.user
+            let query = "SELECT * FROM user WHERE emailID=?"
+            var result = await pool.query(query,userDetails)
+            return res.status(200).send({
+                result :result[0]
+            });
+        }
+        catch(err){
+            return res.status(500).send(err);
+        }
+            
     },
     homepage : async ( req, res) =>{
  
@@ -133,7 +138,7 @@ module.exports = {
         try {
             let {bookid,userid,comment} = req.body
             // check if user exists
-            var result = await pool.query('SELECT * FROM User WHERE userid=?',userid)
+            var result = await pool.query('SELECT * FROM user WHERE userid=?',userid)
             if (result[0].length == 0){
                 return res.status(200).send({
                     success: false,
@@ -174,7 +179,7 @@ module.exports = {
                     message: 'Rating value should be between 0 and 5'
                 });
             }
-            var user = await pool.query('SELECT * FROM User WHERE userid=?',userid)
+            var user = await pool.query('SELECT * FROM user WHERE userid=?',userid)
             if (user[0].length == 0){
                 return res.status(200).send({
                     success: false,
