@@ -435,7 +435,7 @@ module.exports = {
             // res.status(200).send('success');
         
         catch(err) {
-            console.log(err)
+            
             return res.status(500).send(err);
         }
     },
@@ -472,7 +472,7 @@ module.exports = {
             // res.status(200).send('success');
         
         catch(err) {
-            console.log(err)
+            
             return res.status(500).send(err);
         }
     },
@@ -491,7 +491,6 @@ module.exports = {
             // res.status(200).send('success');
         
         catch(err) {
-            console.log(err)
             return res.status(500).send(err);
         }
     },
