@@ -29,7 +29,7 @@ module.exports = {
                     }
                     // Validation passed. now check if user already exists
                     else {
-                        let query = "SELECT * FROM User WHERE emailid = ?";
+                        let query = "SELECT * FROM user WHERE emailid = ?";
                         result = await pool.query(query,emailID);
                         if (result[0].length > 0){
                             return res.status(200).send({
@@ -39,7 +39,7 @@ module.exports = {
                         }
                         password = bcrypt.hashSync(password,10)
                         console.log(password)
-                        let query2 = "INSERT INTO User(firstname,lastname,emailID,password,dob,level) VALUES (?,?,?,?,?,0)";
+                        let query2 = "INSERT INTO user(firstname,lastname,emailID,password,dob,level) VALUES (?,?,?,?,?,0)";
                         await pool.query(query2,[firstName,lastName,emailID,password,dob]);
                         return res.status(200).send({
                             success: true,
@@ -397,11 +397,47 @@ module.exports = {
     AddTask:  async (req, res) => {
         try {
             let {userid,task} = req.body
-            let query = "INSERT INTO tasklist VALUES (?,?)";
-            var result = await pool.query(query,[userid,task])
+            let query = "INSERT INTO tasklist(userid,task) VALUES (?,?)";
+            await pool.query(query,[userid,task])
             return res.status(200).send({
                 success : true,
                 message : "Task Added"
+                });
+            }
+            // res.status(200).send('success');
+        
+        catch(err) {
+            console.log(err)
+            return res.status(500).send(err);
+        }
+    },
+    editTaskStatus:  async (req, res) => {
+        try {
+            let {userid,tasklistid,status} = req.body
+            let query = "Update tasklist set status = ? where userid=? and tasklistid=?";
+            await pool.query(query,[status,userid,tasklistid])
+            return res.status(200).send({
+                success : true,
+                message : "Task Status Changed"
+                });
+            }
+            // res.status(200).send('success');
+        
+        catch(err) {
+            console.log(err)
+            return res.status(500).send(err);
+        }
+    },
+
+    fetchTask:  async (req, res) => {
+        try {
+            let {userid} = req.body
+            let query = "Select * from tasklist where userid=?";
+            var result = await pool.query(query,userid)
+            return res.status(200).send({
+                result : result[0],
+                success : true,
+                message : "Success"
                 });
             }
             // res.status(200).send('success');

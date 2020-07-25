@@ -74,5 +74,12 @@ router.route('/searchbygenre',cors())
 
 router.route('/addtask',cors())
     .post(userFunction.AddTask)
+
+
+router.route('/editTaskStatus',cors())
+    .post(userFunction.editTaskStatus)
+
+router.route('/fetchTask',cors())
+    .get(userFunction.fetchTask)
 //------------export all the routes------------//
 module.exports = router
