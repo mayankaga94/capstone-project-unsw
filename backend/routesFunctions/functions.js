@@ -7,8 +7,9 @@ const Review = require('../models/Review')
 
 module.exports = {
     // next is not needed at the moment 
-    register : async (req,res,next) => {
+    register :  async(req,res,next) => {
                 try{
+                    console.log(req.body)
                     let {firstName,lastName,emailID,password,password2,dob} = req.body
                     let errors = []
                     // Empty fields
@@ -28,8 +29,9 @@ module.exports = {
                     }
                     // Validation passed. now check if user already exists
                     else {
-                        let query = "SELECT * FROM User WHERE emailID=?"
+                        let query = "SELECT * FROM user WHERE emailiD = ?"
                         pool.query(query,emailID,(err,result) => {
+                            console.log("hit 1")
                             if (err) throw err;
                             if (result.length > 0){
                                 // console.log(result);
@@ -39,10 +41,11 @@ module.exports = {
                                     });
                             }
                             else {
+                                console.log('hit')
                                 bcrypt.hash(password,10,(err,hash) => {
                                     if (err) throw err;
                                     password = hash;
-                                    let query = "INSERT INTO User(firstname,lastname,emailID,password,dob,level) VALUES (?,?,?,?,?,0)";
+                                    let query = "INSERT INTO User(firstname,lastname,emailiD,password,dob,level) VALUES (?,?,?,?,?,0)";
                                     pool.query(query,[firstName,lastName,emailID,password,dob],(err,result) => {
                                         if (err) throw err;
                                         return res.status(200).send({
@@ -55,8 +58,9 @@ module.exports = {
                         });
                     }
             }
-            catch{
+            catch(err){
                 //--------blank at the moment------------// 
+                res.status(500).send(err)
             }
             },
     logIn : async (req,res) => {
@@ -371,5 +375,38 @@ module.exports = {
             })
         }
     },
+    searchBookByTitle:(req, res) => {
+        try {
+            let {booktitle} = req.body
+            let query = "Select ISBN from book_dataset where title like CONCAT('%', ?, '%')";
+            pool.query(query,booktitle,(err,result) => {
+                if (err) throw err;
+                return res.status(200).send({result})
+                success: true
+                });
+            }
+            // res.status(200).send('success');
+        
+        catch(err) {
+            console.log(err)
+            return res.status(500).send(err);
+        }
+    },
+    searchBookByGenre:(req, res) => {
+        try {
+            let {booktitle} = req.body
+            let query = "Select ISBN from book_dataset where genre like CONCAT('%', ?, '%')";
+            pool.query(query,booktitle,(err,result) => {
+                if (err) throw err;
+                return res.status(200).send({result})
+                success: true
+                });
+            }
+            // res.status(200).send('success');
+        
+        catch(err) {
+            console.log(err)
+            return res.status(500).send(err);
+        }
+    },
 }
-// hi from neel

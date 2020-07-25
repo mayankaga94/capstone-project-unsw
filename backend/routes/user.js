@@ -57,6 +57,7 @@ router.route('/admin/register',cors())
 router.route('/admin/login',cors())
     .post(userFunction.adminLogin)
 
+
 //---------------Admin Add Book ------------------------//
 router.route('/admin/addBook',cors())
     .post(userFunction.addBook)
@@ -65,5 +66,10 @@ router.route('/admin/addBook',cors())
 router.route('/admin/removeBook',cors())
     .post(userFunction.removeBook)
 
+router.route('/searchbytitle',cors())
+    .get(userFunction.searchBookByTitle)
+
+router.route('/searchbygenre',cors())
+    .get(userFunction.searchBookByGenre)
 //------------export all the routes------------//
 module.exports = router
