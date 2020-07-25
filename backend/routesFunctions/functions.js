@@ -29,33 +29,22 @@ module.exports = {
                     }
                     // Validation passed. now check if user already exists
                     else {
-                        let query = "SELECT * FROM user WHERE emailiD = ?"
-                        pool.query(query,emailID,(err,result) => {
-                            console.log("hit 1")
-                            if (err) throw err;
-                            if (result.length > 0){
-                                // console.log(result);
-                                return res.status(200).send({
-                                        success: true,
-                                        message: 'User already exists'
-                                    });
-                            }
-                            else {
-                                console.log('hit')
-                                bcrypt.hash(password,10,(err,hash) => {
-                                    if (err) throw err;
-                                    password = hash;
-                                    let query = "INSERT INTO User(firstname,lastname,emailiD,password,dob,level) VALUES (?,?,?,?,?,0)";
-                                    pool.query(query,[firstName,lastName,emailID,password,dob],(err,result) => {
-                                        if (err) throw err;
-                                        return res.status(200).send({
-                                        success: true,
-                                        message: 'Registered'
-                                        });
-                                    });
+                        let query = "SELECT * FROM User WHERE emailid = ?";
+                        result = await pool.query(query,emailID);
+                        if (result[0].length > 0){
+                            return res.status(200).send({
+                                    success: true,
+                                    message: 'User already exists'
                                 });
-                            }
-                        });
+                        }
+                        password = bcrypt.hashSync(password,10)
+                        console.log(password)
+                        let query2 = "INSERT INTO User(firstname,lastname,emailID,password,dob,level) VALUES (?,?,?,?,?,0)";
+                        await pool.query(query2,[firstName,lastName,emailID,password,dob]);
+                        return res.status(200).send({
+                            success: true,
+                            message: 'Registered'
+                            });
                     }
             }
             catch(err){
@@ -65,8 +54,6 @@ module.exports = {
             },
     logIn : async (req,res) => {
             try{
-
-                console.log("hi")
                 const {email, password} = req.body
                 if(!email || !password){
                     return res.status(400), res.send("enter both the fields")        
@@ -92,8 +79,6 @@ module.exports = {
                                                         auth_token : token,
                                                         userEmail : email
                                                     });
-
-
                     }
                 });
             }
@@ -109,8 +94,7 @@ module.exports = {
                             result
                         });
                     });
-                 },
-
+    },
     homepage : async ( req, res) =>{
  
         res.send({
@@ -131,8 +115,7 @@ module.exports = {
                         }
                     catch{
                     }
-            },
-
+    },
     book : async ( req, res) =>{
             try{
                 const bookid = req.body.id
@@ -149,40 +132,30 @@ module.exports = {
     postReview : async(req, res) =>  {
         try {
             let {bookid,userid,comment} = req.body
-
             // check if user exists
-            // userExists(userid,res);
-            // pool.query('SELECT * FROM User WHERE userid=?',userid,userExists);
-            // pool.query('SELECT * FROM User WHERE userid=?',userid,(err,result) => {
-            // pool.query('SELECT * FROM User WHERE userid=?',userid,(err,result) => {
-            //     if(err) throw err;
-            //     if (result.length == 0){
-            //         return res.status(200).send({
-            //             success: false,
-            //             message: 'User does not exist'
-            //         });
-            //     }
-            // });
+            var result = await pool.query('SELECT * FROM User WHERE userid=?',userid)
+            if (result[0].length == 0){
+                return res.status(200).send({
+                    success: false,
+                    message: 'User does not exist'
+                });
+            }
             // check if book exists
-            // bookExists(bookid,res);
-            // console.log("bad")
-            // pool.query('SELECT * FROM book_dataset WHERE ISBN=?',bookid,(err,result) => {
-            //     if(err) throw err;
-            //     if (result.length == 0){
-            //         return res.status(200).send({
-            //             success: false,
-            //             message: 'book does not exist'
-            //         });
-            //     }
-            // });
-
+            var result2 = await pool.query('SELECT * FROM book_dataset WHERE ISBN=?',bookid)
+            if (result2[0].length == 0){
+                return res.status(200).send({
+                    success: false,
+                    message: 'book does not exist'
+                });
+            }
+            // All good insert the review
             let newReview = new Review({
                 'userid': userid,
                 'bookid': bookid,
                 'comment': comment
             });
-
-            console.log(req.body)
+            // Edit review if already exists
+            
             // insert review
             await newReview.save();
             res.status(200).send('success')
@@ -191,28 +164,41 @@ module.exports = {
             res.status(500).send(err);
         }
     },
-    postRating : (req, res) => {
+    postRating : async (req, res) => {
         try {
             let {bookid,userid,rating} = req.body
-
-            // check if user has rated this book before
-            // pool.query('SELECT * FROM book_ratings WHERE userid=? AND bookid=?',[userid,bookid],(err,result) => {
-            //     if (err) throw err;
-            //     if (result.length > 0){
-            //         return res.status(200).send({
-            //                 success: false,
-            //                 message: 'User has already rated this book'
-            //             });
-            //     }
-            // });
-            let query = "INSERT INTO book_ratings(bookid,userid,rating) VALUES (?,?,?)";
-            pool.query(query,[bookid,userid,rating],(err,result) => {
-                if (err) throw err;
+            // check if user exists
+            if(rating < 0 || rating > 5){
                 return res.status(200).send({
-                success: true
+                    success: false,
+                    message: 'Rating value should be between 0 and 5'
                 });
-            });
-            // res.status(200).send('success');
+            }
+            var user = await pool.query('SELECT * FROM User WHERE userid=?',userid)
+            if (user[0].length == 0){
+                return res.status(200).send({
+                    success: false,
+                    message: 'User does not exist'
+                });
+            }
+            // check if book exists
+            var result2 = await pool.query('SELECT * FROM book_dataset WHERE ISBN=?',bookid)
+            if (result2[0].length == 0){
+                return res.status(200).send({
+                    success: false,
+                    message: 'book does not exist'
+                });
+            }
+            var result2 = await pool.query('SELECT * FROM book_ratings WHERE userid=? AND bookid=?',[userid,bookid])
+            if (result2[0].length > 0){
+                await pool.query('UPDATE book_ratings SET rating = ? WHERE userid=? AND bookid=?',[rating,userid,bookid])
+                return res.status(200).send("Updated rating");
+            }
+            let query = "INSERT INTO book_ratings(bookid,userid,rating) VALUES (?,?,?)";
+            
+            var result = await pool.query(query,[bookid,userid,rating]);
+            console.log(result)
+            res.status(200).send('success');
         }
         catch(err) {
             console.log(err)
