@@ -81,5 +81,9 @@ router.route('/editTaskStatus',cors())
 
 router.route('/fetchTask',cors())
     .get(userFunction.fetchTask)
+
+// voting
+router.route('/review/vote',cors())
+    .post(userFunction.postVote)
 //------------export all the routes------------//
 module.exports = router

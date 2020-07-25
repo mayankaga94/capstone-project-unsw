@@ -58,7 +58,7 @@ userid MEDIUMINT,
 bookid bigint, 
 comment longtext,
 votes MEDIUMINT DEFAULT 0,
-FOREIGN KEY (userid) REFERENCES User(userid)
+FOREIGN KEY (userid) REFERENCES user(userid)
 )
 -------------------Vote----------------------------------------
 create TABLE vote

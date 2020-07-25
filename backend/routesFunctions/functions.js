@@ -49,7 +49,7 @@ module.exports = {
     }
         catch(err){
             //--------blank at the moment------------// 
-            res.status(500).send(err)
+            return res.status(500).send(err)
         }
     },
     logIn : async (req,res) => {
@@ -156,15 +156,17 @@ module.exports = {
                 });
             }
             // All good insert the review
-            let newReview = new Review({
-                'userid': userid,
-                'bookid': bookid,
-                'comment': comment
-            });
+            // let newReview = new Review({
+            //     'userid': userid,
+            //     'bookid': bookid,
+            //     'comment': comment
+            // });
+
+            await pool.query("INSERT into review(userid,bookid,comment) values (?,?,?)",[userid,bookid,comment]);
             // Edit review if already exists
             
             // insert review
-            await newReview.save();
+            // await newReview.save();
             res.status(200).send('success')
         }
         catch(err) {
@@ -495,4 +497,29 @@ module.exports = {
             return res.status(500).send(err);
         }
     },
+    postVote: async (req, res) => {
+        try {
+            let {reviewid, userid, vote} = req.body
+            // if user has alredy voted
+            var result = await pool.query("SELECT * from vote where userid=? and reviewid=?",[userid,reviewid])
+            // console.log(result[0])
+            if(result[0].length > 0){
+                const existing_vote = result[0][0].vote;
+                if (existing_vote == vote){
+                    await pool.query("DELETE FROM vote WHERE userid=? and reviewid=?",[userid,reviewid]);
+                    await pool.query("UPDATE review SET votes=votes+? WHERE reviewid=?",[-vote,reviewid])
+                }
+                return res.status(200).send("voted")
+            }
+            // This user has not voted this review yet
+            await pool.query("INSERT INTO vote(reviewid,userid,vote) VALUES(?,?,?)",[reviewid,userid,vote])
+            await pool.query("UPDATE review SET votes=votes+? WHERE reviewid=?",[vote,reviewid]);
+            return res.status(200).send({
+                success: true
+            });
+        }
+        catch(err) {
+            return res.status(500).send(err)
+        }
+    }
 }
