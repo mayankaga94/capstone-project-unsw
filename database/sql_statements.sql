@@ -40,6 +40,13 @@ FOREIGN KEY (ISBN) REFERENCES book_dataset(ISBN),
 FOREIGN KEY (userid) REFERENCES User(userid),
 )
 
-----------------
-
+----------------user tasklist----------------------------------
+create TABLE tasklist
+( 
+tasklistid MEDIUMINT primary key AUTO_INCREMENT, 
+userid MEDIUMINT, 
+task longtext, 
+status varchar(255) DEFAULT 'To Do',
+FOREIGN KEY (userid) REFERENCES User(userid)
+)
 

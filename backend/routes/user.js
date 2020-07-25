@@ -71,5 +71,8 @@ router.route('/searchbytitle',cors())
 
 router.route('/searchbygenre',cors())
     .get(userFunction.searchBookByGenre)
+
+router.route('/addtask',cors())
+    .post(userFunction.AddTask)
 //------------export all the routes------------//
 module.exports = router

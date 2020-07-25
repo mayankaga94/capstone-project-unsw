@@ -361,13 +361,28 @@ module.exports = {
             })
         }
     },
-    searchBookByTitle:(req, res) => {
+    searchBookByTitle: async (req, res) => {
         try {
             let {booktitle} = req.body
             let query = "Select ISBN from book_dataset where title like CONCAT('%', ?, '%')";
-            pool.query(query,booktitle,(err,result) => {
-                if (err) throw err;
-                return res.status(200).send({result})
+            var result = await pool.query(query,booktitle)
+            // res.status(200).send('success');
+            return res.status(200).send({
+                result : result[0],
+                success: true
+                });
+        }
+        catch(err) {
+            return res.status(500).send(err);
+        }
+    },
+    searchBookByGenre:  async (req, res) => {
+        try {
+            let {genre} = req.body
+            let query = "Select ISBN from book_dataset where genre like CONCAT('%', ?, '%')";
+            var result = await pool.query(query,genre)
+            return res.status(200).send({
+                result : result[0],
                 success: true
                 });
             }
@@ -378,14 +393,15 @@ module.exports = {
             return res.status(500).send(err);
         }
     },
-    searchBookByGenre:(req, res) => {
+
+    AddTask:  async (req, res) => {
         try {
-            let {booktitle} = req.body
-            let query = "Select ISBN from book_dataset where genre like CONCAT('%', ?, '%')";
-            pool.query(query,booktitle,(err,result) => {
-                if (err) throw err;
-                return res.status(200).send({result})
-                success: true
+            let {userid,task} = req.body
+            let query = "INSERT INTO tasklist VALUES (?,?)";
+            var result = await pool.query(query,[userid,task])
+            return res.status(200).send({
+                success : true,
+                message : "Task Added"
                 });
             }
             // res.status(200).send('success');
