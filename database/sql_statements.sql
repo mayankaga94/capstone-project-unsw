@@ -66,6 +66,7 @@ create TABLE vote
 reviewid MEDIUMINT,
 userid MEDIUMINT, 
 vote MEDIUMINT,
+primary key (reviewid,userid),
 FOREIGN KEY (reviewid) REFERENCES review(reviewid),
 FOREIGN KEY (userid) REFERENCES user(userid)
 )
