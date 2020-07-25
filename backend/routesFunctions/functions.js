@@ -154,6 +154,8 @@ module.exports = {
                 'bookid': bookid,
                 'comment': comment
             });
+            // Edit review if already exists
+            
             // insert review
             await newReview.save();
             res.status(200).send('success')
@@ -166,6 +168,12 @@ module.exports = {
         try {
             let {bookid,userid,rating} = req.body
             // check if user exists
+            if(rating < 0 || rating > 5){
+                return res.status(200).send({
+                    success: false,
+                    message: 'Rating value should be between 0 and 5'
+                });
+            }
             var user = await pool.query('SELECT * FROM User WHERE userid=?',userid)
             if (user[0].length == 0){
                 return res.status(200).send({
@@ -173,12 +181,18 @@ module.exports = {
                     message: 'User does not exist'
                 });
             }
+            // check if book exists
+            var result2 = await pool.query('SELECT * FROM book_dataset WHERE ISBN=?',bookid)
+            if (result2[0].length == 0){
+                return res.status(200).send({
+                    success: false,
+                    message: 'book does not exist'
+                });
+            }
             var result2 = await pool.query('SELECT * FROM book_ratings WHERE userid=? AND bookid=?',[userid,bookid])
             if (result2[0].length > 0){
-                return res.status(200).send({
-                        success: false,
-                        message: 'User has already rated this book'
-                    });
+                await pool.query('UPDATE book_ratings SET rating = ? WHERE userid=? AND bookid=?',[rating,userid,bookid])
+                return res.status(200).send("Updated rating");
             }
             let query = "INSERT INTO book_ratings(bookid,userid,rating) VALUES (?,?,?)";
             
