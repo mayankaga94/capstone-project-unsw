@@ -508,7 +508,17 @@ module.exports = {
                     await pool.query("DELETE FROM vote WHERE userid=? and reviewid=?",[userid,reviewid]);
                     await pool.query("UPDATE review SET votes=votes+? WHERE reviewid=?",[-vote,reviewid])
                 }
-                return res.status(200).send("voted")
+                else {
+                    await pool.query("UPDATE vote SET vote=? WHERE reviewid=? and userid=?",[vote,reviewid,userid])
+                    if(vote == 1){
+                        vote += 1
+                    }
+                    else {
+                        vote -= 1
+                    }
+                    await pool.query("UPDATE review SET votes=votes+? WHERE reviewid=?",[vote,reviewid])
+                }
+                return res.status(200).send("Vote updated")
             }
             // This user has not voted this review yet
             await pool.query("INSERT INTO vote(reviewid,userid,vote) VALUES(?,?,?)",[reviewid,userid,vote])
