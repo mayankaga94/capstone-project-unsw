@@ -29,7 +29,7 @@ FOREIGN KEY (userid) REFERENCES User(userid),
 -----------------Add points to User table-------------------------
 
 Alter Table user
-ADD COLUMN points MEDIUMINT AFTER dob;
+ADD COLUMN points MEDIUMINT DEFAULT 0 AFTER dob;
 
 -----------------------User wish list----------------------------------
 
