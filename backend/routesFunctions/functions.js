@@ -452,7 +452,10 @@ module.exports = {
             // res.status(200).send('success');
         
         catch(err) {
-            console.log(err)
+            if (err.errno== 1452){
+                return res.status(500).send("User does not exist")
+            }
+            //console.log(err)
             return res.status(500).send(err);
         }
     },

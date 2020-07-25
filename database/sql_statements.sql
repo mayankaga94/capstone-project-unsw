@@ -52,3 +52,23 @@ status varchar(255) DEFAULT 'To Do',
 FOREIGN KEY (userid) REFERENCES User(userid)
 )
 
+---------------Review------------------------------------------
+create TABLE Review
+( 
+reviewid MEDIUMINT primary key AUTO_INCREMENT, 
+userid MEDIUMINT, 
+bookid longtext, 
+comment longtext,
+votes MEDIUMINT,
+FOREIGN KEY (ISBN) REFERENCES book_dataset(ISBN),
+FOREIGN KEY (userid) REFERENCES User(userid)
+)
+-------------------Vote----------------------------------------
+create TABLE vote
+( 
+reviewid MEDIUMINT,
+userid MEDIUMINT, 
+vote MEDIUMINT,
+FOREIGN KEY (reviewid) REFERENCES Review(reviewid),
+FOREIGN KEY (userid) REFERENCES User(userid)
+)
