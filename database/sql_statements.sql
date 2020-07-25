@@ -1,6 +1,6 @@
 --Create user table-----------
 
-create TABLE User
+create TABLE user
 ( 
 userid MEDIUMINT AUTO_INCREMENT primary key , 
 firstname longtext, 
@@ -28,7 +28,7 @@ FOREIGN KEY (userid) REFERENCES User(userid),
 
 -----------------Add points to User table-------------------------
 
-Alter Table User
+Alter Table user
 ADD COLUMN points MEDIUMINT AFTER dob;
 
 -----------------------User wish list----------------------------------
@@ -53,7 +53,7 @@ FOREIGN KEY (userid) REFERENCES User(userid)
 )
 
 ---------------Review------------------------------------------
-create TABLE Review
+create TABLE review
 ( 
 reviewid MEDIUMINT primary key AUTO_INCREMENT, 
 userid MEDIUMINT, 
