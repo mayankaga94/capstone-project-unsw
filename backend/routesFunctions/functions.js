@@ -8,50 +8,50 @@ const Review = require('../models/Review')
 module.exports = {
     // next is not needed at the moment 
     register :  async(req,res,next) => {
-                try{
-                    console.log(req.body)
-                    let {firstName,lastName,emailID,password,password2,dob} = req.body
-                    let errors = []
-                    // Empty fields
-                    if ( !firstName || !lastName || !emailID || !password || !password2 || !dob ){
-                        errors.push('empty fields');
-                    }
-                    // Passwords do not match
-                    if ( password !== password2 ){
-                        errors.push('passwords do not match');
-                    }
-                    // Check password length. TODO: Add more parameters for password!
-                    if ( password.length < 6){
-                        errors.push('passwords too short');
-                    }
-                    if ( errors.length > 1){
-                        res.status(500).send(errors);
-                    }
-                    // Validation passed. now check if user already exists
-                    else {
-                        let query = "SELECT * FROM user WHERE emailid = ?";
-                        result = await pool.query(query,emailID);
-                        if (result[0].length > 0){
-                            return res.status(200).send({
-                                    success: true,
-                                    message: 'User already exists'
-                                });
-                        }
-                        password = bcrypt.hashSync(password,10)
-                        // console.log(password)
-                        let query2 = "INSERT INTO user(firstname,lastname,emailID,password,dob,level) VALUES (?,?,?,?,?,0)";
-                        await pool.query(query2,[firstName,lastName,emailID,password,dob]);
-                        return res.status(200).send({
+        try{
+            console.log(req.body)
+            let {firstName,lastName,emailID,password,password2,dob} = req.body
+            let errors = []
+            // Empty fields
+            if ( !firstName || !lastName || !emailID || !password || !password2 || !dob ){
+                errors.push('empty fields');
+            }
+            // Passwords do not match
+            if ( password !== password2 ){
+                errors.push('passwords do not match');
+            }
+            // Check password length. TODO: Add more parameters for password!
+            if ( password.length < 6){
+                errors.push('passwords too short');
+            }
+            if ( errors.length > 1){
+                res.status(500).send(errors);
+            }
+            // Validation passed. now check if user already exists
+            else {
+                let query = "SELECT * FROM user WHERE emailid = ?";
+                result = await pool.query(query,emailID);
+                if (result[0].length > 0){
+                    return res.status(200).send({
                             success: true,
-                            message: 'Registered'
-                            });
-                    }
+                            message: 'User already exists'
+                        });
+                }
+                password = bcrypt.hashSync(password,10)
+                // console.log(password)
+                let query2 = "INSERT INTO user(firstname,lastname,emailID,password,dob,level) VALUES (?,?,?,?,?,0)";
+                await pool.query(query2,[firstName,lastName,emailID,password,dob]);
+                return res.status(200).send({
+                    success: true,
+                    message: 'Registered'
+                    });
             }
-            catch(err){
-                //--------blank at the moment------------// 
-                res.status(500).send(err)
-            }
-            },
+    }
+        catch(err){
+            //--------blank at the moment------------// 
+            res.status(500).send(err)
+        }
+    },
     logIn : async (req,res) => {
             try{
                 const {email, password} = req.body
@@ -112,26 +112,28 @@ module.exports = {
 
     },
     booksFetch :  async (req,res) => {
-                    try { 
-                        let query = "SELECT * FROM book_dataset LIMIT 30";
-                        pool.query(query,(err,result) => {
-                            return res.status(200).send({result})
-                            })
-                        }
-                    catch{
-                    }
+        try { 
+            let query = "SELECT * FROM book_dataset LIMIT 30";
+            pool.query(query,(err,result) => {
+                return res.status(200).send({result})
+                })
+            }
+        catch{
+            return res.status(500).send(err);
+        }
     },
     book : async ( req, res) =>{
-            try{
-                const bookid = req.body.id
-                console.log(bookid)
-                let query = "SELECT * FROM book_dataset WHERE ISBN=? ";
-                    pool.query(query,bookid,(err,result) => {
-                        return res.status(200).send({result})
-                        })
-            }
-            catch{
-
+        try{
+            const bookid = req.body.id
+            console.log(bookid)
+            let query = "SELECT * FROM book_dataset WHERE ISBN=? ";
+            var result = await pool.query(query,bookid)
+            return res.status(200).send({
+                result: result[0]
+            })
+        }
+        catch{
+            return res.status(500).send(err);
         }
     },
     postReview : async(req, res) =>  {
@@ -310,61 +312,100 @@ module.exports = {
         }
     },
     addBook : async (req,res) => {
-        let {title, author, description, ISBN, genre, image, pagecount} = req.body;
-        if ( !title || !author || !description || !ISBN || !genre || !image || !pagecount ){
-            res.status(500).send('empty fields')
-        }
-        else{
-            let query = "SELECT * FROM book_dataset WHERE ISBN = ?";
-            pool.query(query, ISBN, (err, result) => {
-                if (err) throw err;
-                if (result.length > 0){
+        try{
+            let {title, author, description, ISBN, genre, image, pagecount} = req.body;
+            if ( !title || !author || !description || !ISBN || !genre || !image || !pagecount ){
+                res.status(500).send('empty fields')
+            }
+            else{
+                var query = "SELECT * FROM book_dataset WHERE ISBN = ?";
+                var result = pool.query(query, ISBN);
+                if (result[0].length > 0){
                     return res.status(200).send({
                         success: true,
                         message: 'Book already exists'
                     });
                 }
-                else{
-                    let query = "INSERT INTO book_dataset VALUES (?,?,?,?,?,?,?,?,?,?)";
-                    pool.query(query, [title, author, 1.0, 0, "0", description, ISBN, genre, image, pagecount], (err, result) => {
-                        if (err) throw err;
-                        return res.status(200).send({
-                            success : true,
-                            message : "Book Added"
-                        })
-                    })
-                }
-            })
+                var query = "INSERT INTO book_dataset VALUES (?,?,?,?,?,?,?,?,?,?)";
+                var result = await pool.query(query, [title, author, 1.0, 0, "0", description, ISBN, genre, image, pagecount])
+                return res.status(200).send({
+                    success : true,
+                    message : "Book Added"
+                });
+                // pool.query(query, ISBN, (err, result) => {
+                //     if (err) throw err;
+                //     if (result.length > 0){
+                //         return res.status(200).send({
+                //             success: true,
+                //             message: 'Book already exists'
+                //         });
+                //     }
+                //     else{
+                //         let query = "INSERT INTO book_dataset VALUES (?,?,?,?,?,?,?,?,?,?)";
+                //         pool.query(query, [title, author, 1.0, 0, "0", description, ISBN, genre, image, pagecount], (err, result) => {
+                //             if (err) throw err;
+                //             return res.status(200).send({
+                //                 success : true,
+                //                 message : "Book Added"
+                //             })
+                //         })
+                //     }
+                // })
+            }
         }
+        catch(err){
+            return res.status(500).send(err);
+        }
+        
     },
     removeBook: async (req,res) => {
-        let {ISBN} = req.body;
-        console.log("ISBN IS " + ISBN);
-        if (!ISBN){
-            res.status(500).send('empty fields')
-        }
-        else {
-            let query = "SELECT * FROM book_dataset WHERE ISBN = ?";
-            pool.query(query, ISBN, (err, result) => {
-                if (err) throw err;
-                if (result.length == 0){
+        try{
+            let {ISBN} = req.body;
+            console.log("ISBN IS " + ISBN);
+            if (!ISBN){
+                res.status(500).send('empty fields')
+            }
+            else {
+                var query = "SELECT * FROM book_dataset WHERE ISBN = ?";
+                var result = pool.query(query, ISBN)
+                if (result[0].length == 0){
                     return res.status(200).send({
                         success: true,
                         message: 'Book does not exist'
                     });
                 }
-                else{
-                    let query = "DELETE FROM book_dataset WHERE ISBN = ?";
-                    pool.query(query, ISBN, (err, result) => {
-                        if (err) throw err;
-                        return res.status(200).send({
-                            success : true,
-                            message : "Book Removed"
-                        })
-                    })
-                }
-            })
+
+                var query = "DELETE FROM book_dataset WHERE ISBN = ?";
+                var result = await pool.query(query, ISBN)
+                return res.status(200).send({
+                    success : true,
+                    message : "Book Removed"
+                });
+                // pool.query(query, ISBN, (err, result) => {
+                //     if (err) throw err;
+                //     if (result.length == 0){
+                //         return res.status(200).send({
+                //             success: true,
+                //             message: 'Book does not exist'
+                //         });
+                //     }
+                //     else{
+                //         let query = "DELETE FROM book_dataset WHERE ISBN = ?";
+                //         pool.query(query, ISBN, (err, result) => {
+                //             if (err) throw err;
+                //             return res.status(200).send({
+                //                 success : true,
+                //                 message : "Book Removed"
+                //             })
+                //         })
+                //     }
+                // })
+            }
         }
+        catch(err){
+            return res.status(500).send(err);    
+        }
+        
     },
     searchBookByTitle: async (req, res) => {
         try {
@@ -398,7 +439,6 @@ module.exports = {
             return res.status(500).send(err);
         }
     },
-
     AddTask:  async (req, res) => {
         try {
             let {userid,task} = req.body
