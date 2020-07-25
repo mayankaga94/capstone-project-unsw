@@ -59,7 +59,7 @@ reviewid MEDIUMINT primary key AUTO_INCREMENT,
 userid MEDIUMINT, 
 bookid longtext, 
 comment longtext,
-votes MEDIUMINT,
+votes MEDIUMINT DEFAULT 0,
 FOREIGN KEY (ISBN) REFERENCES book_dataset(ISBN),
 FOREIGN KEY (userid) REFERENCES User(userid)
 )
