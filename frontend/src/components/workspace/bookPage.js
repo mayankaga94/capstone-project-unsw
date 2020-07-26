@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom'
 import Comments from './comments.js'
 import Searchbar from './searchbar'
 import Quotes from './Quotes'
+import CustomWishlist from '../workspace/Dashboard/customWishlist'
 import '../../Styling.css'
 import UserContext from '../../context/usercontext'
-
+import { useParams} from 'react-router-dom'
 
 
 export const Wrapper = styled.div`
@@ -46,7 +47,9 @@ export default function Bookpage (props){
 
 
     const [quotes, setquotes]  = useState([]);
-
+    const [comp, setComp] = useState({
+        show:false
+    })
 
 
     useEffect(() => {
@@ -70,13 +73,29 @@ export default function Bookpage (props){
             
         // });
         }
+    
 
+        // adding items to wishlist
+        const id  = useParams();
+        // const wishlistOpen =(id) =>{
+          const   rendercom =() =>{
+              console.log("hi")
+                setComp({
+                    show : !comp.show
+                })
+          }
+
+           
+
+        // }
 
       const { userData, setUserData } = useContext(UserContext);
-        console.log("hi",quotes)
+        // console.log("hi",quotes)
         return (
              <Wrapper>
                  <div className = "bookdetailHeader">
+
+                     {comp.show ? <CustomWishlist />:null}
                     <div className = "searchbar">
                         <Searchbar />
                     </div>
@@ -110,11 +129,11 @@ export default function Bookpage (props){
                                             <i class="fa fa-star" aria-hidden="true"></i>
                                             </span>
                                  </div>
-                                <div className= ""> 
-                                    <span className ="booklist addwishlist"><i class="fa fa-shopping-cart" aria-hidden="true"><span class="fa-text">Buy Book</span></i> 
-                                    </span>
 
-                                    <span className =" addwishlist"><i class="fa fa-heart" aria-hidden="true"><span class="fa-text">Add To Wishlist</span></i> 
+                                <div className= ""> 
+                                    <span className ="booklist addwishlist" ><i class="fa fa-shopping-cart" aria-hidden="true"><span class="fa-text">Buy Book</span></i> 
+                                    </span>
+                                    <span className =" addwishlist" onClick={() => rendercom()} ><i class="fa fa-heart" aria-hidden="true"><span class="fa-text">Add To Wishlist</span></i> 
                                     </span>
                                 </div>
                             </div>

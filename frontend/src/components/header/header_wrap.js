@@ -65,14 +65,13 @@ export default function  Headerwrap () {
     let history = useHistory();
     const { userData, setUserData } = useContext(UserContext);
 
-    React.useEffect( () => {
+    // React.useEffect( () => {
 
-    }, [])
+    // }, [])
 
     const loginSubmit = async(e) => {
         e.preventDefault()
         let loginUser = { email, password }
-        console.log(loginUser)
         const options = {
             method: 'POST',
             headers: {
@@ -122,10 +121,12 @@ export default function  Headerwrap () {
                                         </Link>
                                             <li className = "padding-top-20 headerItems float-left"><span className = "">Dashboard</span></li>
                                             <li className = "headerItems float-left">   
-                                                <div >                                                                                   
+                                                <div >  
+                                            <Link to = {'/dashboard'}>
                                                 <span className =" "><i class="fa fa-shopping-cart" aria-hidden="true"></i> 
                                                 <p>Cart</p>
                                                 </span>   
+                                            </Link>
                                                 </div>
                                             </li>
                                             <li className = "headerItems float-left">                

@@ -1,24 +1,24 @@
-import React, { Component } from 'react'
+import { useState } from 'react'
 import Calendar  from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 
 
-export class Calend extends Component {
+import React from 'react'
 
-    state = {
-        date: new Date(),
-      }  
-      onChange = date => this.setState({ date })
-   
-    render() {   
-        return (
-            <div>
-                  <div>
-                     <Calendar onChange={this.onChange} value={this.state.date}/>
-                  </div>
-            </div>
-        )
-    }
+export default function Calendarclass() {
+
+    const [value, onChange] = useState(new Date());
+    console.log(onChange)
+    return (
+        <>
+      <div>
+        <Calendar
+            onChange={onChange}
+            value={value}
+            />
+        </div>
+        <div>hiii{onChange.value}</div>
+      </>
+    );
+
 }
-
-export default Calend
