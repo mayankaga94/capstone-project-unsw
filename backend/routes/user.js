@@ -42,6 +42,7 @@ router.route('/booksFetch')
 // Posting a review
 router.route('/book/review')
     .post(userFunction.postReview)
+    .delete(userFunction.deleteReview)
 
 // Posting a rating
 router.route('/book/rating')
