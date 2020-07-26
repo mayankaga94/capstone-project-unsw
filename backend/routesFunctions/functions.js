@@ -70,7 +70,6 @@ module.exports = {
                     if (err) throw err;
                     if (isMatch) {
                         // -------------if login success create jwt-----------//
-
                         let token = jwt.sign(email, process.env.SECRET_KEY);
                         // return res.status(200).send({message: 'You are now signed in', token: token});
                         return res.status(200).send({

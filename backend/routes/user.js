@@ -57,6 +57,7 @@ router.route('/admin/register',cors())
 router.route('/admin/login',cors())
     .post(userFunction.adminLogin)
 
+
 //---------------Admin Add Book ------------------------//
 router.route('/admin/addBook',cors())
     .post(userFunction.addBook)

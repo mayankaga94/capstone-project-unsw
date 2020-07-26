@@ -2,3 +2,4 @@ backend/node_modules
 backend/config/sql_config.js
 backend/config/sql_key.js
 frontend/node_modules
+recommender_system/test_client/node_modules
