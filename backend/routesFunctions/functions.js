@@ -155,22 +155,37 @@ module.exports = {
                     message: 'book does not exist'
                 });
             }
-            // All good insert the review
-            // let newReview = new Review({
-            //     'userid': userid,
-            //     'bookid': bookid,
-            //     'comment': comment
-            // });
 
             await pool.query("INSERT into review(userid,bookid,comment) values (?,?,?)",[userid,bookid,comment]);
             // Edit review if already exists
             
             // insert review
             // await newReview.save();
-            res.status(200).send('success')
+            return res.status(200).send('success')
         }
         catch(err) {
-            res.status(500).send(err);
+            return res.status(500).send(err);
+        }
+    },
+    deleteReview : async(req, res) => {
+        try {
+            // After deleting review
+            // delete all instances of review from votes
+            // update points of user that posted that review ??
+            const {reviewid} = req.body;
+            //  console.log(reviewid)
+            // delete all entries of vote for the review
+            await pool.query("DELETE FROM vote WHERE reviewid=?",reviewid);
+            // delete the review
+            await pool.query("DELETE FROM review WHERE reviewid=?",reviewid);
+            return res.status(200).send({
+                success: true,
+                message: 'Review Deleted'
+            });
+
+        }
+        catch (err) {
+            return res.status(500).send(err);
         }
     },
     postRating : async (req, res) => {
@@ -478,7 +493,6 @@ module.exports = {
             return res.status(500).send(err);
         }
     },
-
     fetchTask:  async (req, res) => {
         try {
             let {userid} = req.body
