@@ -54,9 +54,6 @@ export default function Bookpage (props){
         
         getQuotes();
     }, [])
-
-    
-    // console.log("review props rendered",props.bookReview)
     const getQuotes = async() =>{
 
         const url = "https://type.fit/api/quotes";
@@ -72,8 +69,6 @@ export default function Bookpage (props){
                     show : !comp.show
                 })
           }
-
-
         const { userData, setUserData } = useContext(UserContext);
         const renderReviews = () => {
             const reviews  = props.bookReview;
@@ -137,57 +132,13 @@ export default function Bookpage (props){
 
                             <div className ="review">
                                 <div className = "reviewWrapper">
-
-                                        
-                                  
-
-
-                                    {/* <div className = "reviewHeader">
-                                        <span> <img className = "reviewImg" src = "https://c.pxhere.com/photos/61/21/mouse_rodent_cute_mammal_nager_nature_animal_wood_mouse-794461.jpg!d"></img> </span>
-                                        <span className = "userName"> David</span>
-                                    </div>
-                                    <div className = "reviewContent">
-                                        <div className = "reviewContenHeader">
-                                            <span className = "reviewSubheading"> Review</span>
-                                            <span className = "reviewStart">                 
-                                            <span><i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                            </span>
-                                            </span>
-                                        </div>
-                                        <div className = "reviewContenHeader">
-                                            <p className = "reviewDescription">One less-heralded benefit of reviews is the feedback they provide you with. Ideally, a review also outlines areas of possible improvement. This constructive criticism is not only helpful to you. It also gives customers a sense of their “worst-case” scenario.</p>                
-                                        <div className = "reviewRating">
-                                            <div className = "upvotes">
-                                                <span className = "reviewSubheading"> 51</span>
-                                                    <span className = "reviewStart">                 
-                                                        <span>
-                                                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-                                                        </span>
-                                                    </span>
-                                            </div>
-                                            <div className = "downvotes">
-                                                <span className = "reviewSubheading"> 51</span>
-                                                    <span className = "reviewStart">                 
-                                                        <span>
-                                                        <i class="fa fa-thumbs-down" aria-hidden="true"></i>
-                                                        </span>
-                                                    </span>
-                                            </div>
-                                        </div>
-                                        </div>
-                                    </div> */}
                                  </div>
                                  { props.bookReview && props.bookReview.map((review,index) =>(
                                         <><Review  comment = {review.comment} user = {review.userID} votes = {review.votes}/></>        
                              ))}
                           
                                  {userData.user ? ( <Comments  callReviewFunction = {props.callReviewFunction}/>) :(<></>)}
-                            </div>
-
-                                
-
+                            </div>    
                             </div>
                         </div>
                         <div className = "col-lg-2 col-md-2 col-sm-2 col-md-offset-2 float-left">
@@ -213,16 +164,12 @@ export default function Bookpage (props){
                                                 <div className = "quoteAuthor">
                                                - {quotes.author}
                                                 </div>
-                                                
-                                            </div>
-                                    
+                                          </div>                                
                                     </>)}
                             </div>
                         </div>
-
                     </div>
                   </div>
-                
             </Wrapper>
         )
     }
