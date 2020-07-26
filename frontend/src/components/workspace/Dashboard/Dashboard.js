@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState , useEffect, useContext} from 'react'
 import Details from './Summary'
 import Task from './Task'
 import Readlist from './Readlist'
@@ -6,23 +6,21 @@ import ToDolist from './ToDolist'
 import Calend from './Calendar'
 import Owncomments from './Owncomments'
 import History from './History'
+import Cart from './cart'
+import GoalSummary from './goalSummary'
+import CustomWishlist from './customWishlist'
 
 
-export class Dashboard extends Component {
-    render() {
+export default function  Dashboard(){
+
         return (
             <div>
-                <Details />
-                {/* <Readlist /> */}
-                {/* <Task />
-                <Readlist />  */}
-                <Calend />
-                <ToDolist />
-                {/* <Owncomments />
-                <History />  */}
+                {/* <Details /> */}
+                {/* <Cart /> */}
+                <CustomWishlist />
+                <GoalSummary />
+                <ToDolist />                
             </div>
         )
     }
-}
 
-export default Dashboard

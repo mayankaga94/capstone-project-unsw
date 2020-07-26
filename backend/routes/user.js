@@ -65,5 +65,24 @@ router.route('/admin/addBook',cors())
 router.route('/admin/removeBook',cors())
     .post(userFunction.removeBook)
 
+router.route('/searchbytitle',cors())
+    .get(userFunction.searchBookByTitle)
+
+router.route('/searchbygenre',cors())
+    .get(userFunction.searchBookByGenre)
+
+router.route('/addtask',cors())
+    .post(userFunction.AddTask)
+
+
+router.route('/editTaskStatus',cors())
+    .post(userFunction.editTaskStatus)
+
+router.route('/fetchTask',cors())
+    .get(userFunction.fetchTask)
+
+// voting
+router.route('/review/vote',cors())
+    .post(userFunction.postVote)
 //------------export all the routes------------//
 module.exports = router

@@ -10,11 +10,15 @@ import Bookdetails from './components/workspace/bookdetails'
 
 import PersonalDashboard from './components/workspace/Dashboard/PersonalDashboard'
 import Footer from './components/footer/Footer'
+import Dashboard from './components/workspace/Dashboard/Dashboard';
+
 
 function App() {
   const [userData, setUserData] = useState({
     token : undefined,
-    user : undefined
+    user : undefined,
+    goal : "",
+    complete : 0
   });
   useEffect(() => {
     const checkLoggedIn =  async () =>{
@@ -48,11 +52,15 @@ function App() {
               <Switch>
                   <Route exact path  = "/" component  = {Headerwrap, Workspace} /> */}
                   <Route  path  = "/home" component = { Workspace} />
+                  <Route path="/dashboard" component={Dashboard}/> 
+                  {/* import { Link } from 'react-router-dom' */}
+
+
                   {/* <Route path = "/book/" compoponent = { bookdetails}/> */}
                   {/* <Route exact path  = "/books" component = {Discoverbook} /> */}
 
                   {/* {userData.user ? 
-                  <Route path="/home/dashboard" component={PersonalDashboard}/> :
+                <Route path="/home/dashboard" component={PersonalDashboard}/> :
                   <link  to='/dashboard' />
                 } */}
                   <Route  path  = "/bookdetails/:id" component = {Bookdetails} />

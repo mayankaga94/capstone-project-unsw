@@ -419,3 +419,20 @@ border-radius: 10px;
     font-size: 16px;
     color: #514f4f;
 }
+.todoWrapper{
+    max-width: 500px;
+    height:500px;
+    background: #ccc;
+}
+.customWishlist{
+    min-height: 300px;
+    max-width: 400px;
+    color: #ccc;
+    border : 1px solid #ccc
+}
+
+.wihlishtouterWrap{
+    position: absolute;
+    top:20%;
+    left:30%;
+}
