@@ -269,6 +269,8 @@ module.exports = {
     catch{
         //--------blank at the moment------------// 
     }
+
+
     },
     adminLogin : async (req,res) => {
         try{
@@ -360,6 +362,34 @@ module.exports = {
         }
         
     },
+
+    //---------------fetch reviews-------------//
+    fetchReviews: async(req,res) =>{
+
+            try{
+                let  bookreviewID = req.body.id
+                if (!bookreviewID){
+                    res.status(500).send('book not exist')
+                }
+                else{
+                    
+                    let query = "SELECT * FROM review WHERE bookid=?";
+                    
+                    var  bookReview = await  pool.query(query, bookreviewID)
+                    console.log(bookReview)
+                    return res.status(200).send({
+                        bookReview :bookReview[0]
+                    }
+                    )
+                } 
+                } 
+            catch{
+
+            }
+
+
+    },
+    //----------------------------------------//
     removeBook: async (req,res) => {
         try{
             let {ISBN} = req.body;

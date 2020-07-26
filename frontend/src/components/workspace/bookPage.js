@@ -6,6 +6,7 @@ import Searchbar from './searchbar'
 import Quotes from './Quotes'
 import CustomWishlist from '../workspace/Dashboard/customWishlist'
 import '../../Styling.css'
+import Review from './Review'
 import UserContext from '../../context/usercontext'
 import { useParams} from 'react-router-dom'
 
@@ -45,52 +46,40 @@ export  const Rating = styled.div`
 
 export default function Bookpage (props){
 
-
     const [quotes, setquotes]  = useState([]);
     const [comp, setComp] = useState({
         show:false
     })
-
-
     useEffect(() => {
+        
         getQuotes();
     }, [])
 
-
+    
+    // console.log("review props rendered",props.bookReview)
     const getQuotes = async() =>{
 
         const url = "https://type.fit/api/quotes";
         const response = await fetch(url);
         const data = await response.json();
         setquotes(data[0])
-        // fetch("https://type.fit/api/quotes")
-        // .then(function(response) {
-        //     return response.json();
-        // })
-        // .then(function(data) {
-            
-        //     // console.log(data[0])
-            
-        // });
         }
-    
-
         // adding items to wishlist
         const id  = useParams();
         // const wishlistOpen =(id) =>{
           const   rendercom =() =>{
-              console.log("hi")
                 setComp({
                     show : !comp.show
                 })
           }
 
-           
 
-        // }
+        const { userData, setUserData } = useContext(UserContext);
+        const renderReviews = () => {
+            const reviews  = props.bookReview;
+        }
 
-      const { userData, setUserData } = useContext(UserContext);
-        // console.log("hi",quotes)
+
         return (
              <Wrapper>
                  <div className = "bookdetailHeader">
@@ -148,7 +137,12 @@ export default function Bookpage (props){
 
                             <div className ="review">
                                 <div className = "reviewWrapper">
-                                    <div className = "reviewHeader">
+
+                                        
+                                  
+
+
+                                    {/* <div className = "reviewHeader">
                                         <span> <img className = "reviewImg" src = "https://c.pxhere.com/photos/61/21/mouse_rodent_cute_mammal_nager_nature_animal_wood_mouse-794461.jpg!d"></img> </span>
                                         <span className = "userName"> David</span>
                                     </div>
@@ -183,9 +177,13 @@ export default function Bookpage (props){
                                             </div>
                                         </div>
                                         </div>
-                                    </div>
+                                    </div> */}
                                  </div>
-                                 {userData.user ? ( <Comments />) :(<></>)}
+                                 { props.bookReview && props.bookReview.map((review,index) =>(
+                                        <><Review  comment = {review.comment} user = {review.userID} votes = {review.votes}/></>        
+                             ))}
+                          
+                                 {userData.user ? ( <Comments  callReviewFunction = {props.callReviewFunction}/>) :(<></>)}
                             </div>
 
                                 
@@ -225,7 +223,6 @@ export default function Bookpage (props){
                     </div>
                   </div>
                 
-                {/* </Link>  */}
             </Wrapper>
         )
     }
