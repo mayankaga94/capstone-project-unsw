@@ -21,8 +21,7 @@ function App() {
     complete : 0
   });
   useEffect(() => {
-    const checkLoggedIn =  async () =>{
-
+        const checkLoggedIn =  async () =>{
         let token = localStorage.getItem("auth-token")
            fetch('http://localhost:5000/getUser',
            { method : "GET",
@@ -41,8 +40,6 @@ function App() {
     }
      checkLoggedIn ();
   }, [])
-
-
 
   return (
     <div className = "App">  

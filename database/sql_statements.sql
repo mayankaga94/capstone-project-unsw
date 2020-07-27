@@ -22,7 +22,7 @@ ISBN MEDIUMINT,
 userid MEDIUMINT, 
 rating FLOAT, 
 date  DATETIME,
-FOREIGN KEY (userid) REFERENCES User(userid),
+FOREIGN KEY (userid) REFERENCES user(userid),
 )
 
 -----------------Add points to User table-------------------------
@@ -33,7 +33,9 @@ ADD COLUMN points MEDIUMINT DEFAULT 0 AFTER dob;
 -----------------------User wish list----------------------------------
 
 create TABLE wishlist
-( wishlistid MEDIUMINT primary key AUTO_INCREMENT, 
+( 
+wishlistid MEDIUMINT primary key AUTO_INCREMENT, 
+wishlistname VARCHAR(255),
 userid MEDIUMINT, 
 ISBN MEDIUMINT, 
 purchased varchar(255) DEFAULT 'N',
@@ -68,5 +70,16 @@ userid MEDIUMINT,
 vote MEDIUMINT,
 primary key (reviewid,userid),
 FOREIGN KEY (reviewid) REFERENCES review(reviewid),
+FOREIGN KEY (userid) REFERENCES user(userid)
+)
+
+-------------------Cart----------------------------------------
+Create table cart
+(
+cartid MEDIUMINT AUTO_INCREMENT, 
+userid MEDIUMINT,
+ISBN VARCHAR(13),
+readBook  Boolean ,    
+primary key (cartid,userid,ISBN),
 FOREIGN KEY (userid) REFERENCES user(userid)
 )
