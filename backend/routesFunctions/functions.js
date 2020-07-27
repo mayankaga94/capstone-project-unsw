@@ -154,10 +154,10 @@ module.exports = {
             }
             let query = "INSERT into review(userid,bookid,comment) values (?,?,?)"
             var result = await pool.query(query, [userid,bookid,comment])
-             return res.status(200).send({
-                 reviewID :result[0].insertId
-                })
-        }
+            return res.status(200).send({
+                reviewID :result[0].insertId
+            });
+    }
         catch(err) {
             return res.status(500).send(err);
         }
@@ -492,18 +492,18 @@ module.exports = {
             return res.status(500).send(err);
         }
     },
-    AddTask:  async (req, res) => {
+    addTask:  async (req, res) => {
         try {
             let {userid,task} = req.body
             let query = "INSERT INTO tasklist(userid,task) VALUES (?,?)";
-            await pool.query(query,[userid,task])
+            var result = await pool.query(query,[userid,task])
             return res.status(200).send({
+                tasklistid :result[0].insertId,
                 success : true,
                 message : "Task Added"
                 });
             }
             // res.status(200).send('success');
-        
         catch(err) {
             if (err.errno== 1452){
                 return res.status(500).send("User does not exist")
@@ -518,13 +518,25 @@ module.exports = {
             await pool.query(query,[status,userid,tasklistid])
             return res.status(200).send({
                 success : true,
-                message : "Task Status Changed"
+                message : "Completed"
                 });
             }
             // res.status(200).send('success');
         
         catch(err) {
-            
+            return res.status(500).send(err);
+        }
+    },
+    deleteTask: async (req,res) => {
+        try {
+            let {tasklistid} = req.body;
+            await pool.query("DELETE from tasklist WHERE tasklistid=?",tasklistid);
+            return res.status(200).send({
+                success : true,
+                message : "Task Deleted"
+                });
+        }
+        catch(err) {
             return res.status(500).send(err);
         }
     },
@@ -573,6 +585,7 @@ module.exports = {
                         // change upvote to downvote
                         vote -= 1
                     }
+                    // Update vote
                     await pool.query("UPDATE review SET votes=votes+? WHERE reviewid=?",[vote,reviewid]);
                     // update points for user who posted the review
                     await pool.query("UPDATE user SET points=points+? WHERE userid=?",[vote,review_user]);
@@ -589,8 +602,11 @@ module.exports = {
                 return res.status(200).send("Vote updated")
             }
             // This user has not voted this review yet
+            // Insert the vote
             await pool.query("INSERT INTO vote(reviewid,userid,vote) VALUES(?,?,?)",[reviewid,userid,vote])
+            // update votes in review
             await pool.query("UPDATE review SET votes=votes+? WHERE reviewid=?",[vote,reviewid]);
+            // update user points
             await pool.query("UPDATE user SET points=points+? WHERE userid=?",[vote,review_user]);var user_details = await pool.query("SELECT level,points FROM user WHERE userid=?",review_user);
             // Update user level
             const user_level = user_details[0][0].level;
@@ -608,5 +624,57 @@ module.exports = {
             return res.status(500).send(err)
         }
     },
+    //---------------Library-------------//
+    addToCart: async (req, res) =>{
+        try { 
+            let {bookid, userid} = req.body;
+            // check if item already exists
+            // add to cart/shelf
+            var result = await pool.query("INSERT INTO cart(userid,readBook,ISBN) VALUES(?,0,?)",[bookid,userid]);
+            return res.status(200).send({
+                cartID :result[0].insertId
+            });   
+        }
+        catch(err){
+            return res.status(500).send(err)
+        }
+    },
+    deleteFromCart: async (req, res) => {
+        try {
+            // check if item exists
 
+            // delete from cart
+        }
+        catch(err){
+            return res.status(500).send(err)
+        }
+    },
+    getCartItems: async (req,res) => {
+        try {
+            // fetch all cart items
+            let {userid} = req.body;
+            var result = await pool.query("SELECT * from cart WHERE userid=?",userid);
+            if (result[0].length == 0){
+                return res.status(200).send({
+                    success: false,
+                    message: 'User has no books'
+                });
+            }
+            return res.status(200).send({
+                success: true,
+                userShelf :result[0]
+            });  
+        }
+        catch(err){
+            return res.status(500).send(err)
+        }
+    },
+    editBookStatus: async (req,res) => {
+        try{
+
+        }
+        catch(err){
+            return res.status(500).send(err)
+        }
+    }
 }

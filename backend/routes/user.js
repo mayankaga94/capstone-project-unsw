@@ -74,13 +74,11 @@ router.route('/searchbygenre',cors())
     .get(userFunction.searchBookByGenre)
 
 // -------------------------------------//
-router.route('/addtask',cors())
-    .post(userFunction.AddTask)
+router.route('/user/task',cors())
+    .post(userFunction.addTask)
+    .put(userFunction.editTaskStatus)
+    .delete(userFunction.deleteTask)
 
-router.route('/editTaskStatus',cors())
-    .post(userFunction.editTaskStatus)
-
-// 
 router.route('/fetchTask',cors())
     .get(userFunction.fetchTask)
 
@@ -92,8 +90,9 @@ router.route('/fetchReviews', cors())
 router.route('/review/vote',cors())
     .post(userFunction.postVote)
 
-// --------------cart addition----------------//
-
-
+//----------------User Library/Cart------------------//
+router.route('user/library',cors())
+    .get(userFunction.getCartItems)
+    .post(userFunction.addToCart)
 //------------export all the routes------------//
 module.exports = router
