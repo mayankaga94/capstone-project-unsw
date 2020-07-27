@@ -47,9 +47,14 @@ export  const Rating = styled.div`
 export default function Bookpage (props){
 
     const [quotes, setquotes]  = useState([]);
-    const [comp, setComp] = useState({
-        show:false
-    })
+    const [comp, setComp] = useState({show:false})
+
+    const [purchase, setPurchase] = useState({purchased:false});
+
+
+
+
+
     useEffect(() => {
         
         getQuotes();
@@ -72,6 +77,29 @@ export default function Bookpage (props){
         const { userData, setUserData } = useContext(UserContext);
         const renderReviews = () => {
             const reviews  = props.bookReview;
+        }
+
+        const loggedINUser = userData.user.userid
+
+        const buybook  = () =>{
+
+            
+            loggedINUser
+            
+
+            // console.log(purchase.purchased)
+            // if (purchase){
+            //     console.log("hi")
+            //     setPurchase([{
+            //         purchased : true
+            //     }])
+            // }
+            // else{
+            //     console.log("by")
+            //     setPurchase([{
+            //         purchased : false
+            //     }])
+            // }
         }
         return (
              <Wrapper>
@@ -113,7 +141,12 @@ export default function Bookpage (props){
                                  </div>
 
                                 <div className= ""> 
-                                    <span className ="booklist addwishlist" ><i class="fa fa-shopping-cart" aria-hidden="true"><span class="fa-text">Buy Book</span></i> 
+
+                                <input  placeholder ="Enter Amount" id="firstnam"     className = "registerDetails" onChange = {(e) =>setPurchase({purchase :true})} />  
+
+                                    <span className ="booklist addwishlist" onClick ={()=>buybook()} ><i class="fa fa-shopping-cart" aria-hidden="true"><span class="fa-text">Buy Book</span></i> 
+                                     {/* {purchase ===true ? <h1>purchased made </h1>: */}
+                                             <h1>nothing comes for free</h1>}
                                     </span>
                                     <span className =" addwishlist" onClick={() => rendercom()} ><i class="fa fa-heart" aria-hidden="true"><span class="fa-text">Add To Wishlist</span></i> 
                                     </span>
@@ -134,10 +167,11 @@ export default function Bookpage (props){
                                  
                                  { props.bookReview && props.bookReview.map((review,index) =>(
                                         <><Review  comment = {review.comment} reviewid = {review.reviewID} userid= {review.userid} votes = {review.votes}/></>        
-                             ))}
+                                         ))}
                           
-                                 {userData.user ? ( <Comments  callReviewFunction = {props.callReviewFunction}/>) :(<></>)}
-                            </div>    
+                                
+                            </div> 
+                            {userData.user ? ( <Comments  callReviewFunction = {props.callReviewFunction}/>) :(<></>)}   
                             </div>
                         </div>
                         <div className = "col-lg-2 col-md-2 col-sm-2 col-md-offset-2 float-left">
