@@ -547,7 +547,6 @@ module.exports = {
     },
     postVote: async (req, res) => {
         try {
-            console.log(req.body.voteInfo)
             let {reviewid, userid, vote} = req.body.voteInfo
             // if user has alredy voted
             var result = await pool.query("SELECT * from vote where userid=? and reviewid=?",[userid,reviewid])
@@ -608,5 +607,6 @@ module.exports = {
         catch(err) {
             return res.status(500).send(err)
         }
-    }
+    },
+
 }

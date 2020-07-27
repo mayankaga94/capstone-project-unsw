@@ -91,5 +91,9 @@ router.route('/fetchReviews', cors())
 //---------------- voting------------------//
 router.route('/review/vote',cors())
     .post(userFunction.postVote)
+
+// --------------cart addition----------------//
+
+
 //------------export all the routes------------//
 module.exports = router

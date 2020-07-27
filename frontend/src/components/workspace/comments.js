@@ -37,7 +37,7 @@ export default function Comments(props) {
         
         fetch("http://localhost:5000/book/review", requestOptions)
           .then(response => response.text())
-        //   .then(result => console.log("hiii",result))
+          .then(result => console.log("hiii",result))
           .catch(error => console.log('error', error));
 
 

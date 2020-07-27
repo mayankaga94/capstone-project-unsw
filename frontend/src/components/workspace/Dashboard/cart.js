@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Cart() {
     return (
-        <div>
+        <div className ="goalset col-xs-12 col-lg-4 col-md-4 col-sm-4">
       
                 <span className ="booklist addwishlist"><i class="fa fa-shopping-cart" aria-hidden="true"><span class="fa-text">Buy Book</span></i> 
                  </span>

@@ -117,9 +117,10 @@ export default function  Headerwrap () {
                                         <ul className = "float-right">
 
                                         <Link to  ={'/home' }>
-                                            <li  className = "padding-top-20  headerItems float-left"><span className = "">Home</span></li>
+                                            <li  className = "headerItems float-left"><div><i class="fa fa-home" aria-hidden="true"></i></div><span className = "">Home</span></li>
                                         </Link>
-                                            <li className = "padding-top-20 headerItems float-left"><span className = "">Dashboard</span></li>
+
+                                            <li className = " headerItems float-left"><div><i class="fa fa-tachometer" aria-hidden="true"></i></div><span className = "">Dashboard</span></li>
                                             <li className = "headerItems float-left">   
                                                 <div >  
                                             <Link to = {'/dashboard'}>

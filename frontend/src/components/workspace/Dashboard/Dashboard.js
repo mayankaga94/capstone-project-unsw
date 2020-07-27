@@ -16,9 +16,9 @@ export default function  Dashboard(){
         return (
             <div>
                 {/* <Details /> */}
-                {/* <Cart /> */}
+                <Cart />
                 <CustomWishlist />
-                <GoalSummary />
+                <GoalSummary  />
                 <ToDolist />                
             </div>
         )

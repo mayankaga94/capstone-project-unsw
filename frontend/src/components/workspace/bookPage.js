@@ -79,27 +79,20 @@ export default function Bookpage (props){
             const reviews  = props.bookReview;
         }
 
-        const loggedINUser = userData.user.userid
-
         const buybook  = () =>{
-
-            
-            loggedINUser
-            
-
-            // console.log(purchase.purchased)
-            // if (purchase){
-            //     console.log("hi")
-            //     setPurchase([{
-            //         purchased : true
-            //     }])
-            // }
-            // else{
-            //     console.log("by")
-            //     setPurchase([{
-            //         purchased : false
-            //     }])
-            // }
+            console.log(purchase.purchased)
+            if (purchase){
+                console.log("hi")
+                setPurchase([{
+                    purchased : true
+                }])
+            }
+            else{
+                console.log("by")
+                setPurchase([{
+                    purchased : false
+                }])
+            }
         }
         return (
              <Wrapper>
