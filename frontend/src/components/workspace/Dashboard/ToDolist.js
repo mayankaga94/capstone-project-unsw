@@ -53,7 +53,7 @@ export default function ToDolist({onSubmit}) {
 }
     const checkValue =  check.checked
     return (
-    <div className ="">                       
+    <div className ="goalset col-xs-12 col-lg-4 col-md-4 col-sm-4">                       
 
         <input type = "checkbox" checked = {setCheck.checked }    onChange={ handleChange }/>   
             {checkValue ? <Calendar/>   : null }  
@@ -63,7 +63,7 @@ export default function ToDolist({onSubmit}) {
             <div>
                 {todos.map(({ text, complete }, i, ) => (
                     <div className = "todoitem">
-                    <span key={text}  onClick={() => deleteTdo(i)} style={{textDecoration: complete ? "line-through" : ""}}  > <span>{text}</span> 
+                    <span className ="specificTask" key={text}  onClick={() => deleteTdo(i)} style={{textDecoration: complete ? "line-through" : ""}}  > <span className = "innerWrapper">{text}</span> 
                      </span> 
                        <button onClick = {()=> deltetodos(i)}>x</button>
                    </div>
