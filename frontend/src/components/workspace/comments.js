@@ -37,18 +37,20 @@ export default function Comments(props) {
         
         fetch("http://localhost:5000/book/review", requestOptions)
           .then(response => response.text())
-          .then(result => console.log(result))
+        //   .then(result => console.log("hiii",result))
           .catch(error => console.log('error', error));
 
 
 
     }
-const [comment, setComment] = useState([])
+    // const [comment, setComment] = useState([])
+
     return (
         <div className = "comment">
                 <input  className = "commentBox" type = "textbox" placeholder = "Enter your review" onChange = {(e) =>setcomment(e.target.value)}></input>
                 <button  className = "commentButton" onClick={()=>{props.callReviewFunction({
             bookid: id,
+            // reviewID : result.reviewID,
             userid:  userData.user.userid,
             comment : comm
         }); 

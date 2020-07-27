@@ -8,7 +8,6 @@ module.exports = {
     // next is not needed at the moment 
     register :  async(req,res,next) => {
         try{
-            console.log(req.body)
             let {firstName,lastName,emailID,password,password2,dob} = req.body
             let errors = []
             // Empty fields
@@ -124,7 +123,6 @@ module.exports = {
     book : async ( req, res) =>{
         try{
             const bookid = req.body.id
-            console.log(bookid)
             let query = "SELECT * FROM book_dataset WHERE ISBN=? ";
             var result = await pool.query(query,bookid)
             return res.status(200).send({
@@ -187,11 +185,11 @@ module.exports = {
     },
     deleteReview : async(req, res) => {
         try {
+
             // After deleting review
             // delete all instances of review from votes
             // update points of user that posted that review ??
-            const {reviewid} = req.body;
-            //  console.log(reviewid)
+            const reviewid = req.body.delete;
             // delete all entries of vote for the review
             await pool.query("DELETE FROM vote WHERE reviewid=?",reviewid);
             // delete the review
@@ -243,7 +241,6 @@ module.exports = {
             res.status(200).send({success: true});
         }
         catch(err) {
-            console.log(err)
             return res.status(500).send(err);
         }
     },
@@ -276,7 +273,6 @@ module.exports = {
                 pool.query(query,[userName, emailID],(err,result) => {
                     if (err) throw err;
                     if (result.length > 0){
-                        // console.log(result);
                         return res.status(200).send({
                                 success: true,
                                 message: 'Admin already exists'
@@ -419,7 +415,6 @@ module.exports = {
     removeBook: async (req,res) => {
         try{
             let {ISBN} = req.body;
-            console.log("ISBN IS " + ISBN);
             if (!ISBN){
                 res.status(500).send('empty fields')
             }
@@ -513,7 +508,6 @@ module.exports = {
             if (err.errno== 1452){
                 return res.status(500).send("User does not exist")
             }
-            //console.log(err)
             return res.status(500).send(err);
         }
     },
@@ -553,7 +547,8 @@ module.exports = {
     },
     postVote: async (req, res) => {
         try {
-            let {reviewid, userid, vote} = req.body
+            console.log(req.body.voteInfo)
+            let {reviewid, userid, vote} = req.body.voteInfo
             // if user has alredy voted
             var result = await pool.query("SELECT * from vote where userid=? and reviewid=?",[userid,reviewid])
             var user = await pool.query("SELECT userid FROM review WHERE reviewid=?",reviewid);
