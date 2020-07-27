@@ -4,6 +4,7 @@ const cors  = require('cors')
 const userFunction = require('../routesFunctions/functions')
 const verify =  require('./verifytoken')
 require("dotenv").config();
+
 // ---------------Registration ----------------//
 
 router.route('/register',cors())
@@ -17,12 +18,10 @@ router.route('/logIn',cors())
 router.route('/authentication')
     .post(userFunction.logIn)
 
- //-------- login to homepage------------------//
+//-------- login to homepage------------------//
 
 router.route('/homepage')
     .get(verify, userFunction.homepage)
-
-
 
 // -------------get detials of the user -------//
 router.route('/getUser')
@@ -79,7 +78,6 @@ router.route('/searchbygenre',cors())
 router.route('/addtask',cors())
     .post(userFunction.AddTask)
 
-// -------------------------------------//
 router.route('/editTaskStatus',cors())
     .post(userFunction.editTaskStatus)
 

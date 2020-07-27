@@ -3,7 +3,6 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const pool = require('../config/sql_config')
-const Review = require('../models/Review')
 
 module.exports = {
     // next is not needed at the moment 
@@ -37,7 +36,8 @@ module.exports = {
                         });
                 }
                 password = bcrypt.hashSync(password,10)
-                let query2 = "INSERT INTO user(firstname,lastname,emailID,password,dob,level) VALUES (?,?,?,?,?,0)";
+                // console.log(password)
+                let query2 = "INSERT INTO user(firstname,lastname,emailID,password,dob,level) VALUES (?,?,?,?,?,1)";
                 await pool.query(query2,[firstName,lastName,emailID,password,dob]);
                 return res.status(200).send({
                     success: true,
@@ -187,13 +187,14 @@ module.exports = {
     postRating : async (req, res) => {
         try {
             let {bookid,userid,rating} = req.body
-            // check if user exists
+            
             if(rating < 0 || rating > 5){
                 return res.status(200).send({
                     success: false,
                     message: 'Rating value should be between 0 and 5'
                 });
             }
+            // check if user exists
             var user = await pool.query('SELECT * FROM user WHERE userid=?',userid)
             if (user[0].length == 0){
                 return res.status(200).send({
@@ -217,7 +218,7 @@ module.exports = {
             let query = "INSERT INTO book_ratings(bookid,userid,rating) VALUES (?,?,?)";
             
             var result = await pool.query(query,[bookid,userid,rating]);
-            res.status(200).send('success');
+            res.status(200).send({success: true});
         }
         catch(err) {
             return res.status(500).send(err);
@@ -373,28 +374,23 @@ module.exports = {
 
     //---------------fetch reviews-------------//
     fetchReviews: async(req,res) =>{
-
-            try{
-                let  bookreviewID = req.body.id
-                if (!bookreviewID){
-                    res.status(500).send('book not exist')
-                }
-                else{
-                    
-                    let query = "SELECT * FROM review WHERE bookid=?";
-                    
-                    var  bookReview = await  pool.query(query, bookreviewID)
+        try{
+            let  bookreviewID = req.body.id
+            if (!bookreviewID){
+                res.status(500).send('book not exist')
+            }
+            else{
+                let query = "SELECT * FROM review WHERE bookid=?";
+                var bookReview = await pool.query(query, bookreviewID)
+                // console.log(bookReview)
                     return res.status(200).send({
                         bookReview :bookReview[0]
-                    }
-                    )
+                    })
                 } 
-                } 
-            catch{
-
-            }
-
-
+            } 
+        catch{
+            return res.status(500).send(err); 
+        }
     },
     //----------------------------------------//
     removeBook: async (req,res) => {
@@ -540,7 +536,7 @@ module.exports = {
             const review_user = user[0][0].userid;
             if(result[0].length > 0){
                 const existing_vote = result[0][0].vote;
-                // delete review if same vote again
+                // delete vote if same vote again
                 if (existing_vote == vote){
                     await pool.query("DELETE FROM vote WHERE userid=? and reviewid=?",[userid,reviewid]);
                     // update votes in review
@@ -562,13 +558,30 @@ module.exports = {
                     await pool.query("UPDATE review SET votes=votes+? WHERE reviewid=?",[vote,reviewid]);
                     // update points for user who posted the review
                     await pool.query("UPDATE user SET points=points+? WHERE userid=?",[vote,review_user]);
+                    // check if user level has increased
+                    var user_details = await pool.query("SELECT level,points FROM user WHERE userid=?",review_user);
+                    const user_level = user_details[0][0].level;
+                    const user_points = user_details[0][0].points;
+                    if(user_level*50 == user_points || user_level*50 == user_points-1){
+                        if (vote > 0){
+                            await pool.query("UPDATE user SET level=level+1 WHERE userid=?",review_user)
+                        }
+                    }
                 }
                 return res.status(200).send("Vote updated")
             }
             // This user has not voted this review yet
             await pool.query("INSERT INTO vote(reviewid,userid,vote) VALUES(?,?,?)",[reviewid,userid,vote])
             await pool.query("UPDATE review SET votes=votes+? WHERE reviewid=?",[vote,reviewid]);
-            await pool.query("UPDATE user SET points=points+? WHERE userid=?",[vote,review_user]);
+            await pool.query("UPDATE user SET points=points+? WHERE userid=?",[vote,review_user]);var user_details = await pool.query("SELECT level,points FROM user WHERE userid=?",review_user);
+            // Update user level
+            const user_level = user_details[0][0].level;
+            const user_points = user_details[0][0].points;
+            if(user_level*50 == user_points || user_level*50 == user_points-1){
+                if (vote > 0){
+                    await pool.query("UPDATE user SET level=level+1 WHERE userid=?",review_user)
+                }
+            }
             return res.status(200).send({
                 success: true
             });
