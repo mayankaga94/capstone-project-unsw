@@ -91,8 +91,10 @@ router.route('/review/vote',cors())
     .post(userFunction.postVote)
 
 //----------------User Library/Cart------------------//
-router.route('user/library',cors())
+router.route('/user/library',cors())
     .get(userFunction.getCartItems)
     .post(userFunction.addToCart)
+    .put(userFunction.editBookStatus)
+    .delete(userFunction.deleteFromCart)
 //------------export all the routes------------//
 module.exports = router

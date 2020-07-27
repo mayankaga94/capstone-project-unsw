@@ -626,12 +626,12 @@ module.exports = {
     //---------------Library-------------//
     addToCart: async (req, res) =>{
         try { 
-            let {bookid, userid} = req.body;
+            let {ISBN, userid} = req.body;
             // check if item already exists
             // add to cart/shelf
-            var result = await pool.query("INSERT INTO cart(userid,readBook,ISBN) VALUES(?,0,?)",[bookid,userid]);
+            var result = await pool.query("INSERT INTO cart(userid,ISBN,readBook) VALUES(?,?,0)",[userid,ISBN]);
             return res.status(200).send({
-                cartID :result[0].insertId
+                success: true
             });   
         }
         catch(err){
@@ -640,10 +640,15 @@ module.exports = {
     },
     deleteFromCart: async (req, res) => {
         try {
+            let {userid,ISBN} = req.body
             // check if item exists
             
             // delete from cart
-            await pool.query("DELETE")
+            await pool.query("DELETE from cart WHERE userid=? AND ISBN=?",[userid,ISBN]);
+            return res.status(200).send({
+                success: true,
+                message: "Successfully deleted item"
+            });   
         }
         catch(err){
             return res.status(500).send(err)
@@ -671,7 +676,12 @@ module.exports = {
     },
     editBookStatus: async (req,res) => {
         try{
-
+            let {userid,ISBN,readBook} = req.body
+            await pool.query("Update cart set readBook=? WHERE userid=? AND ISBN=?",[readBook,userid,ISBN]);
+            return res.status(200).send({
+                success: true,
+                message: "Status updated successfully"
+            });  
         }
         catch(err){
             return res.status(500).send(err)
