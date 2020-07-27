@@ -4,16 +4,48 @@ import Allbooks from './Allbooks'
 
 import Book  from './bookPage'
 
-const Bookdetails = () =>  {
+export default function Bookdetails() {
 
     // fetch the particular id of the book
         const id  = useParams();
+        const bookreviewid = id
         const [book, setbook] = useState([]);
+        const [review, setReview] =  useState([]);
 
         useEffect(() => {
-            getBook();
+            getBook()
         }, [])
-    
+        
+        const callReviewFunction = (newReview)=>{
+            console.log("bobos",newReview)
+            // let intiState = [...review]
+            // console.log(review)
+            const createdObject = {
+                user : newReview.userID,
+                comment: newReview.comment,
+                votes : newReview.votes
+
+            }
+            setReview([...review, createdObject])
+
+        }
+        const getPost =async() =>{
+            const url = "http://localhost:5000/fetchReviews"
+            fetch(url,
+                {
+                method : "POST",
+                headers : {
+                    "Content-type": "application/json"
+                },
+                body : JSON.stringify(id)
+                 })
+                 .then((response) => {          
+                    response.json().then((data) => {
+                            console.log(data);
+                            setReview(data.bookReview)
+                        });
+                    });
+        }
         const getBook = async() =>{
             const url = "http://localhost:5000/book"
             fetch(url,
@@ -30,8 +62,10 @@ const Bookdetails = () =>  {
                         console.log(data.result);
                         setbook(data.result)
                     });
+                    getPost()
                 });
             }
+            console.log("zzzzzz",review)
         return (
             <div>
                 <h1> Book</h1>
@@ -39,7 +73,7 @@ const Bookdetails = () =>  {
                 <div>
                 </div>
                 {book.map(book => (
-                <Book Likes = {book.Likes}  pagecount = {book.pagecount}  ISBN = {book.ISBN}  genre = {book.genre}  description = {book.description}  rating = {book.rating} author = {book.author} url = {book.image} name = {book.title} /> 
+                <Book callReviewFunction = {callReviewFunction}  bookReview = {review} Likes = {book.Likes}  pagecount = {book.pagecount}  ISBN = {book.ISBN}  genre = {book.genre}  description = {book.description}  rating = {book.rating} author = {book.author} url = {book.image} name = {book.title} /> 
                 ))} 
 
 
@@ -59,4 +93,3 @@ const Bookdetails = () =>  {
             </div>
         )
 }
-export default Bookdetails

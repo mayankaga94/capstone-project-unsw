@@ -81,6 +81,14 @@ router.route('/editTaskStatus',cors())
 router.route('/fetchTask',cors())
     .get(userFunction.fetchTask)
 
+
+//----------fetch all posts of book---------//
+
+router.route('/fetchReviews', cors())
+    .post(userFunction.fetchReviews)
+
+
+//-----------------------------------------//
 // voting
 router.route('/review/vote',cors())
     .post(userFunction.postVote)

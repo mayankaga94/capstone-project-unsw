@@ -147,6 +147,7 @@ module.exports = {
                 });
             }
             // check if book exists
+            
             var result2 = await pool.query('SELECT * FROM book_dataset WHERE ISBN=?',bookid)
             if (result2[0].length == 0){
                 return res.status(200).send({
@@ -154,13 +155,11 @@ module.exports = {
                     message: 'book does not exist'
                 });
             }
-
-            await pool.query("INSERT into review(userid,bookid,comment) values (?,?,?)",[userid,bookid,comment]);
-            // Edit review if already exists
-            
-            // insert review
-            // await newReview.save();
-            return res.status(200).send('success')
+            let query = "INSERT into review(userid,bookid,comment) values (?,?,?)"
+            var result = await pool.query(query, [userid,bookid,comment])
+             return res.status(200).send({
+                 reviewID :result[0].insertId
+                })
         }
         catch(err) {
             return res.status(500).send(err);
@@ -283,6 +282,8 @@ module.exports = {
     catch{
         //--------blank at the moment------------// 
     }
+
+
     },
     adminLogin : async (req,res) => {
         try{
@@ -374,6 +375,34 @@ module.exports = {
         }
         
     },
+
+    //---------------fetch reviews-------------//
+    fetchReviews: async(req,res) =>{
+
+            try{
+                let  bookreviewID = req.body.id
+                if (!bookreviewID){
+                    res.status(500).send('book not exist')
+                }
+                else{
+                    
+                    let query = "SELECT * FROM review WHERE bookid=?";
+                    
+                    var  bookReview = await  pool.query(query, bookreviewID)
+                    console.log(bookReview)
+                    return res.status(200).send({
+                        bookReview :bookReview[0]
+                    }
+                    )
+                } 
+                } 
+            catch{
+
+            }
+
+
+    },
+    //----------------------------------------//
     removeBook: async (req,res) => {
         try{
             let {ISBN} = req.body;
