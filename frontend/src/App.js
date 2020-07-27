@@ -2,7 +2,6 @@ import React, { Fragment , useState, useEffect } from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'; 
 import './App.css';
 import UserContext from './context/usercontext';
-import Counter from './components/workspace/comment'; 
 import Workspace from './components/workspace/Workspace';
 // import Discoverbook from './components/workspace/discoverbook';
 import Headerwrap from './components/header/header_wrap';

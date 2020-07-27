@@ -10,6 +10,7 @@ export default function ToDolist({onSubmit}) {
 
     const { userData, setUserData } = useContext(UserContext);
     const [todos, setTodos] = useState([])
+    const [reviewid, setReviewid] = useState([])
     const [check, setCheck] = useState([{checked : true}])
 
    const deleteTdo  = (i) =>{
@@ -20,6 +21,7 @@ export default function ToDolist({onSubmit}) {
                     }: todo)
             )
         }
+
    const submitall  = () =>{
          const completedGoals = todos.filter(user => user.complete);
         setUserData({ 
@@ -28,18 +30,11 @@ export default function ToDolist({onSubmit}) {
                 complete : completedGoals.length
         })
         const  text  = todos.map(value => value.text);
+        const  review  = todos.map(value => reviewid.reviewid);
         const  completed = todos.map(value => value.complete);
         const user = userData.user.userid
 
         console.log( user, text, completed)
-    //     const newUser = { firstName, lastName ,emailID, password, password2, dob}
-    //     fetch('http://localhost:5000/todolist',
-    //     { method : "POST",
-    //     headers: {
-    //         "Content-type": "application/json"
-    //      },
-    //      body: JSON.stringify(newUser),
-    //  })
 
     }
     const handleChange = ()=>{
@@ -50,20 +45,34 @@ export default function ToDolist({onSubmit}) {
     const deltetodos = (i) =>{
         setTodos(todos.filter((k, index) => index !== i )
         )
-}
+        }
+
+
+        const callReviewFunctionid =(idGenerated)=>{
+            const createdObject = {
+                reviewid : idGenerated
+            }
+
+            setReviewid([createdObject.reviewid,...reviewid])      
+        }
     const checkValue =  check.checked
     return (
     <div className ="goalset col-xs-12 col-lg-4 col-md-4 col-sm-4">                       
 
-        <input type = "checkbox" checked = {setCheck.checked }    onChange={ handleChange }/>   
-            {checkValue ? <Calendar/>   : null }  
+        {/* <input type = "checkbox" checked = {setCheck.checked }    onChange={ handleChange }/>   
+            {checkValue ? <Calendar/>   : null }   */}
                         {/*---------- passing props here---------------- */}
-        <TodoForm  submit = {text => setTodos([{text, complete :false}, ...todos])} />
+
+
+        <TodoForm  callReviewidFunction = {callReviewFunctionid}  submit = {text => setTodos([{text, complete :false, reviewid}, ...todos])} />
         <div>
             <div>
-                {todos.map(({ text, complete }, i, ) => (
+                {todos.map(({ text, complete ,reviewid}, i, ) => (
                     <div className = "todoitem">
-                    <span className ="specificTask" key={text}  onClick={() => deleteTdo(i)} style={{textDecoration: complete ? "line-through" : ""}}  > <span className = "innerWrapper">{text}</span> 
+                    <span className ="specificTask" key={text}  onClick={() => deleteTdo(i)} style={{textDecoration: complete ? "line-through" : ""}}  > 
+                    {/* <span className = "innerWrapper"> */}
+                        {text}
+                    {/* </span>  */}
                      </span> 
                        <button onClick = {()=> deltetodos(i)}>x</button>
                    </div>
@@ -71,7 +80,6 @@ export default function ToDolist({onSubmit}) {
                 )
                 }
             </div>
-            <button onClick ={() =>submitall()}>click</button>
         </div>
         </div>
     )

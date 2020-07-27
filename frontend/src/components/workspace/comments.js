@@ -49,10 +49,9 @@ export default function Comments(props) {
         <div className = "comment">
                 <input  className = "commentBox" type = "textbox" placeholder = "Enter your review" onChange = {(e) =>setcomment(e.target.value)}></input>
                 <button  className = "commentButton" onClick={()=>{props.callReviewFunction({
-            bookid: id,
-            // reviewID : result.reviewID,
-            userid:  userData.user.userid,
-            comment : comm
+              bookid: id,
+              userid:  userData.user.userid,
+              comment : comm
         }); 
                 postComment();resetValue()}}>Comment</button>
         </div>

@@ -1,6 +1,6 @@
 import React, { useState , useEffect, useContext} from 'react'
 import Details from './Summary'
-import Task from './Task'
+// import Task from './Task'
 import Readlist from './Readlist'
 import ToDolist from './ToDolist'
 import Calend from './Calendar'

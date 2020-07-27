@@ -159,7 +159,7 @@ export default function Bookpage (props){
                                  </div>
                                  
                                  { props.bookReview && props.bookReview.map((review,index) =>(
-                                        <><Review  comment = {review.comment} reviewid = {review.reviewID} userid= {review.userid} votes = {review.votes}/></>        
+                                        <><Review  callReviewFunction = {props.callReviewFunction} comment = {review.comment} reviewid = {review.reviewID} userid= {review.userid} votes = {review.votes}/></>        
                                          ))}
                           
                                 

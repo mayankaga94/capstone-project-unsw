@@ -3,6 +3,11 @@ import React from 'react'
 
 
 
+// const fetchDetails () =>{
+    
+// }
+
+
 export default function GoalSummary() {
     return (
         <>
@@ -10,6 +15,7 @@ export default function GoalSummary() {
             <div className = "goalHeader">Your goal summary</div>
             <div className = " goalWrapper">
                 your goals are : 
+            
             </div>
             </div>
            
