@@ -17,10 +17,13 @@ export default function Bookdetails() {
         }, [])
         
         const callReviewFunction = (newReview)=>{
+            console.log("bobos",newReview)
             // let intiState = [...review]
             // console.log(review)
             const createdObject = {
-                comment: newReview,
+                user : newReview.userID,
+                comment: newReview.comment,
+                votes : newReview.votes
 
             }
             setReview([...review, createdObject])

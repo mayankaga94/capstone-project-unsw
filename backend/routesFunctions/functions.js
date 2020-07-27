@@ -148,6 +148,7 @@ module.exports = {
                 });
             }
             // check if book exists
+            
             var result2 = await pool.query('SELECT * FROM book_dataset WHERE ISBN=?',bookid)
             if (result2[0].length == 0){
                 return res.status(200).send({
@@ -155,13 +156,11 @@ module.exports = {
                     message: 'book does not exist'
                 });
             }
-
-            await pool.query("INSERT into review(userid,bookid,comment) values (?,?,?)",[userid,bookid,comment]);
-            // Edit review if already exists
-            
-            // insert review
-            // await newReview.save();
-            return res.status(200).send('success')
+            let query = "INSERT into review(userid,bookid,comment) values (?,?,?)"
+            var result = await pool.query(query, [userid,bookid,comment])
+             return res.status(200).send({
+                 reviewID :result[0].insertId
+                })
         }
         catch(err) {
             return res.status(500).send(err);
