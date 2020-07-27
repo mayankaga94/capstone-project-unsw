@@ -19,7 +19,6 @@ router.route('/authentication')
     .post(userFunction.logIn)
 
 //-------- login to homepage------------------//
-
 router.route('/homepage')
     .get(verify, userFunction.homepage)
 
@@ -42,11 +41,11 @@ router.route('/booksFetch')
 router.route('/book/review')
     .post(userFunction.postReview)
     .delete(userFunction.deleteReview)
+    .put(userFunction.updateReview)
 
 // Posting a rating
 router.route('/book/rating')
     .post(userFunction.postRating)
-
 
 // ---------------Admin Registration ----------------//
 

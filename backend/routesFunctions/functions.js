@@ -147,7 +147,6 @@ module.exports = {
                 });
             }
             // check if book exists
-            
             var result2 = await pool.query('SELECT * FROM book_dataset WHERE ISBN=?',bookid)
             if (result2[0].length == 0){
                 return res.status(200).send({
@@ -162,6 +161,27 @@ module.exports = {
                 })
         }
         catch(err) {
+            return res.status(500).send(err);
+        }
+    },
+    updateReview : async(req, res) => {
+        try{
+            var {reviewID, comment} = req.body
+            var result = await pool.query('SELECT * FROM review WHERE reviewid=?',reviewID);
+            if (result[0].length == 0){
+                return res.status(200).send({
+                    success: false,
+                    message: 'Review does not exist'
+                });
+            }
+            // update review
+            await pool.query("UPDATE review SET comment=? WHERE reviewid=?",[comment,reviewID]);
+            return res.status(200).send({
+                success: true,
+                message: "Review updated"
+            })
+        }
+        catch(err){
             return res.status(500).send(err);
         }
     },
@@ -375,7 +395,6 @@ module.exports = {
         }
         
     },
-
     //---------------fetch reviews-------------//
     fetchReviews: async(req,res) =>{
         try{
