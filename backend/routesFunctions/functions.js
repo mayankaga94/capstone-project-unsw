@@ -3,7 +3,6 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const pool = require('../config/sql_config')
-const Review = require('../models/Review')
 
 module.exports = {
     // next is not needed at the moment 
