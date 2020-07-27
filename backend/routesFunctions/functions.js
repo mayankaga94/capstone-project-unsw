@@ -522,7 +522,6 @@ module.exports = {
                 });
             }
             // res.status(200).send('success');
-        
         catch(err) {
             return res.status(500).send(err);
         }
@@ -643,8 +642,9 @@ module.exports = {
     deleteFromCart: async (req, res) => {
         try {
             // check if item exists
-
+            
             // delete from cart
+            await pool.query("DELETE")
         }
         catch(err){
             return res.status(500).send(err)
