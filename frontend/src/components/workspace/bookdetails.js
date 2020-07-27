@@ -17,7 +17,6 @@ export default function Bookdetails() {
         }, [])
         
         const callReviewFunction = (newReview)=>{
-            console.log("bobos",newReview)
             // let intiState = [...review]
             // console.log(review)
             const createdObject = {
@@ -41,7 +40,6 @@ export default function Bookdetails() {
                  })
                  .then((response) => {          
                     response.json().then((data) => {
-                            console.log(data);
                             setReview(data.bookReview)
                         });
                     });
@@ -59,13 +57,12 @@ export default function Bookdetails() {
             })
             .then((response) => {
                 response.json().then((data) => {
-                        console.log(data.result);
+                        // console.log(data.result);
                         setbook(data.result)
                     });
                     getPost()
                 });
             }
-            console.log("zzzzzz",review)
         return (
             <div>
                 <h1> Book</h1>

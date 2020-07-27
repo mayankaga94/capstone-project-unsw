@@ -73,8 +73,6 @@ export default function Bookpage (props){
         const renderReviews = () => {
             const reviews  = props.bookReview;
         }
-
-
         return (
              <Wrapper>
                  <div className = "bookdetailHeader">
@@ -133,8 +131,9 @@ export default function Bookpage (props){
                             <div className ="review">
                                 <div className = "reviewWrapper">
                                  </div>
+                                 
                                  { props.bookReview && props.bookReview.map((review,index) =>(
-                                        <><Review  comment = {review.comment} user = {review.userID} votes = {review.votes}/></>        
+                                        <><Review  comment = {review.comment} reviewid = {review.reviewID} userid= {review.userid} votes = {review.votes}/></>        
                              ))}
                           
                                  {userData.user ? ( <Comments  callReviewFunction = {props.callReviewFunction}/>) :(<></>)}

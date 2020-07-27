@@ -8,7 +8,6 @@ import React from 'react'
 export default function Calendarclass() {
 
     const [value, onChange] = useState(new Date());
-    console.log(onChange)
     return (
         <>
       <div>
