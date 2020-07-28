@@ -82,3 +82,12 @@ readBook  Boolean ,
 primary key (userid,ISBN),
 FOREIGN KEY (userid) REFERENCES user(userid)
 )
+
+-------------------Admin----------------------------------------
+create table adminLogin(
+username varchar(30) primary key,
+firstname varchar(30) not null,
+lastname varchar(30) not null,
+email varchar(30) not null unique,
+password varchar(200) not null
+);
