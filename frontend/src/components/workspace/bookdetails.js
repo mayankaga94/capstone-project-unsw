@@ -40,7 +40,7 @@ export default function Bookdetails() {
                  })
                  .then((response) => {          
                     response.json().then((data) => {
-                            console.log(data);
+                            
                             setReview(data.bookReview)
                         });
                     });

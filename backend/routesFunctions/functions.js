@@ -626,7 +626,9 @@ module.exports = {
     //---------------Library-------------//
     addToCart: async (req, res) =>{
         try { 
+           
             let {ISBN, userid} = req.body;
+            console.log(ISBN, userid)
             // check if item already exists
             // add to cart/shelf
             var result = await pool.query("INSERT INTO cart(userid,ISBN,readBook) VALUES(?,?,0)",[userid,ISBN]);
@@ -657,7 +659,7 @@ module.exports = {
     getCartItems: async (req,res) => {
         try {
             // fetch all cart items
-            let {userid} = req.body;
+            let userid = req.body.userid;
             var result = await pool.query("SELECT * from cart WHERE userid=?",userid);
             if (result[0].length == 0){
                 return res.status(200).send({

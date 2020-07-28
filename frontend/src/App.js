@@ -48,7 +48,7 @@ function App() {
               <Switch>
                   <Route exact path  = "/" component  = {Headerwrap, Workspace} /> */}
                   <Route  path  = "/home" component = { Workspace} />
-                  <Route path="/dashboard" component={Dashboard}/> 
+                  <Route exact path="/dashboard" component={Dashboard}/> 
                   {/* import { Link } from 'react-router-dom' */}
 
 

@@ -60,7 +60,7 @@ export default ({submit, callReviewidFunction}) =>{
                                 submit(text.value)
                                 resetValue()
                             }} >
-                                <button   disabled={text.value.length===0}  onClick ={()=> submitz(text.value, loggedINUser, callReviewidFunction)} >Submit</button>
+                                {/* <button   disabled={text.value.length===0}  onClick ={()=> submitz(text.value, loggedINUser, callReviewidFunction)} >Submit</button> */}
                               <input {...text} />
                             </form >    
                         </div>
