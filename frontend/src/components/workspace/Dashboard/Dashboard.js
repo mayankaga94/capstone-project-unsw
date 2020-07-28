@@ -19,7 +19,7 @@ export default function  Dashboard(){
 
     useEffect(() => {
         if (loggedINUser){
-              console.log("hi")
+              console.log(loggedINUser)
         const shelfDetails = {"userid":loggedINUser}
         var raw = JSON.stringify(shelfDetails);
 
@@ -36,7 +36,7 @@ export default function  Dashboard(){
             .then(response => response.json())
             // ((data) => {
             .then((result) =>{
-                console.log(result.userShelf)
+                console.log(result)
                         setLibrary(result.userShelf)
             })
             .catch(error => console.log('error', error));
@@ -47,7 +47,7 @@ export default function  Dashboard(){
             <div>
                 {/* <Details /> */}
                     {library.map((library,index) => (
-                    <Cart key = {"library"+index}  ISBN = {library.ISBN} readBook = {library.readBook}  userid = {library.userid}  /> 
+                    <Cart key = {"library"+index}  ISBN = {library.ISBN}  read = {false} genre = {library.genre} readBook = {library.readBook}  userid = {library.userid}  /> 
                     ))}
 
                 <CustomWishlist />

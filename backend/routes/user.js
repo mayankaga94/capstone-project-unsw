@@ -92,7 +92,7 @@ router.route('/review/vote',cors())
 
 //----------------User Library/Cart------------------//
 router.route('/user/library',cors())
-    .get(userFunction.getCartItems)
+    // .get(userFunction.getCartItems)
     .post(userFunction.addToCart)
     .put(userFunction.editBookStatus)
     .delete(userFunction.deleteFromCart)
