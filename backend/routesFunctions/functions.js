@@ -513,7 +513,7 @@ module.exports = {
     },
     editTaskStatus:  async (req, res) => {
         try {
-            let {userid,tasklistid,status} = req.body
+            let {userid,tasklistid,status} = req.body.todoComplete
             let query = "Update tasklist set status = ? where userid=? and tasklistid=?";
             await pool.query(query,[status,userid,tasklistid])
             return res.status(200).send({
@@ -528,7 +528,8 @@ module.exports = {
     },
     deleteTask: async (req,res) => {
         try {
-            let {tasklistid} = req.body;
+            let {tasklistid} = req.body
+            console.log(tasklistid)
             await pool.query("DELETE from tasklist WHERE tasklistid=?",tasklistid);
             return res.status(200).send({
                 success : true,
@@ -541,7 +542,7 @@ module.exports = {
     },
     fetchTask:  async (req, res) => {
         try {
-            let {userid} = req.body
+            let userid = req.body
             let query = "Select * from tasklist where userid=?";
             var result = await pool.query(query,userid)
             return res.status(200).send({

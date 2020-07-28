@@ -1,20 +1,54 @@
-import React from 'react'
+import React, {useState, useContext, useEffect} from 'react'
+import UserContext from '../../../context/usercontext';
+import Bookshelf from './bookshelf'
+
 
 export default function Cart(props) {
 
-    const genre = props.genre
-    const ISBN = props.ISBN
-    const read = props.read
-    const readbook = props.readBook
+    let  genre = props.genre
+    const [library, setLibrary ] =useState([])
+
+    const { userData, setUserData } = useContext(UserContext);
+    const loggedINUser = userData && userData.user && userData.user.userid
+
+
+
+    useEffect(() => {
+        if (loggedINUser){
+              console.log(loggedINUser)
+        const shelfDetails = {"userid":loggedINUser}
+        var raw = JSON.stringify(shelfDetails);
+
+            var requestOptions = {
+            method: 'POST',
+            headers : {
+                "Content-type": "application/json"
+            },
+            body: raw,
+            redirect: 'follow'
+            };
+
+            fetch("http://localhost:5000/user/library/cart", requestOptions)
+            .then(response => response.json())
+            // ((data) => {
+            .then((result) =>{
+                // console.log(result)
+                        setLibrary(result.userShelf)
+                       
+            })
+            .catch(error => console.log('error', error));
+        }
+        },[])
+
+
+      
 
     return (
-        <div className ="goalset col-xs-12 col-lg-4 col-md-4 col-sm-4">
-
-                <div className ="library">
-                     <span>{genre}</span> <span>{ISBN} </span> 
-                     <span>{readbook}</span><span>{read}</span> 
+                <div className ="library">    
+                      {library.map((library,index)=>(           
+                            <Bookshelf  key  = {"library" + index } library = {library}/ >
+                        ))}
                  </div>
-            
-        </div>
+
     )
 }

@@ -55,7 +55,7 @@ function App() {
               <Switch>
                   <Route exact path  = "/" component  = {Workspace} />
                   <Route  path  = "/home" component = { Workspace} />
-                  <Route exact path="/dashboard" component={Dashboard}/> 
+                <Route exact path="/dashboard" component={Dashboard}/>
                   {/* <Route path = "/book/" compoponent = { Bookdetails}/> */}
                   <Route path  = "/books" component = {Discoverbook} />
               {/* {userData.user ? 

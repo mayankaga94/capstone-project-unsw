@@ -6,16 +6,16 @@ import UserContext from '../../../context/usercontext';
 const useInputValue = (initialValue)=>{
         
     const [value , setValue] = useState(initialValue)
-    const cd = 1
     return {
+        value,
         onChange : e =>setValue(e.target.value),
         resetValue : () => setValue("")
     }
 }
-const submitz = (text, loggedINUser, callReviewidFunction )=>{
+const submitz = (task, loggedINUser,  )=>{
     const  name  = {
         userid: loggedINUser,
-        task: text
+        task: task
      }
         const url = "http://localhost:5000/user/task"
         fetch(url,
@@ -30,23 +30,25 @@ const submitz = (text, loggedINUser, callReviewidFunction )=>{
              .then((response) => {          
                 response.json().then((data) => {
 
-                     {
-                        callReviewidFunction({
-                        reviewid: data.tasklistid,
-                        }); 
-                        }
+                    console.log(data)
+                    //  {
+                    //     callReviewidFunction({
+                    //     reviewid: data.tasklistid,
+                    //     }); 
+                    //     }
                     });
+                
                 });
     }
     
-export default ({submit, callReviewidFunction}) =>{
+export default ({submit}) =>{
 
     // console.log(props)
 
     let check  = true 
     const { userData, setUserData } = useContext(UserContext);
     const loggedINUser = userData && userData.user && userData.user.userid
-    const {resetValue, ...text} = useInputValue(""); 
+    const {resetValue, ...task} = useInputValue(""); 
 
     return (
         <div>
@@ -57,11 +59,11 @@ export default ({submit, callReviewidFunction}) =>{
                         <div className = "todoContent">
                             <form id = "todolist" onSubmit = {e =>{
                                 e.preventDefault();
-                                submit(text.value)
+                                submit(task.value)
                                 resetValue()
                             }} >
-                                {/* <button   disabled={text.value.length===0}  onClick ={()=> submitz(text.value, loggedINUser, callReviewidFunction)} >Submit</button> */}
-                              <input {...text} />
+                                <button   disabled={task.value.length===0}  onClick ={()=> submitz(task.value, loggedINUser)} >Submit</button>
+                              <input {...task} />
                             </form >    
                         </div>
                 </div>

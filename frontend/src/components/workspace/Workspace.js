@@ -71,17 +71,13 @@ const [details, setdetails]= useState();
 (
                  <>
                  </>
-                
                 )}
                 </div>  
-                    {/* const { userData, setUserData } = useContext(UserContext);         */}
                         <Allbooks />     
                         <Discoverbook />
                         <Subscibe />
                         <Categorybased />
                         <Topauthors />
-                        <PostLogin />
-                        <Dashboard />
             </div>
         )
     }

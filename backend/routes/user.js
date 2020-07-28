@@ -80,7 +80,7 @@ router.route('/user/task',cors())
     .delete(userFunction.deleteTask)
 
 router.route('/fetchTask',cors())
-    .get(userFunction.fetchTask)
+    .put(userFunction.fetchTask)
 
 //----------fetch all posts of book---------//
 router.route('/fetchReviews', cors())

@@ -17,42 +17,27 @@ export default function  Dashboard(){
     const { userData, setUserData } = useContext(UserContext);
     const loggedINUser = userData && userData.user && userData.user.userid
 
-    useEffect(() => {
-        if (loggedINUser){
-              console.log(loggedINUser)
-        const shelfDetails = {"userid":loggedINUser}
-        var raw = JSON.stringify(shelfDetails);
 
-            var requestOptions = {
-            method: 'POST',
-            headers : {
-                "Content-type": "application/json"
-            },
-            body: raw,
-            redirect: 'follow'
-            };
+        // console.log(library)
+        // const filter = library.genre
+        // console.log(filter)
+        // const [genre, setGenre] = useState([])
 
-            fetch("http://localhost:5000/user/library/cart", requestOptions)
-            .then(response => response.json())
-            // ((data) => {
-            .then((result) =>{
-                console.log(result)
-                        setLibrary(result.userShelf)
-            })
-            .catch(error => console.log('error', error));
-        }
-        },[])
-    
+        // const dataToShow = filter
+        //   ? data.filter(d => d.id === filter)
+        //   : data
         return (
             <div>
                 {/* <Details /> */}
-                    {library.map((library,index) => (
-                    <Cart key = {"library"+index}  ISBN = {library.ISBN}  read = {false} genre = {library.genre} readBook = {library.readBook}  userid = {library.userid}  /> 
-                    ))}
 
+                <div className ="goalset col-xs-12 col-lg-4 col-md-4 col-sm-4">
+                    <div className = "libraryHeader"> Your Collection</div>
+                {loggedINUser ?<Cart  /> : null
+                }
+                </div>
                 <CustomWishlist />
-                <GoalSummary  />
-                <ToDolist />                
+                {loggedINUser ? <GoalSummary  />:null}
+                 {loggedINUser ?  <ToDolist />  :null }              
             </div>
         )
     }

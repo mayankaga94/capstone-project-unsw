@@ -119,17 +119,15 @@ export default function  Headerwrap () {
                                         <Link to  ={'/home' }>
                                             <li  className = "headerItems float-left"><div><i className="fa fa-home" aria-hidden="true"></i></div><span className = "">Home</span></li>
                                         </Link>
-
+                                        <Link to = {'/dashboard'}>
                                             <li className = " headerItems float-left"><div><i className="fa fa-tachometer" aria-hidden="true"></i></div><span className = "">Dashboard</span></li>
-                                            <li className = "headerItems float-left">   
-                                                <div >  
-                                            <Link to = {'/dashboard'}>
-                                                <span className =" "><i className="fa fa-shopping-cart" aria-hidden="true"></i> 
+                                        </Link>   
+                                            
+                                             <li className = "headerItems float-left">
+                                              <div  className =" "><i className="fa fa-shopping-cart" aria-hidden="true"></i> 
                                                 <p>Cart</p>
-                                                </span>   
-                                            </Link>
-                                                </div>
-                                            </li>
+                                                </div>   
+                                             </li>
                                             <li className = "headerItems float-left">                
                                             <div>                            
                                                  <span className =" "><i className="fa fa-heart" aria-hidden="true"></i> 
