@@ -23,7 +23,7 @@ export default function Discoverbook () {
                     Discover Your Next Book
                 </h1>
                 <div>
-                    <ul classNAme = "tabsSection" style= {{display  : "block", margin: "30px 0 50px 0", padding : "0"}}>
+                    <ul className = "tabsSection" style= {{display  : "block", margin: "30px 0 50px 0", padding : "0"}}>
                         <li style = {{minWidth: "200px", background : "#f1f1f1" ,cursor : "pointer",display : "inline-block",  listStyle : "none", padding : "10px"}}>
                             Latest Release
                         </li>
@@ -36,8 +36,8 @@ export default function Discoverbook () {
                     </ul>
                 </div>
                 <div>
-                {books.map(books => (
-                    <Booknew  author = {books.author}  ISBN = {books.ISBN} url = {books.image} name = {books.title}  route = "Home"/>  ))}
+                {books.map((books, index) => (
+                    <Booknew  key = {"discover" +index} author = {books.author}  ISBN = {books.ISBN} url = {books.image} name = {books.title}  route = "Home"/>  ))}
 
                    
                 </div>

@@ -3,7 +3,7 @@ import React from 'react'
 
 
 export default function VotingSystem(props) {
-    console.log("comentzzzzz",props)
+    // console.log("comentzzzzz",props)
    const voterID =  props.voterID
     const loggedInUser = props.userID
     const reviewID = props.reviewID
@@ -15,11 +15,11 @@ export default function VotingSystem(props) {
         try{
 
             if (voterID == loggedInUser) {
-                console.log("hi")
+                // console.log("hi")
                 return <h1>you cannot upvote your own vote</h1>
             }
             else{
-                    console.log("comentzzzzz",props)
+                    // console.log("comentzzzzz",props)
                 // console.log("bye")
                 let vote = 1,
                 voteInfo = {
@@ -102,7 +102,7 @@ export default function VotingSystem(props) {
                         <span className = "reviewStart">             
                         
                             <button onClick={ ()=>upVote()} > 
-                            <span> <i class="fa fa-thumbs-up" aria-hidden="true"></i></span>
+                            <span> <i className="fa fa-thumbs-up" aria-hidden="true"></i></span>
                             </button>
                             
                         </span>
@@ -110,7 +110,7 @@ export default function VotingSystem(props) {
                     <div className = "downvotes">
                             <span className = "reviewStart"> 
                             <button onClick={ ()=>downVote() }> 
-                                    <span><i class="fa fa-thumbs-down" aria-hidden="true"></i></span>
+                                    <span><i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
                             </button>
                            
                         </span>

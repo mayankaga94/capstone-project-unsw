@@ -6,12 +6,10 @@ import UserContext from '../../context/usercontext'
 
 
 export default function Review(props) {
-
     const { userData, setUserData } = useContext(UserContext);
     const checkUser = props.userid
-    const loggedINUser = userData.user.userid
+    // const loggedINUser = userData.user.userid
     const reviewid = props.reviewid 
-    console.log(props)
     return (
 
         <>
@@ -26,8 +24,15 @@ export default function Review(props) {
                                         <div className = "reviewContenHeader">
                                              <h1> </h1>
                                             <p className = "reviewDescription"> {props.comment}</p>   
+
+                                            {userData.user ?
+                                                < VotingSystem   callReviewFunction = {props.callReviewFunction} reviewID = {reviewid} voterID = {checkUser} userID={ userData.user.userid} votes = {props.votes} />
+                                            //  userData.user.userID == checkUser ? <Delete  deleteid = {reviewid} />
+                                            :null  }
+
+{/*                               
                                         < VotingSystem   callReviewFunction = {props.callReviewFunction} reviewID = {reviewid} voterID = {checkUser} userID={loggedINUser} votes = {props.votes} />
-                                         { loggedINUser == checkUser ? <Delete  deleteid = {reviewid} />: null }              
+                                         { loggedINUser == checkUser ? <Delete  deleteid = {reviewid} />: null }               */}
                                         </div>
              </div>
 

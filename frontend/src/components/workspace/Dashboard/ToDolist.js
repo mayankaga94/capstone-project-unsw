@@ -34,7 +34,7 @@ export default function ToDolist({onSubmit}) {
         const  completed = todos.map(value => value.complete);
         const user = userData.user.userid
 
-        console.log( user, text, completed)
+        // console.log( user, text, completed)
 
     }
     const handleChange = ()=>{

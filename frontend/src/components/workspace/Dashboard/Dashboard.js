@@ -12,18 +12,14 @@ import UserContext from '../../../context/usercontext'
 
 export default function  Dashboard(){
 
-        const [library, setLibrary ] =useState([{
-        userID :"",
-        readBook :"",
-        ISBN :""
-    }])
+        const [library, setLibrary ] =useState([])
 
     const { userData, setUserData } = useContext(UserContext);
     const loggedINUser = userData && userData.user && userData.user.userid
 
-    
     useEffect(() => {
-        console.log("hi")
+        if (loggedINUser){
+              console.log("hi")
         const shelfDetails = {"userid":loggedINUser}
         var raw = JSON.stringify(shelfDetails);
 
@@ -40,26 +36,20 @@ export default function  Dashboard(){
             .then(response => response.json())
             // ((data) => {
             .then((result) =>{
-                console.log(result)
-                        // setLibrary({
-                        //         userID : result.userShelf,
-                        //         readBook : result.userShelf,
-                        //         ISBN : result.userShelf
-                        // })
+                console.log(result.userShelf)
+                        setLibrary(result.userShelf)
             })
-            
-            // setLibrary({
-            //     userID : result.userShelf.userid,
-            //     readBook : result.userShelf.readBook,
-            //     ISBN : result.userShelf.ISBN
-
-            // }))
             .catch(error => console.log('error', error));
-        }, [])
+        }
+        },[])
+    
         return (
             <div>
                 {/* <Details /> */}
-                <Cart />
+                    {library.map((library,index) => (
+                    <Cart key = {"library"+index}  ISBN = {library.ISBN} readBook = {library.readBook}  userid = {library.userid}  /> 
+                    ))}
+
                 <CustomWishlist />
                 <GoalSummary  />
                 <ToDolist />                
