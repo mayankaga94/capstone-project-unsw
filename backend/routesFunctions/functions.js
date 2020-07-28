@@ -653,7 +653,7 @@ module.exports = {
         try {
             // fetch all cart items
             let {userid} = req.body;
-            var result = await pool.query("SELECT * from cart WHERE userid=?",userid);
+            var result = await pool.query("SELECT cart.cartid,cart.ISBN,cart.readBook,cart.userid,books_dataset.genre from cart join books_dataset on cart.ISBN = books_dataset.ISBN WHERE userid=?",userid);
             if (result[0].length == 0){
                 return res.status(200).send({
                     success: false,
