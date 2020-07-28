@@ -76,10 +76,9 @@ FOREIGN KEY (userid) REFERENCES user(userid)
 -------------------Cart----------------------------------------
 Create table cart
 (
-cartid MEDIUMINT AUTO_INCREMENT, 
 userid MEDIUMINT,
 ISBN VARCHAR(13),
 readBook  Boolean ,    
-primary key (cartid,userid,ISBN),
+primary key (userid,ISBN),
 FOREIGN KEY (userid) REFERENCES user(userid)
 )
