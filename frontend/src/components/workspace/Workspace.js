@@ -22,7 +22,7 @@ const [details, setdetails]= useState();
 useEffect(() => {
     getUser();
     // loadDataOnlyOnce();
-}, [userData])
+}, [])
 
 const getUser = async() =>{
     const url = "http://localhost:5000/getUser"

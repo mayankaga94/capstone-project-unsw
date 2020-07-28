@@ -522,7 +522,6 @@ module.exports = {
                 });
             }
             // res.status(200).send('success');
-        
         catch(err) {
             return res.status(500).send(err);
         }
@@ -627,12 +626,14 @@ module.exports = {
     //---------------Library-------------//
     addToCart: async (req, res) =>{
         try { 
-            let {bookid, userid} = req.body;
+           
+            let {ISBN, userid} = req.body;
+            console.log(ISBN, userid)
             // check if item already exists
             // add to cart/shelf
-            var result = await pool.query("INSERT INTO cart(userid,readBook,ISBN) VALUES(?,0,?)",[bookid,userid]);
+            var result = await pool.query("INSERT INTO cart(userid,ISBN,readBook) VALUES(?,?,0)",[userid,ISBN]);
             return res.status(200).send({
-                cartID :result[0].insertId
+                success: true
             });   
         }
         catch(err){
@@ -641,9 +642,15 @@ module.exports = {
     },
     deleteFromCart: async (req, res) => {
         try {
+            let {userid,ISBN} = req.body
             // check if item exists
-
+            
             // delete from cart
+            await pool.query("DELETE from cart WHERE userid=? AND ISBN=?",[userid,ISBN]);
+            return res.status(200).send({
+                success: true,
+                message: "Successfully deleted item"
+            });   
         }
         catch(err){
             return res.status(500).send(err)
@@ -652,8 +659,8 @@ module.exports = {
     getCartItems: async (req,res) => {
         try {
             // fetch all cart items
-            let {userid} = req.body;
-            var result = await pool.query("SELECT cart.cartid,cart.ISBN,cart.readBook,cart.userid,books_dataset.genre from cart join books_dataset on cart.ISBN = books_dataset.ISBN WHERE userid=?",userid);
+            let userid = req.body.userid;
+            var result = await pool.query("SELECT * from cart WHERE userid=?",userid);
             if (result[0].length == 0){
                 return res.status(200).send({
                     success: false,
@@ -671,7 +678,12 @@ module.exports = {
     },
     editBookStatus: async (req,res) => {
         try{
-
+            let {userid,ISBN,readBook} = req.body
+            await pool.query("Update cart set readBook=? WHERE userid=? AND ISBN=?",[readBook,userid,ISBN]);
+            return res.status(200).send({
+                success: true,
+                message: "Status updated successfully"
+            });  
         }
         catch(err){
             return res.status(500).send(err)

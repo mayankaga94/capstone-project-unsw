@@ -68,6 +68,7 @@ export default function Bookpage (props){
         }
         // adding items to wishlist
         const id  = useParams();
+        console.log(id)
         // const wishlistOpen =(id) =>{
           const   rendercom =() =>{
                 setComp({
@@ -75,24 +76,31 @@ export default function Bookpage (props){
                 })
           }
         const { userData, setUserData } = useContext(UserContext);
+        const loggedINUser = userData && userData.user && userData.user.userid
+
         const renderReviews = () => {
             const reviews  = props.bookReview;
         }
 
         const buybook  = () =>{
-            console.log(purchase.purchased)
-            if (purchase){
-                console.log("hi")
-                setPurchase([{
-                    purchased : true
-                }])
-            }
-            else{
-                console.log("by")
-                setPurchase([{
-                    purchased : false
-                }])
-            }
+
+            const cartDetails = {"userid":loggedINUser,"ISBN":id.id}
+            
+            var raw = JSON.stringify(cartDetails);
+
+                var requestOptions = {
+                method: 'POST',
+                headers : {
+                    "Content-type": "application/json"
+                },
+                body: raw,
+                redirect: 'follow'
+                };
+
+                fetch("http://localhost:5000/user/library", requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
         }
         return (
              <Wrapper>
@@ -135,11 +143,11 @@ export default function Bookpage (props){
 
                                 <div className= ""> 
 
-                                <input  placeholder ="Enter Amount" id="firstnam"     className = "registerDetails" onChange = {(e) =>setPurchase({purchase :true})} />  
+                                {/* <input  placeholder ="Enter Amount" id="firstnam"     className = "registerDetails" onChange = {(e) =>setPurchase({purchase :true})} />   */}
 
                                     <span className ="booklist addwishlist" onClick ={()=>buybook()} ><i class="fa fa-shopping-cart" aria-hidden="true"><span class="fa-text">Buy Book</span></i> 
                                      {/* {purchase ===true ? <h1>purchased made </h1>: */}
-                                             <h1>nothing comes for free</h1>}
+                                             {/* <h1>nothing comes for free</h1>} */}
                                     </span>
                                     <span className =" addwishlist" onClick={() => rendercom()} ><i class="fa fa-heart" aria-hidden="true"><span class="fa-text">Add To Wishlist</span></i> 
                                     </span>
@@ -159,7 +167,7 @@ export default function Bookpage (props){
                                  </div>
                                  
                                  { props.bookReview && props.bookReview.map((review,index) =>(
-                                        <><Review  comment = {review.comment} reviewid = {review.reviewID} userid= {review.userid} votes = {review.votes}/></>        
+                                        <><Review  callReviewFunction = {props.callReviewFunction} comment = {review.comment} reviewid = {review.reviewID} userid= {review.userid} votes = {review.votes}/></>        
                                          ))}
                           
                                 
