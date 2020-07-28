@@ -100,5 +100,11 @@ router.route('/user/library',cors())
 
 router.route('/user/library/cart',cors())
 .post(userFunction.getCartItems)
+
+
+//----------------Delete a Review with all Votes------------------//
+router.route('/admin/deleteReview',cors())
+    .delete(userFunction.deleteReview)
+
 //------------export all the routes------------//
 module.exports = router
