@@ -6,8 +6,10 @@ import pymysql
 
 # Connect to db (check test.ipynb to see how db is setup)
 PORT = 5000
+MYSQL_USER = 'username'
+MYSQL_PASS = 'password'
 dbname = "bookdb"
-engine = create_engine('mysql+pymysql://username:password@localhost')
+engine = create_engine(f'mysql+pymysql://{MYSQL_USER}:{MYSQL_PASS}@localhost')
 engine.execute("USE {}".format(dbname))
 
 # Train recommender
