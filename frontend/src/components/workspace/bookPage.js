@@ -5,10 +5,13 @@ import Comments from './comments.js'
 import Searchbar from './searchbar'
 import Quotes from './Quotes'
 import CustomWishlist from '../workspace/Dashboard/customWishlist'
+import Wishlist from '../workspace/Dashboard/wishlist'
 import '../../Styling.css'
 import Review from './Review'
 import UserContext from '../../context/usercontext'
 import { useParams} from 'react-router-dom'
+import WishList from './Dashboard/wishlist.js'
+import listContext from '../../context/list_context';
 
 
 export const Wrapper = styled.div`
@@ -75,7 +78,32 @@ export default function Bookpage (props){
         const renderReviews = () => {
             const reviews  = props.bookReview;
         }
+        const buybooknotlogged =() =>{
+            alert("you need to login")
+        }
+        const postRating = (x) =>{
 
+          const ratingDetails = {
+              "bookid":id.id,
+              "userid": loggedINUser,
+              "rating": x     
+        }
+            var requestOptions = {
+            method: 'POST',
+            headers : {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(ratingDetails),
+            redirect: 'follow'
+            };
+
+                fetch("http://localhost:5000/book/rating", requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                
+                .catch(error => console.log('error', error));
+
+        }
         const buybook  = () =>{
 
             const cartDetails = {"userid":loggedINUser,"ISBN":id.id}
@@ -94,13 +122,14 @@ export default function Bookpage (props){
                 fetch("http://localhost:5000/user/library", requestOptions)
                 .then(response => response.text())
                 .then(result => console.log(result))
+                
                 .catch(error => console.log('error', error));
         }
         return (
              <Wrapper>
                  <div className = "bookdetailHeader">
 
-                     {comp.show ? <CustomWishlist />:null}
+                     {comp.show ? <Wishlist />:null}
                     <div className = "searchbar">
                         <Searchbar />
                     </div>
@@ -126,25 +155,33 @@ export default function Bookpage (props){
                             </div>
 
                             <div className ="productFeedback bookHeading">
+
+                            {userData.user ?(
+
                                 <div className= "userrating"> Rate this book
+                                
                                             <span><i className="fa fa-star" aria-hidden="true"></i>
-                                            <i className="fa fa-star" aria-hidden="true"></i>
-                                            <i className="fa fa-star" aria-hidden="true"></i>
-                                            <i className="fa fa-star" aria-hidden="true"></i>
-                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star" aria-hidden="true" onClick = { ()=>postRating(1)}></i>
+                                            <i className="fa fa-star" aria-hidden="true" onClick = { ()=>postRating(2)}></i>
+                                            <i className="fa fa-star" aria-hidden="true" onClick = { ()=>postRating(3)}></i>
+                                            <i className="fa fa-star" aria-hidden="true" onClick = { ()=>postRating(4)}></i>
+                                            <i className="fa fa-star" aria-hidden="true" onClick = { ()=>postRating(5)}></i>
                                             </span>
-                                 </div>
+                                 </div> ):null}
 
                                 <div className= ""> 
 
                                 {/* <input  placeholder ="Enter Amount" id="firstnam"     className = "registerDetails" onChange = {(e) =>setPurchase({purchase :true})} />   */}
-
-                                    <span className ="booklist addwishlist" onClick ={()=>buybook()} ><i className="fa fa-shopping-cart" aria-hidden="true"><span className="fa-text">Buy Book</span></i> 
-                                     {/* {purchase ===true ? <h1>purchased made </h1>: */}
-                                             {/* <h1>nothing comes for free</h1>} */}
+                                {!userData.user ?   <span className ="booklist addwishlist"  onClick ={()=>buybooknotlogged()} ><i className="fa fa-shopping-cart" aria-hidden="true"><span className="fa-text">Buy Book</span></i> 
+                                  
+                                  </span>:   <span className ="booklist addwishlist" onClick ={()=>buybook()} ><i className="fa fa-shopping-cart" aria-hidden="true"><span className="fa-text">Buy Book</span></i> 
+                                  
+                                  </span>}
+                                  
+                                  {!userData.user ?    <span className =" addwishlist" onClick={() => buybooknotlogged()} ><i className="fa fa-heart" aria-hidden="true"><span className="fa-text">Add To Wishlist</span></i> 
+                                 </span>: <span className =" addwishlist" onClick={() => rendercom()} ><i className="fa fa-heart" aria-hidden="true"><span className="fa-text">Add To Wishlist</span></i> 
                                     </span>
-                                    <span className =" addwishlist" onClick={() => rendercom()} ><i className="fa fa-heart" aria-hidden="true"><span className="fa-text">Add To Wishlist</span></i> 
-                                    </span>
+                                  }
                                 </div>
                             </div>
                       </div>
@@ -159,11 +196,12 @@ export default function Bookpage (props){
                             <div className ="review">
                                 <div className = "reviewWrapper">
                                  </div>
+                                  {/* {!props.bookReview.length ===0 ?<>No Reviews yet</>:null} */}
+
                                  { props.bookReview && props.bookReview.map((review,index) =>(
-                                        <><Review  key ={"bookPage"+index} callReviewFunction = {props.callReviewFunction} comment = {review.comment} reviewid = {review.reviewID} userid= {review.userid} votes = {review.votes}/></>        
-                                         ))}
-                          
-                                
+                                        <><Review  key ={"bookPage"+index} callupFunction = {props.callupFunction} comment = {review.comment} reviewid = {review.reviewID} userid= {review.userid} votes = {review.votes}/></>        
+                                         ))     
+                                }        
                             </div> 
                             {userData.user ? ( <Comments  callReviewFunction = {props.callReviewFunction}/>) :(<></>)}   
                             </div>

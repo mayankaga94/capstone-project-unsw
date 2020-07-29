@@ -470,7 +470,7 @@ border-radius: 10px;
 }
 
 .goalset{
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     padding:10px
 }
 .specificTask{
@@ -492,12 +492,50 @@ padding:10px;
     color:#ccc
 }
 .libraryHeader{
-    background: #ccc;
-    border:1px solid #ccc;
+   font-size: 16px;
 }
 .markRead{
     text-align: left;
     font-size: 12px;
     border-bottom: 1px solid #ccc;;
     color:green;
+}
+
+.customWishlist{
+    position:absolute;
+    top:50%;
+    background-color: #ccc;
+    z-index: 999;
+    left:40%;
+}
+.avatar{
+    max-width: 100px;
+    max-height: 100px;
+}
+.title{
+    padding: 10px;
+}
+.goalset{
+    padding:20px;
+}
+.upperSection{
+    min-height: 300px;
+}
+.upperSection .common-marginborder{
+    margin:10px;
+    border-radius: 30px;
+    border:1px solid #ccc;
+    min-height: 300px;
+}
+
+.common-marginborder{
+    margin:10px;
+    border-radius: 30px;
+    border:1px solid #ccc;
+    min-height: 400px;
+}
+.details{
+    font-size: 18px;
+    text-align: left;
+    padding: 10px;
 }

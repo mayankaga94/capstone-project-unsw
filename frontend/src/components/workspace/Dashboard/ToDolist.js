@@ -87,7 +87,8 @@ export default function ToDolist({onSubmit}) {
             setReviewid([createdObject.reviewid,...reviewid])      
         }
     return (
-    <div className ="goalset col-xs-12 col-lg-4 col-md-4 col-sm-4">                       
+    <div className ="goalset col-xs-12 col-lg-4 col-md-4 col-sm-4">      
+        < div className = "common-marginborder">                 
         <TodoForm  callReviewidFunction = {callReviewFunctionid}  submit = {task => setTodos([{task, complete :false,}, ...todos])} />
         <div>
             <div>
@@ -101,6 +102,7 @@ export default function ToDolist({onSubmit}) {
                     )
                 )
                 }
+            </div>
             </div>
         </div>
         </div>
