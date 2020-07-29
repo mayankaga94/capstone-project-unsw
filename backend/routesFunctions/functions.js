@@ -230,12 +230,12 @@ module.exports = {
                     message: 'book does not exist'
                 });
             }
-            var result2 = await pool.query('SELECT * FROM book_ratings WHERE userid=? AND bookid=?',[userid,bookid])
+            var result2 = await pool.query('SELECT * FROM book_ratings WHERE userid=? AND ISBN=?',[userid,bookid])
             if (result2[0].length > 0){
-                await pool.query('UPDATE book_ratings SET rating = ? WHERE userid=? AND bookid=?',[rating,userid,bookid])
+                await pool.query('UPDATE book_ratings SET rating = ? WHERE userid=? AND ISBN=?',[rating,userid,bookid])
                 return res.status(200).send("Updated rating");
             }
-            let query = "INSERT INTO book_ratings(bookid,userid,rating) VALUES (?,?,?)";
+            let query = "INSERT INTO book_ratings(ISBN,userid,rating) VALUES (?,?,?)";
             
             var result = await pool.query(query,[bookid,userid,rating]);
             res.status(200).send({success: true});
@@ -660,7 +660,7 @@ module.exports = {
         try {
             // fetch all cart items
             let userid = req.body.userid;
-            var result = await pool.query("SELECT cart.cartid,cart.ISBN,card.readBook,cart.userid,book_dataset.genre from cart join book_dataset on book_dataset.ISBN = cart.ISBN WHERE userid=?",userid);
+            var result = await pool.query("SELECT cart.ISBN,cart.readBook,cart.userid,book_dataset.genre from cart join book_dataset on book_dataset.ISBN = cart.ISBN WHERE userid=?",userid);
             if (result[0].length == 0){
                 return res.status(200).send({
                     success: false,
