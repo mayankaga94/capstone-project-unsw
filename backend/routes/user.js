@@ -106,5 +106,17 @@ router.route('/user/library/cart',cors())
 router.route('/admin/deleteReview',cors())
     .delete(userFunction.deleteReview)
 
+//----------------Wishlist------------------//
+router.route('/user/wishlist',cors())
+    .get(userFunction.fetchWishlist)
+    .post(userFunction.addToWishlist)
+
+router.route('/user/wishlist/items',cors())
+    .get(userFunction.fetchWishlistItems)
+    .delete(userFunction.deleteFromWishlist)
+
+router.route('/user/library/cart',cors())
+.post(userFunction.getCartItems)
+
 //------------export all the routes------------//
 module.exports = router
