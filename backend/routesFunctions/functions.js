@@ -690,28 +690,6 @@ module.exports = {
             return res.status(500).send(err)
         }
     },
-    deleteReview: async (req,res) => {
-        try{
-            let {reviewid} = req.body;
-            if (!reviewid){
-                res.status(500).send('empty fields')
-            }
-            else {
-                var query = "DELETE FROM review WHERE reviewid = ?";
-                var result = await pool.query(query, reviewid);
-                var query2 = "DELETE FROM vote WHERE reviewid = ?";
-                var result2 = await pool.query(query2, reviewid);
-                return res.status(200).send({
-                    success : true,
-                    message : "Review Removed"
-                });
-            }
-        }
-        catch(err){
-            return res.status(500).send(err)
-        }
-    },
-
     addToWishlist: async (req,res) => {
         try {
             let {wishlistName,userid,ISBN} = req.body;
