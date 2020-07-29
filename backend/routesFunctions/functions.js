@@ -766,5 +766,19 @@ module.exports = {
             return res.status(500).send(err);
         }
     },
+    totalreadbooks: async(req,res) => {
+        try{
+            let {userid} = req.body;
+            var result = await pool.query("SELECT ISBN from cart\
+            WHERE userid=? and readBook=1",[userid]);
+            return res.status(200).send({
+                success: true,
+                result: result[0]
+            });    
+        }
+        catch(err){
+            return res.status(500).send(err);
+        }
+    }
 
 }

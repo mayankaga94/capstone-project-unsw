@@ -119,7 +119,10 @@ router.route('/user/library/cart',cors())
 .post(userFunction.getCartItems)
 
 router.route('/fetchuserdetailswithvote',cors())
-.get(userFunction.getCartItems)
+.get(userFunction.fetchuserdetailswithvote)
+
+router.route('/totalreadbooks',cors())
+.get(userFunction.totalreadbooks)
 
 
 //------------export all the routes------------//
