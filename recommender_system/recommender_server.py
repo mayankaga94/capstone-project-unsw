@@ -4,7 +4,8 @@ import json
 from sqlalchemy import create_engine
 import pymysql
 
-# Connect to db
+# Connect to db (check test.ipynb to see how db is setup)
+PORT = 5000
 dbname = "bookdb"
 engine = create_engine('mysql+pymysql://username:password@localhost')
 engine.execute("USE {}".format(dbname))
@@ -18,8 +19,8 @@ print('Recommender System ready!')
 # Establish communication channel
 context = zmq.Context()
 socket = context.socket(zmq.REP)
-socket.bind("tcp://*:5555")
-print('Server available at port 5555')
+socket.bind(f"tcp://*:{PORT}")
+print(f'Server available at port {PORT}')
 
 while True:
     # Receive request for recommendation

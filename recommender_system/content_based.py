@@ -19,24 +19,24 @@ class ContentRecommenderSystem:
             self.load_from_csv(dataset_path)    
             self.fit()
         
-    # Mapping from index to book_id and vice versa
+    # Mapping from index to isbn and vice versa
     def set_index_mapping(self):
         self.index_to_book = {}
         self.book_to_index = {}
-        for index, book_id in enumerate(self.books['book_id'].values):
+        for index, book_id in enumerate(self.books['isbn'].values):
           self.index_to_book[index] = book_id
           self.book_to_index[book_id] = index
           
         self.book_tags_dict = defaultdict(list)
         for i in range(len(self.book_tags)):
-            self.book_tags_dict[self.book_tags['book_id'].iloc[i]].append(self.book_tags['tag_id'].iloc[i])
+            self.book_tags_dict[self.book_tags['isbn'].iloc[i]].append(self.book_tags['tag_id'].iloc[i])
 
     # Load dataset from csv
     def load_from_csv(self, dataset_path):
         # Paths
-        books_path = os.path.join(dataset_path, "books_cleaned.csv")
-        tags_path = os.path.join(dataset_path, "tags_cleaned.csv")
-        book_tags_path = os.path.join(dataset_path, "book_tags_cleaned.csv")
+        books_path = os.path.join(dataset_path, "final_books.csv")
+        tags_path = os.path.join(dataset_path, "final_tags.csv")
+        book_tags_path = os.path.join(dataset_path, "final_book_tags.csv")
         
         # Load tables
         self.tags = pd.read_csv(tags_path)
@@ -47,9 +47,9 @@ class ContentRecommenderSystem:
         #books['author'] = books['authors'].apply(lambda x:  x.split(',')[0]) # Only use name of main author
         #books = books[['book_id', 'goodreads_book_id', 'title', 'average_rating', 'author']]
         all_features = pd.merge(self.book_tags, self.tags, on='tag_id')
-        all_features = pd.merge(books, all_features, on='book_id')
-        all_features = all_features.groupby('book_id')['tag_name'].apply(' '.join).reset_index()
-        books['all_features'] = books['author'].apply(lambda x: x.replace(' ','')) + ' ' + books['original_title'] + ' ' + all_features['tag_name']
+        all_features = pd.merge(books, all_features, on='isbn')
+        all_features = all_features.groupby('isbn')['tag_name'].apply(' '.join).reset_index()
+        books['all_features'] = books['author'].apply(lambda x: x.replace(' ','')) + ' ' + books['title'] + ' ' + all_features['tag_name']
 
         self.books = books
         self.set_index_mapping()
@@ -64,9 +64,9 @@ class ContentRecommenderSystem:
         
         # Bit of cleaning and feature extraction
         all_features = pd.merge(self.book_tags, self.tags, on='tag_id')
-        all_features = pd.merge(books, all_features, on='book_id')
-        all_features = all_features.groupby('book_id')['tag_name'].apply(' '.join).reset_index()
-        books['all_features'] = books['author'].apply(lambda x: x.replace(' ','')) + ' ' + books['original_title'] + ' ' + all_features['tag_name']
+        all_features = pd.merge(books, all_features, on='isbn')
+        all_features = all_features.groupby('isbn')['tag_name'].apply(' '.join).reset_index()
+        books['all_features'] = books['author'].apply(lambda x: x.replace(' ','')) + ' ' + books['title'] + ' ' + all_features['tag_name']
         
         self.books = books
         self.set_index_mapping()
@@ -85,19 +85,19 @@ class ContentRecommenderSystem:
         score = np.sum(self.similarity_matrix[indices], axis=0)
 
         # then get top argmax indices that are not input
-        mask = self.books['book_id'].apply(lambda x: all(e in self.book_tags_dict[x] for e in tag_ids))
+        mask = self.books['isbn'].apply(lambda x: all(e in self.book_tags_dict[x] for e in tag_ids))
         book_indices = [i for i in np.argsort(score) if i not in indices][::-1]
-        book_indices = [i for i in book_indices if mask[i]][:count]
+        book_isbns = [self.books.iloc[i]['isbn'] for i in book_indices if mask[i]][:count]
 
         # Return recommendations by book indices
         if verbose == False:
-            return book_indices
+            return book_isbns
         
         # Return the dataframe and print results
-        recommendations = self.books.iloc[book_indices][['book_id', 'original_title', 'author', 'average_rating']].set_index('book_id')
+        recommendations = self.books.iloc[book_indices][['isbn', 'title', 'author', 'average_rating']].set_index('isbn')
         
         print("Input books:")
-        print(self.books.iloc[indices,:][['book_id', 'original_title', 'author', 'average_rating']].set_index('book_id').to_string())
+        print(self.books.iloc[indices,:][['isbn', 'title', 'author', 'average_rating']].set_index('isbn').to_string())
         
         print("\nRecommendations:")
         print(recommendations.to_string())
@@ -115,13 +115,13 @@ if __name__ == '__main__':
     # Get recommendations
     while True:
         print('===============================================================================')
-        print("Enter book IDs separated by a space (or 'q' to exit):")
+        print("Enter ISBNs separated by a space (or 'q' to exit):")
         input_str = input()
         if input_str == 'q':
             sys.exit()
             
         try:
-            book_ids = list(map(int, input_str.split()))
+            book_ids = list(input_str.split())
         except:
             print("Invalid input")
             continue
@@ -152,8 +152,8 @@ if __name__ == '__main__':
         '''
         Books similar to The Hunger Games and Harry Potter and the Philosopher's Stone that include a love triangle
         
-        Enter book IDs separated by a space (or 'q' to exit):
-        1 2
+        Enter ISBNs separated by a space (or 'q' to exit):
+        439023483 439554934
         Enter tag IDs separated by a space (or 'q' to exit):
         100
         Enter the number of recommendations to display (or 'q' to exit):
