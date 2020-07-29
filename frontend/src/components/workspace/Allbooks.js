@@ -20,12 +20,11 @@ const Allbooks = () => {
     setsbooks(data.result)
     }
         return (
-            // <h1>hi</h1>
             <div>
                 <h1 > All Books</h1>
                 <Searchbar />
-                {books.map(books => (
-                    <Booknew  author = {books.author}  ISBN = {books.ISBN} url = {books.image} name = {books.title}  route = "Home"/>  ))}
+                {books.map((books,index) => (
+                    <Booknew key = {"allBook"+ index} author = {books.author}  ISBN = {books.ISBN} url = {books.image} name = {books.title}  route = "Home"/>  ))}
             </div>
         )
 }

@@ -24,7 +24,7 @@ export default function Comments(props) {
             userid:  userData.user.userid,
             comment : comm
         }
-        console.log(details)
+        // console.log(details)
         var raw = JSON.stringify(details);
 
         var requestOptions = {

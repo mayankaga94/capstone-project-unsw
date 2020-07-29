@@ -19,30 +19,30 @@ export default function  Workspace (){
 const  { userData, setUserData } = useContext(UserContext);
 const [details, setdetails]= useState();
 
-useEffect(() => {
-    getUser();
-    // loadDataOnlyOnce();
-}, [])
+// useEffect(() => {
+//     getUser();
+//     // loadDataOnlyOnce();
+// }, [])
 
-const getUser = async() =>{
-    const url = "http://localhost:5000/getUser"
-    fetch(url,
-    { method : "Get",
-    headers: {
-        "Accept": "application/json , text/plain ,*/*",
-        "Content-type": "application/json",
-        "auth_token" : "eyJhbGciOiJIUzI1NiJ9.bmVlbGFAZ21haWwuY29t.dCrpsCXGEMME3qpJw_bQACMJLM3ixV248P6SRPN3fJo"
-     }
-    })
-    .then((response) => {
-        response.json().then((data) => {
-            // console.log("hiiiii")
-            setdetails({
-                user : data
-              })
-            });
-        });
-    }
+// const getUser = async() =>{
+//     const url = "http://localhost:5000/getUser"
+//     fetch(url,
+//     { method : "Get",
+//     headers: {
+//         "Accept": "application/json , text/plain ,*/*",
+//         "Content-type": "application/json",
+//         "auth_token" : "eyJhbGciOiJIUzI1NiJ9.bmVlbGFAZ21haWwuY29t.dCrpsCXGEMME3qpJw_bQACMJLM3ixV248P6SRPN3fJo"
+//      }
+//     })
+//     .then((response) => {
+//         response.json().then((data) => {
+//             // console.log("hiiiii")
+//             setdetails({
+//                 user : data
+//               })
+//             });
+//         });
+//     }
         return (
 
             
@@ -71,17 +71,13 @@ const getUser = async() =>{
 (
                  <>
                  </>
-                
                 )}
                 </div>  
-                    {/* const { userData, setUserData } = useContext(UserContext);         */}
                         <Allbooks />     
                         <Discoverbook />
                         <Subscibe />
                         <Categorybased />
                         <Topauthors />
-                        <PostLogin />
-                        <Dashboard />
             </div>
         )
     }

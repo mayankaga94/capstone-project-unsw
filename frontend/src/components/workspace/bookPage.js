@@ -51,12 +51,7 @@ export default function Bookpage (props){
 
     const [purchase, setPurchase] = useState({purchased:false});
 
-
-
-
-
     useEffect(() => {
-        
         getQuotes();
     }, [])
     const getQuotes = async() =>{
@@ -68,7 +63,6 @@ export default function Bookpage (props){
         }
         // adding items to wishlist
         const id  = useParams();
-        console.log(id)
         // const wishlistOpen =(id) =>{
           const   rendercom =() =>{
                 setComp({
@@ -133,11 +127,11 @@ export default function Bookpage (props){
 
                             <div className ="productFeedback bookHeading">
                                 <div className= "userrating"> Rate this book
-                                            <span><i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <span><i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star" aria-hidden="true"></i>
                                             </span>
                                  </div>
 
@@ -145,11 +139,11 @@ export default function Bookpage (props){
 
                                 {/* <input  placeholder ="Enter Amount" id="firstnam"     className = "registerDetails" onChange = {(e) =>setPurchase({purchase :true})} />   */}
 
-                                    <span className ="booklist addwishlist" onClick ={()=>buybook()} ><i class="fa fa-shopping-cart" aria-hidden="true"><span class="fa-text">Buy Book</span></i> 
+                                    <span className ="booklist addwishlist" onClick ={()=>buybook()} ><i className="fa fa-shopping-cart" aria-hidden="true"><span className="fa-text">Buy Book</span></i> 
                                      {/* {purchase ===true ? <h1>purchased made </h1>: */}
                                              {/* <h1>nothing comes for free</h1>} */}
                                     </span>
-                                    <span className =" addwishlist" onClick={() => rendercom()} ><i class="fa fa-heart" aria-hidden="true"><span class="fa-text">Add To Wishlist</span></i> 
+                                    <span className =" addwishlist" onClick={() => rendercom()} ><i className="fa fa-heart" aria-hidden="true"><span className="fa-text">Add To Wishlist</span></i> 
                                     </span>
                                 </div>
                             </div>
@@ -165,9 +159,8 @@ export default function Bookpage (props){
                             <div className ="review">
                                 <div className = "reviewWrapper">
                                  </div>
-                                 
                                  { props.bookReview && props.bookReview.map((review,index) =>(
-                                        <><Review  callReviewFunction = {props.callReviewFunction} comment = {review.comment} reviewid = {review.reviewID} userid= {review.userid} votes = {review.votes}/></>        
+                                        <><Review  key ={"bookPage"+index} callReviewFunction = {props.callReviewFunction} comment = {review.comment} reviewid = {review.reviewID} userid= {review.userid} votes = {review.votes}/></>        
                                          ))}
                           
                                 
@@ -186,7 +179,7 @@ export default function Bookpage (props){
                                             <img src = "https://inspirationfeed.com/wp-content/uploads/2015/04/blurred-background.jpg">
                                             </img>
                                             <div className = "lock">
-                                               <div> <i class="fa fa-lock" aria-hidden="true"></i></div>
+                                               <div> <i className="fa fa-lock" aria-hidden="true"></i></div>
                                                 <span>Login to view the Quote of the Day</span>
                                             </div>
                                     </div>

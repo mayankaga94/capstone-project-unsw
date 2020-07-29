@@ -80,7 +80,7 @@ router.route('/user/task',cors())
     .delete(userFunction.deleteTask)
 
 router.route('/fetchTask',cors())
-    .get(userFunction.fetchTask)
+    .put(userFunction.fetchTask)
 
 //----------fetch all posts of book---------//
 router.route('/fetchReviews', cors())
@@ -92,7 +92,7 @@ router.route('/review/vote',cors())
 
 //----------------User Library/Cart------------------//
 router.route('/user/library',cors())
-    .get(userFunction.getCartItems)
+    // .get(userFunction.getCartItems)
     .post(userFunction.addToCart)
     .put(userFunction.editBookStatus)
     .delete(userFunction.deleteFromCart)
@@ -100,5 +100,23 @@ router.route('/user/library',cors())
 
 router.route('/user/library/cart',cors())
 .post(userFunction.getCartItems)
+
+
+//----------------Delete a Review with all Votes------------------//
+router.route('/admin/deleteReview',cors())
+    .delete(userFunction.deleteReview)
+
+//----------------Wishlist------------------//
+router.route('/user/wishlist',cors())
+    .get(userFunction.fetchWishlist)
+    .post(userFunction.addToWishlist)
+
+router.route('/user/wishlist/items',cors())
+    .get(userFunction.fetchWishlistItems)
+    .delete(userFunction.deleteFromWishlist)
+
+router.route('/user/library/cart',cors())
+.post(userFunction.getCartItems)
+
 //------------export all the routes------------//
 module.exports = router

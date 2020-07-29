@@ -1,4 +1,4 @@
-import React, { Component , useState, useContext} from 'react'
+import React, { useState, useContext} from 'react'
 import UserContext from '../../context/usercontext'
 import styled, {css} from 'styled-components'
 import { redirect, Redirect} from 'react-router-dom'
@@ -117,22 +117,20 @@ export default function  Headerwrap () {
                                         <ul className = "float-right">
 
                                         <Link to  ={'/home' }>
-                                            <li  className = "headerItems float-left"><div><i class="fa fa-home" aria-hidden="true"></i></div><span className = "">Home</span></li>
+                                            <li  className = "headerItems float-left"><div><i className="fa fa-home" aria-hidden="true"></i></div><span className = "">Home</span></li>
                                         </Link>
-
-                                            <li className = " headerItems float-left"><div><i class="fa fa-tachometer" aria-hidden="true"></i></div><span className = "">Dashboard</span></li>
-                                            <li className = "headerItems float-left">   
-                                                <div >  
-                                            <Link to = {'/dashboard'}>
-                                                <span className =" "><i class="fa fa-shopping-cart" aria-hidden="true"></i> 
+                                        <Link to = {'/dashboard'}>
+                                            <li className = " headerItems float-left"><div><i className="fa fa-tachometer" aria-hidden="true"></i></div><span className = "">Dashboard</span></li>
+                                        </Link>   
+                                            
+                                             <li className = "headerItems float-left">
+                                              <div  className =" "><i className="fa fa-shopping-cart" aria-hidden="true"></i> 
                                                 <p>Cart</p>
-                                                </span>   
-                                            </Link>
-                                                </div>
-                                            </li>
+                                                </div>   
+                                             </li>
                                             <li className = "headerItems float-left">                
                                             <div>                            
-                                                 <span className =" "><i class="fa fa-heart" aria-hidden="true"></i> 
+                                                 <span className =" "><i className="fa fa-heart" aria-hidden="true"></i> 
                                                  <p>Wishlist</p>
                                                  </span>   
                                                  </div>

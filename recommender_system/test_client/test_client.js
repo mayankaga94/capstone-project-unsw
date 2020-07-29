@@ -1,9 +1,10 @@
 var zmq = require('zeromq');
+const PORT = 5000;
 
 // Socket to talk to server
 console.log("Connecting to recommender server…");
 var requester = zmq.socket('req');
-requester.connect("tcp://localhost:5555");
+requester.connect(`tcp://localhost:${PORT}`);
 
 // Handle replies received
 requester.on("message", function(reply) {
@@ -13,7 +14,7 @@ requester.on("message", function(reply) {
 // Example requests
 for (var i = 0; i < 10; i++) {
   console.log("Sending request", i, '…');
-  requester.send('{"book_ids": [1, 2], "tag_ids": [100], "count": 5}');
+  requester.send('{"book_ids": ["439023483", "439554934"], "tag_ids": [100], "count": 5}');
 }
 
 // Close client when ctrl+c pressed

@@ -3,31 +3,36 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import './App.css';
 import UserContext from './context/usercontext';
 import Workspace from './components/workspace/Workspace';
-// import Discoverbook from './components/workspace/discoverbook';
+import Discoverbook from './components/workspace/discoverbook';
 import Headerwrap from './components/header/header_wrap';
 import Bookdetails from './components/workspace/bookdetails'
-
+import { Link } from 'react-router-dom'
 import PersonalDashboard from './components/workspace/Dashboard/PersonalDashboard'
 import Footer from './components/footer/Footer'
 import Dashboard from './components/workspace/Dashboard/Dashboard';
 
 
 function App() {
+
   const [userData, setUserData] = useState({
     token : undefined,
     user : undefined,
     goal : "",
     complete : 0
   });
+
+
   useEffect(() => {
-        const checkLoggedIn =  async () =>{
         let token = localStorage.getItem("auth-token")
-           fetch('http://localhost:5000/getUser',
-           { method : "GET",
-                headers: {
-                      "auth_token" : token
-            }
-        })
+        if (token){
+        const checkLoggedIn =  async () =>{
+
+          fetch('http://localhost:5000/getUser',
+            { method : "GET",
+                  headers: {
+                        "auth_token" : token
+              }
+          })
         .then((response) => {
           response.json().then((data) => {
             setUserData({
@@ -37,29 +42,27 @@ function App() {
           });            
         });
     }
-     checkLoggedIn ();
+    checkLoggedIn ();
+  }
+
   }, [])
 
   return (
     <div className = "App">  
         <Router>
-          <UserContext.Provider value = {{userData, setUserData}}>
+          <UserContext.Provider value =  {{userData, setUserData}}>
             <Headerwrap /> 
               <Switch>
-                  <Route exact path  = "/" component  = {Headerwrap, Workspace} /> */}
+                  <Route exact path  = "/" component  = {Workspace} />
                   <Route  path  = "/home" component = { Workspace} />
-                  <Route exact path="/dashboard" component={Dashboard}/> 
-                  {/* import { Link } from 'react-router-dom' */}
-
-
-                  {/* <Route path = "/book/" compoponent = { bookdetails}/> */}
-                  {/* <Route exact path  = "/books" component = {Discoverbook} /> */}
-
-                  {/* {userData.user ? 
-                <Route path="/home/dashboard" component={PersonalDashboard}/> :
-                  <link  to='/dashboard' />
-                } */}
-                  <Route  path  = "/bookdetails/:id" component = {Bookdetails} />
+                <Route exact path="/dashboard" component={Dashboard}/>
+                  {/* <Route path = "/book/" compoponent = { Bookdetails}/> */}
+                  <Route path  = "/books" component = {Discoverbook} />
+              {/* {userData.user ? 
+                     ( <Route path="/home/dashboard" component={PersonalDashboard}/> ):
+                       <link  to='/dashboard' />
+                }  */}
+                  <Route path  = "/bookdetails/:id" component = {Bookdetails} />
               </Switch>
             </UserContext.Provider>
         </Router>

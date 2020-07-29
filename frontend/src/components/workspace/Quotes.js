@@ -3,7 +3,7 @@ import React from 'react'
 export default function Quotes(props) {
     return (
         <div>
-                <div class ="quotesText">
+                <div className ="quotesText">
                              {props.text}
                 </div>
         </div>

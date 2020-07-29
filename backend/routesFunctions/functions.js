@@ -513,7 +513,7 @@ module.exports = {
     },
     editTaskStatus:  async (req, res) => {
         try {
-            let {userid,tasklistid,status} = req.body
+            let {userid,tasklistid,status} = req.body.todoComplete
             let query = "Update tasklist set status = ? where userid=? and tasklistid=?";
             await pool.query(query,[status,userid,tasklistid])
             return res.status(200).send({
@@ -528,7 +528,8 @@ module.exports = {
     },
     deleteTask: async (req,res) => {
         try {
-            let {tasklistid} = req.body;
+            let {tasklistid} = req.body
+            console.log(tasklistid)
             await pool.query("DELETE from tasklist WHERE tasklistid=?",tasklistid);
             return res.status(200).send({
                 success : true,
@@ -541,7 +542,7 @@ module.exports = {
     },
     fetchTask:  async (req, res) => {
         try {
-            let {userid} = req.body
+            let userid = req.body
             let query = "Select * from tasklist where userid=?";
             var result = await pool.query(query,userid)
             return res.status(200).send({
@@ -687,6 +688,65 @@ module.exports = {
         }
         catch(err){
             return res.status(500).send(err)
+        }
+    },
+    addToWishlist: async (req,res) => {
+        try {
+            let {wishlistName,userid,ISBN} = req.body;
+            // insert item to wishlist
+            await pool.query('INSERT INTO wishlist(wishlistname,userid,ISBN) VALUES(?,?,?)',[wishlistName,userid,ISBN]);
+            return res.status(200).send({
+                success: true,
+                message: 'Wishlist created'
+            });
+        }
+        catch(err){
+            if (err.errno== 1452){
+                return res.status(500).send({
+                    success: false,
+                    message:"User does not exist"
+                })
+            }
+            return res.status(500).send(err);
+        }
+    },
+    deleteFromWishlist: async (req,res) => {
+        try{
+            let {wishlistName,userid,ISBN} = req.body;
+            await pool.query("DELETE FROM wishlist WHERE wishlistname=? AND userid=? AND ISBN=?",[wishlistName,userid,ISBN]);
+            return res.status(200).send({
+                success: true,
+                message: "Deleted"
+            })            
+        }
+        catch(err){
+            return res.status(500).send(err);
+        }
+    },
+    fetchWishlist: async(req,res) => {
+        try{
+            let {userid} = req.body;
+            var result = await pool.query("SELECT wishlistname,count(*) FROM wishlist WHERE userid=? GROUP BY wishlistname",userid);
+            return res.status(200).send({
+                success: true,
+                result: result[0]
+            });      
+        }
+        catch(err){
+            return res.status(500).send(err);
+        }
+    },
+    fetchWishlistItems: async(req,res) => {
+        try{
+            let {wishlistName,userid} = req.body;
+            var result = await pool.query("SELECT * FROM wishlist WHERE wishlistname=? AND userid=?",[wishlistName,userid]);
+            return res.status(200).send({
+                success: true,
+                result: result[0]
+            });    
+        }
+        catch(err){
+            return res.status(500).send(err);
         }
     }
 }

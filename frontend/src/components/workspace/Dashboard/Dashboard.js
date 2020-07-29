@@ -12,57 +12,32 @@ import UserContext from '../../../context/usercontext'
 
 export default function  Dashboard(){
 
-        const [library, setLibrary ] =useState([{
-        userID :"",
-        readBook :"",
-        ISBN :""
-    }])
+        const [library, setLibrary ] =useState([])
 
     const { userData, setUserData } = useContext(UserContext);
     const loggedINUser = userData && userData.user && userData.user.userid
 
-    
-    useEffect(() => {
-        console.log("hi")
-        const shelfDetails = {"userid":loggedINUser}
-        var raw = JSON.stringify(shelfDetails);
 
-            var requestOptions = {
-            method: 'POST',
-            headers : {
-                "Content-type": "application/json"
-            },
-            body: raw,
-            redirect: 'follow'
-            };
+        // console.log(library)
+        // const filter = library.genre
+        // console.log(filter)
+        // const [genre, setGenre] = useState([])
 
-            fetch("http://localhost:5000/user/library/cart", requestOptions)
-            .then(response => response.json())
-            // ((data) => {
-            .then((result) =>{
-                console.log(result)
-                        // setLibrary({
-                        //         userID : result.userShelf,
-                        //         readBook : result.userShelf,
-                        //         ISBN : result.userShelf
-                        // })
-            })
-            
-            // setLibrary({
-            //     userID : result.userShelf.userid,
-            //     readBook : result.userShelf.readBook,
-            //     ISBN : result.userShelf.ISBN
-
-            // }))
-            .catch(error => console.log('error', error));
-        }, [])
+        // const dataToShow = filter
+        //   ? data.filter(d => d.id === filter)
+        //   : data
         return (
             <div>
                 {/* <Details /> */}
-                <Cart />
+
+                <div className ="goalset col-xs-12 col-lg-4 col-md-4 col-sm-4">
+                    <div className = "libraryHeader"> Your Collection</div>
+                {loggedINUser ?<Cart  /> : null
+                }
+                </div>
                 <CustomWishlist />
-                <GoalSummary  />
-                <ToDolist />                
+                {loggedINUser ? <GoalSummary  />:null}
+                 {loggedINUser ?  <ToDolist />  :null }              
             </div>
         )
     }

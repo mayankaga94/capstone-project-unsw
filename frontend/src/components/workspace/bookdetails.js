@@ -40,7 +40,7 @@ export default function Bookdetails() {
                  })
                  .then((response) => {          
                     response.json().then((data) => {
-                            
+                            // console.log(data);
                             setReview(data.bookReview)
                         });
                     });
@@ -58,7 +58,7 @@ export default function Bookdetails() {
             })
             .then((response) => {
                 response.json().then((data) => {
-                        console.log(data.result);
+                        // console.log(data.result);
                         setbook(data.result)
                     });
                     getPost()
@@ -70,8 +70,8 @@ export default function Bookdetails() {
 
                 <div>
                 </div>
-                {book.map(book => (
-                <Book callReviewFunction = {callReviewFunction}  bookReview = {review} Likes = {book.Likes}  pagecount = {book.pagecount}  ISBN = {book.ISBN}  genre = {book.genre}  description = {book.description}  rating = {book.rating} author = {book.author} url = {book.image} name = {book.title} /> 
+                {book.map((book,index) => (
+                <Book key = {"dookDetails"+index} callReviewFunction = {callReviewFunction}  bookReview = {review} Likes = {book.Likes}  pagecount = {book.pagecount}  ISBN = {book.ISBN}  genre = {book.genre}  description = {book.description}  rating = {book.rating} author = {book.author} url = {book.image} name = {book.title} /> 
                 ))} 
 
 

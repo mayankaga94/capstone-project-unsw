@@ -481,3 +481,23 @@ border-radius: 10px;
 .specificTask .innerWrapper{
 padding:10px;
 }
+.readBook{
+    background: red;
+    padding: 5px;
+    color:white;
+    margin:10px;
+}
+.read_genre{
+    font-size: 14px;
+    color:#ccc
+}
+.libraryHeader{
+    background: #ccc;
+    border:1px solid #ccc;
+}
+.markRead{
+    text-align: left;
+    font-size: 12px;
+    border-bottom: 1px solid #ccc;;
+    color:green;
+}
