@@ -15,4 +15,4 @@ ___
 1. First create a MySQL user.
 2. Open `test.ipynb` and modify `MYSQL_USER` and `MYSQL_PASS` to your MySQL user. Run the remaining cells to create a database called `bookdb` and populate it.
 3. `cd test_client` and `npm install` the dependencies.
-4. Open two terminals. In the first terminal, run the server: `python recommender_server.py`. Once the server is running, run the client in the second terminal: `python test_client/test_client.js`. The requests made to the server should be of the form `{"book_ids": [isbn1, isbn2, ...], "tag_ids": [tagid1, tagid2, ...], "count": number of recommendations}`. The server will respond with a list of `count` ISBNs in the order of most recommended to least.
+4. Open two terminals. In the first terminal, run the server: `python recommender_server.py`. Once the server is running, run the client in the second terminal: `python test_client/test_client.js`. This will send requests to the server of the form `{"book_ids": [isbn1, isbn2, ...], "tag_ids": [tagid1, tagid2, ...], "count": number of recommendations}`. The server will respond with a list of `count` ISBNs in the order of most recommended to least.
