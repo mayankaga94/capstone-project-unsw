@@ -118,5 +118,9 @@ router.route('/user/wishlist/items',cors())
 router.route('/user/library/cart',cors())
 .post(userFunction.getCartItems)
 
+router.route('/fetchuserdetailswithvote',cors())
+.get(userFunction.getCartItems)
+
+
 //------------export all the routes------------//
 module.exports = router

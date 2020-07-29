@@ -748,5 +748,23 @@ module.exports = {
         catch(err){
             return res.status(500).send(err);
         }
-    }
+    },
+    fetchuserdetailswithvote: async(req,res) => {
+        try{
+            let {userid} = req.body;
+            var result = await pool.query("SELECT u.firstname,u.lastname,u.emailid,\
+            u.dob,u.avatarpath,u.points,u.level,review.totalvotes FROM user u \
+            left join (Select userid,sum(votes) as totalvotes from review group by userid) as review \
+            on review.userid = user.userid\
+            WHERE userid=?",[userid]);
+            return res.status(200).send({
+                success: true,
+                result: result[0]
+            });    
+        }
+        catch(err){
+            return res.status(500).send(err);
+        }
+    },
+
 }
