@@ -8,6 +8,7 @@ ___
 2. __content_based.py__: Contains content-based recommender class responsible for making recommendations.
 3. __recommender_server.py__: Upon running the script, a server will be created that contains the recommender. Requests can be made to the server which responds with recommendations in the form of a list of ISBNs.
 4. __test.ipynb__: Sets up the MySQL database by converting the `.csv` files into MySQL tables and then tests that the recommender system is able to read from the newly created database.
+5. __queries.sql__: Contains some useful SQL statements that can be used by the client to filter or display recommendations.
 
 # Instructions
 ___
