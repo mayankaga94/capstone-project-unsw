@@ -87,10 +87,11 @@ class ContentRecommenderSystem:
         # then get top argmax indices that are not input
         mask = self.books['isbn'].apply(lambda x: all(e in self.book_tags_dict[x] for e in tag_ids))
         book_indices = [i for i in np.argsort(score) if i not in indices][::-1]
-        book_isbns = [self.books.iloc[i]['isbn'] for i in book_indices if mask[i]][:count]
+        book_indices = [i for i in book_indices if mask[i]][:count]
 
         # Return recommendations by book indices
         if verbose == False:
+            book_isbns = [self.books.iloc[i]['isbn'] for i in book_indices][:count]
             return book_isbns
         
         # Return the dataframe and print results
