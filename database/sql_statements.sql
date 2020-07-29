@@ -18,7 +18,7 @@ dob date
 -----book rating table------
 create TABLE book_ratings
 ( ratingid MEDIUMINT primary key AUTO_INCREMENT, 
-ISBN MEDIUMINT, 
+ISBN BIGINT, 
 userid MEDIUMINT, 
 rating FLOAT, 
 date  DATETIME,
@@ -37,9 +37,9 @@ create TABLE wishlist
 wishlistid MEDIUMINT primary key AUTO_INCREMENT, 
 wishlistname VARCHAR(255),
 userid MEDIUMINT, 
-ISBN MEDIUMINT, 
+ISBN BIGINT, 
 purchased varchar(255) DEFAULT 'N',
-FOREIGN KEY (userid) REFERENCES User(userid)
+FOREIGN KEY (userid) REFERENCES user(userid)
 )
 
 ----------------user tasklist----------------------------------
@@ -82,7 +82,6 @@ readBook  Boolean ,
 primary key (userid,ISBN),
 FOREIGN KEY (userid) REFERENCES user(userid)
 )
-
 -------------------Admin----------------------------------------
 create table adminLogin(
 username varchar(30) primary key,

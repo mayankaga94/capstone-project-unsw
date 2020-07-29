@@ -3,6 +3,7 @@ const router = express.Router();
 const cors  = require('cors')
 const userFunction = require('../routesFunctions/functions')
 const verify =  require('./verifytoken')
+
 require("dotenv").config();
 
 // ---------------Registration ----------------//
@@ -67,11 +68,11 @@ router.route('/admin/removeBook',cors())
 
 // -----------------------------------//
 router.route('/searchbytitle',cors())
-    .get(userFunction.searchBookByTitle)
+    .post(userFunction.searchBookByTitle)
 
 // -------------------------------------//
 router.route('/searchbygenre',cors())
-    .get(userFunction.searchBookByGenre)
+    .post(userFunction.searchBookByGenre)
 
 // -------------------------------------//
 router.route('/user/task',cors())
@@ -103,8 +104,27 @@ router.route('/user/library/cart',cors())
 
 
 //----------------Delete a Review with all Votes------------------//
-router.route('/admin/deleteReview',cors())
-    .delete(userFunction.deleteReview)
+// router.route('/admin/deleteReview',cors())
+//     .delete(userFunction.deleteReview)
+
+//----------------Wishlist------------------//
+router.route('/user/wishlist',cors())
+    .get(userFunction.fetchWishlist)
+    .post(userFunction.addToWishlist)
+
+router.route('/user/wishlist/items',cors())
+    .get(userFunction.fetchWishlistItems)
+    .delete(userFunction.deleteFromWishlist)
+
+router.route('/user/library/cart',cors())
+.post(userFunction.getCartItems)
+
+router.route('/fetchuserdetailswithvote',cors())
+.get(userFunction.fetchuserdetailswithvote)
+
+router.route('/totalreadbooks',cors())
+.get(userFunction.totalreadbooks)
+
 
 //------------export all the routes------------//
 module.exports = router

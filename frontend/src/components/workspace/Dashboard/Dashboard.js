@@ -28,16 +28,20 @@ export default function  Dashboard(){
         //   : data
         return (
             <div>
-                {/* <Details /> */}
-
-                <div className ="goalset col-xs-12 col-lg-4 col-md-4 col-sm-4">
-                    <div className = "libraryHeader"> Your Collection</div>
-                {loggedINUser ?<Cart  /> : null
+                <div className ="row">
+                   
+                {loggedINUser ? (
+                <>
+                    <Details  className=" upperSection col-xs-12 col-lg-3 col-md-3 col-sm-12" /> 
+                    <GoalSummary  className =" upperSection col-xs-12 col-lg-3 col-md-3 col-sm-12"  />
+                    <Cart  className ="col-xs-12 col-lg-4 col-md-4 col-sm-12"  />  
+                    <CustomWishlist className =" col-xs-12 col-lg-4 col-md-4 col-sm-12"  />
+                    <ToDolist className =" col-xs-12 col-lg-4 col-md-4 col-sm-12"  />  
+                    </>
+                    )      
+                : null
                 }
-                </div>
-                <CustomWishlist />
-                {loggedINUser ? <GoalSummary  />:null}
-                 {loggedINUser ?  <ToDolist />  :null }              
+                </div>            
             </div>
         )
     }

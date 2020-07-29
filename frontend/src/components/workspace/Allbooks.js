@@ -24,7 +24,8 @@ const Allbooks = () => {
                 <h1 > All Books</h1>
                 <Searchbar />
                 {books.map((books,index) => (
-                    <Booknew key = {"allBook"+ index} author = {books.author}  ISBN = {books.ISBN} url = {books.image} name = {books.title}  route = "Home"/>  ))}
+                    <Booknew key = {"allBook"+ index}  author = {books.author}  ISBN = {books.ISBN} url = {books.image} name = {books.title}  route = "Home"/>  ))
+              }
             </div>
         )
 }

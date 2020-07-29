@@ -3,6 +3,8 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const pool = require('../config/sql_config')
+const { v1: uuidv1 } = require('uuid');
+// const uuidv1 = require('uuid/v4');
 
 module.exports = {
     // next is not needed at the moment 
@@ -206,6 +208,7 @@ module.exports = {
     },
     postRating : async (req, res) => {
         try {
+            console.log(req.body)
             let {bookid,userid,rating} = req.body
             
             if(rating < 0 || rating > 5){
@@ -230,12 +233,12 @@ module.exports = {
                     message: 'book does not exist'
                 });
             }
-            var result2 = await pool.query('SELECT * FROM book_ratings WHERE userid=? AND bookid=?',[userid,bookid])
+            var result2 = await pool.query('SELECT * FROM book_ratings WHERE userid=? AND ISBN=?',[userid,bookid])
             if (result2[0].length > 0){
-                await pool.query('UPDATE book_ratings SET rating = ? WHERE userid=? AND bookid=?',[rating,userid,bookid])
+                await pool.query('UPDATE book_ratings SET rating = ? WHERE userid=? AND ISBN=?',[rating,userid,bookid])
                 return res.status(200).send("Updated rating");
             }
-            let query = "INSERT INTO book_ratings(bookid,userid,rating) VALUES (?,?,?)";
+            let query = "INSERT INTO book_ratings(ISBN,userid,rating) VALUES (?,?,?)";
             
             var result = await pool.query(query,[bookid,userid,rating]);
             res.status(200).send({success: true});
@@ -414,7 +417,7 @@ module.exports = {
     //----------------------------------------//
     removeBook: async (req,res) => {
         try{
-            let {ISBN} = req.body;
+            let {ISBN } = req.body;
             if (!ISBN){
                 res.status(500).send('empty fields')
             }
@@ -462,8 +465,11 @@ module.exports = {
     },
     searchBookByTitle: async (req, res) => {
         try {
+            console.log("hi")
+            console.log(req.body)
             let {booktitle} = req.body
-            let query = "Select ISBN from book_dataset where title like CONCAT('%', ?, '%')";
+            console.log(booktitle)
+            let query = "Select * from book_dataset where title like CONCAT('%', ?, '%')";
             var result = await pool.query(query,booktitle)
             // res.status(200).send('success');
             return res.status(200).send({
@@ -478,17 +484,14 @@ module.exports = {
     searchBookByGenre:  async (req, res) => {
         try {
             let {genre} = req.body
-            let query = "Select ISBN from book_dataset where genre like CONCAT('%', ?, '%')";
+            let query = "Select * from book_dataset where genre like CONCAT('%', ?, '%')";
             var result = await pool.query(query,genre)
             return res.status(200).send({
                 result : result[0],
                 success: true
                 });
             }
-            // res.status(200).send('success');
-        
         catch(err) {
-            
             return res.status(500).send(err);
         }
     },
@@ -627,14 +630,14 @@ module.exports = {
     //---------------Library-------------//
     addToCart: async (req, res) =>{
         try { 
-           
             let {ISBN, userid} = req.body;
-            console.log(ISBN, userid)
-            // check if item already exists
-            // add to cart/shelf
-            var result = await pool.query("INSERT INTO cart(userid,ISBN,readBook) VALUES(?,?,0)",[userid,ISBN]);
+            const x = uuidv1();
+            
+            console.log(x,ISBN, userid,)
+            var result = await pool.query("INSERT INTO cart(userid,ISBN,readBook,bookshelfID) VALUES(?,?,0,?)",[userid,ISBN,x]);
             return res.status(200).send({
-                success: true
+                success: true,
+                uniqID : x
             });   
         }
         catch(err){
@@ -661,7 +664,7 @@ module.exports = {
         try {
             // fetch all cart items
             let userid = req.body.userid;
-            var result = await pool.query("SELECT cart.ISBN,cart.readBook,cart.userid,book_dataset.genre from cart join book_dataset on book_dataset.ISBN = cart.ISBN WHERE userid=?",userid);
+            var result = await pool.query("SELECT cart.ISBN,cart.readBook,cart.userid,book_dataset.genre,cart.bookshelfID from cart join book_dataset on book_dataset.ISBN = cart.ISBN WHERE userid=?",userid);
             if (result[0].length == 0){
                 return res.status(200).send({
                     success: false,
@@ -690,25 +693,95 @@ module.exports = {
             return res.status(500).send(err)
         }
     },
-    deleteReview: async (req,res) => {
-        try{
-            let {reviewid} = req.body;
-            if (!reviewid){
-                res.status(500).send('empty fields')
-            }
-            else {
-                var query = "DELETE FROM review WHERE reviewid = ?";
-                var result = await pool.query(query, reviewid);
-                var query2 = "DELETE FROM vote WHERE reviewid = ?";
-                var result2 = await pool.query(query2, reviewid);
-                return res.status(200).send({
-                    success : true,
-                    message : "Review Removed"
-                });
-            }
+    addToWishlist: async (req,res) => {
+        try {
+            let {wishlistName,userid,ISBN} = req.body;
+            // insert item to wishlist
+            await pool.query('INSERT INTO wishlist(wishlistname,userid,ISBN) VALUES(?,?,?)',[wishlistName,userid,ISBN]);
+            return res.status(200).send({
+                success: true,
+                message: 'Wishlist created'
+            });
         }
         catch(err){
-            return res.status(500).send(err)
+            if (err.errno== 1452){
+                return res.status(500).send({
+                    success: false,
+                    message:"User does not exist"
+                })
+            }
+            return res.status(500).send(err);
         }
     },
+    deleteFromWishlist: async (req,res) => {
+        try{
+            let {wishlistName,userid,ISBN} = req.body;
+            await pool.query("DELETE FROM wishlist WHERE wishlistname=? AND userid=? AND ISBN=?",[wishlistName,userid,ISBN]);
+            return res.status(200).send({
+                success: true,
+                message: "Deleted"
+            })            
+        }
+        catch(err){
+            return res.status(500).send(err);
+        }
+    },
+    fetchWishlist: async(req,res) => {
+        try{
+            let {userid} = req.body;
+            var result = await pool.query("SELECT wishlistname,count(*) FROM wishlist WHERE userid=? GROUP BY wishlistname",userid);
+            return res.status(200).send({
+                success: true,
+                result: result[0]
+            });      
+        }
+        catch(err){
+            return res.status(500).send(err);
+        }
+    },
+    fetchWishlistItems: async(req,res) => {
+        try{
+            let {wishlistName,userid} = req.body;
+            var result = await pool.query("SELECT * FROM wishlist WHERE wishlistname=? AND userid=?",[wishlistName,userid]);
+            return res.status(200).send({
+                success: true,
+                result: result[0]
+            });    
+        }
+        catch(err){
+            return res.status(500).send(err);
+        }
+    },
+    fetchuserdetailswithvote: async(req,res) => {
+        try{
+            let {userid} = req.body;
+            var result = await pool.query("SELECT u.firstname,u.lastname,u.emailid,\
+            u.dob,u.avatarpath,u.points,u.level,review.totalvotes FROM user u \
+            left join (Select userid,sum(votes) as totalvotes from review group by userid) as review \
+            on review.userid = user.userid\
+            WHERE userid=?",[userid]);
+            return res.status(200).send({
+                success: true,
+                result: result[0]
+            });    
+        }
+        catch(err){
+            return res.status(500).send(err);
+        }
+    },
+    totalreadbooks: async(req,res) => {
+        try{
+            let {userid} = req.body;
+            var result = await pool.query("SELECT ISBN from cart\
+            WHERE userid=? and readBook=1",[userid]);
+            return res.status(200).send({
+                success: true,
+                result: result[0]
+            });    
+        }
+        catch(err){
+            return res.status(500).send(err);
+        }
+    }
+
 }

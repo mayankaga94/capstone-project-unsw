@@ -12,10 +12,21 @@ export default function Bookdetails() {
         const [book, setbook] = useState([]);
         const [review, setReview] =  useState([]);
 
+
         useEffect(() => {
             getBook()
         }, [])
-        
+
+
+        const  callupFunction = (newvote) =>{
+                console.log("fdgdfgdfg")
+            const obj = {
+                votes :newvote.votes
+            }
+
+
+            setReview([...review, obj])
+        }
         const callReviewFunction = (newReview)=>{
             // let intiState = [...review]
             // console.log(review)
@@ -71,7 +82,7 @@ export default function Bookdetails() {
                 <div>
                 </div>
                 {book.map((book,index) => (
-                <Book key = {"dookDetails"+index} callReviewFunction = {callReviewFunction}  bookReview = {review} Likes = {book.Likes}  pagecount = {book.pagecount}  ISBN = {book.ISBN}  genre = {book.genre}  description = {book.description}  rating = {book.rating} author = {book.author} url = {book.image} name = {book.title} /> 
+                <Book key = {"dookDetails"+index} callReviewFunction = {callReviewFunction} callupFunction = {callupFunction}  bookReview = {review} Likes = {book.Likes}  pagecount = {book.pagecount}  ISBN = {book.ISBN}  genre = {book.genre}  description = {book.description}  rating = {book.rating} author = {book.author} url = {book.image} name = {book.title} /> 
                 ))} 
 
 

@@ -51,7 +51,8 @@ export default function Comments(props) {
                 <button  className = "commentButton" onClick={()=>{props.callReviewFunction({
               bookid: id,
               userid:  userData.user.userid,
-              comment : comm
+              comment : comm,
+              votes : 0
         }); 
                 postComment();resetValue()}}>Comment</button>
         </div>
