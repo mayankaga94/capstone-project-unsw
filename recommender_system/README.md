@@ -1,11 +1,17 @@
 # Python dependencies
 ___
 `pip install pandas`
+
 `pip install SQLAlchemy`
+
 `pip install sklearn`
+
 `pip install zmq`
+
 `pip install pymysql`
 
+Alternatively:
+`pip install -r requirements.txt`
 
 
 # Files and subdirectories
