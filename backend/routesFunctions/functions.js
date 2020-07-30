@@ -6,6 +6,15 @@ const pool = require('../config/sql_config')
 const { v1: uuidv1 } = require('uuid');
 // const uuidv1 = require('uuid/v4');
 
+var zmq = require('zeromq');
+const PORT = 8080;
+
+// Socket to talk to server
+console.log("Connecting to recommender server…");
+var requester = zmq.socket("req");
+requester.connect(`tcp://localhost:${PORT}`);
+
+
 module.exports = {
 
 
