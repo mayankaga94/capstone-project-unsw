@@ -4,6 +4,7 @@ ___
 `pip install SQLAlchemy`
 `pip install sklearn`
 `pip install zmq`
+`pip install pymysql`
 
 
 
