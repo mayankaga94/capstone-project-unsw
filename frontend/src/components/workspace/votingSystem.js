@@ -6,9 +6,10 @@ export default function VotingSystem(props) {
     // console.log("comentzzzzz",props)
    const voterID =  props.voterID
     const loggedInUser = props.userID
+    console.log("im votes", props.votes)
     const reviewID = props.reviewID
+    const updateVote = props.votes + 1
 
-    
     // console.log(voterID, loggedInUser)
 
     const upVote = () =>{
@@ -19,6 +20,7 @@ export default function VotingSystem(props) {
                 return <h1>you cannot upvote your own vote</h1>
             }
             else{
+                
                     // console.log("comentzzzzz",props)
                 // console.log("bye")
                 let vote = 1,
@@ -100,8 +102,9 @@ export default function VotingSystem(props) {
                  <span className = "reviewSubheading">{votes}</span>
                     <div className = "upvotes">
                         <span className = "reviewStart">             
-                        
-                            <button onClick={ ()=>upVote()} > 
+                            <button onClick={() =>{props.callupFunction({
+                                votes : updateVote
+                                     });upVote()}}> 
                             <span> <i className="fa fa-thumbs-up" aria-hidden="true"></i></span>
                             </button>
                             

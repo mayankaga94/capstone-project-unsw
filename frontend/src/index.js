@@ -5,10 +5,13 @@ import App from './App';
 // import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
+import Store from './components/workspace/store'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+     <Store>
+        <App />
+    </Store>
   </React.StrictMode>,
   document.getElementById('root')
 );

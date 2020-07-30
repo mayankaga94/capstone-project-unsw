@@ -8,7 +8,7 @@ import UserContext from '../../context/usercontext'
 export default function Review(props) {
     const { userData, setUserData } = useContext(UserContext);
     const checkUser = props.userid
-    // const loggedINUser = userData.user.userid
+    const loggedINUser = userData && userData.user && userData.user.userid
     const reviewid = props.reviewid 
     return (
 
@@ -20,16 +20,18 @@ export default function Review(props) {
          <div className = "reviewContent">
                                         <div className = "reviewContenHeader">
                                             <span className = "reviewSubheading"> Review</span>
+                                            {/* {props.reviewid  ? <>No Reviews yet</> :null } */}
                                         </div>
                                         <div className = "reviewContenHeader">
                                              <h1> </h1>
                                             <p className = "reviewDescription"> {props.comment}</p>   
 
                                             {userData.user ?
-                                                < VotingSystem   callReviewFunction = {props.callReviewFunction} reviewID = {reviewid} voterID = {checkUser} userID={ userData.user.userid} votes = {props.votes} />
-                                            //  userData.user.userID == checkUser ? <Delete  deleteid = {reviewid} />
+                                                < VotingSystem   callupFunction = {props.callupFunction} reviewID = {reviewid} voterID = {checkUser} userID={ userData.user.userid} votes = {props.votes} />
+                                        
                                             :null  }
 
+                                 {loggedINUser== checkUser ? <Delete  deleteid = {reviewid} />:null}
 {/*                               
                                         < VotingSystem   callReviewFunction = {props.callReviewFunction} reviewID = {reviewid} voterID = {checkUser} userID={loggedINUser} votes = {props.votes} />
                                          { loggedINUser == checkUser ? <Delete  deleteid = {reviewid} />: null }               */}

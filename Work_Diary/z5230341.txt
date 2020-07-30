@@ -14,3 +14,16 @@ Created CF based and content based recommender systems.
 
 Week 5
 Updated recommender system to better display recommendations.
+
+Week 6
+Recommender now reads data from a MySQL database.
+
+Week 7
+Updated recommender to take in a list of ISBNs and tag ids that are used to finetune recommendations.
+Cleaned tags dataset to only consider ~150 tags.
+
+Week 8
+Created Python server script to host the recommender and a JS client script that makes requests.
+
+Week 9
+Reworked dataset. Now it has ~5000 books instead of ~700 and all books include descriptions (obtained via webscraping) and a genre (obtained from feature extraction). 

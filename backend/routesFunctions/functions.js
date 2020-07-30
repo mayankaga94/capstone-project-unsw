@@ -3,6 +3,8 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const pool = require('../config/sql_config')
+const { v1: uuidv1 } = require('uuid');
+// const uuidv1 = require('uuid/v4');
 
 var zmq = require('zeromq');
 const PORT = 8080;
@@ -215,6 +217,7 @@ module.exports = {
     },
     postRating : async (req, res) => {
         try {
+            console.log(req.body)
             let {bookid,userid,rating} = req.body
             
             if(rating < 0 || rating > 5){
@@ -423,7 +426,7 @@ module.exports = {
     //----------------------------------------//
     removeBook: async (req,res) => {
         try{
-            let {ISBN} = req.body;
+            let {ISBN } = req.body;
             if (!ISBN){
                 res.status(500).send('empty fields')
             }
@@ -471,8 +474,11 @@ module.exports = {
     },
     searchBookByTitle: async (req, res) => {
         try {
+            console.log("hi")
+            console.log(req.body)
             let {booktitle} = req.body
-            let query = "Select ISBN from book_dataset where title like CONCAT('%', ?, '%')";
+            console.log(booktitle)
+            let query = "Select * from book_dataset where title like CONCAT('%', ?, '%')";
             var result = await pool.query(query,booktitle)
             // res.status(200).send('success');
             return res.status(200).send({
@@ -487,17 +493,14 @@ module.exports = {
     searchBookByGenre:  async (req, res) => {
         try {
             let {genre} = req.body
-            let query = "Select ISBN from book_dataset where genre like CONCAT('%', ?, '%')";
+            let query = "Select * from book_dataset where genre like CONCAT('%', ?, '%')";
             var result = await pool.query(query,genre)
             return res.status(200).send({
                 result : result[0],
                 success: true
                 });
             }
-            // res.status(200).send('success');
-        
         catch(err) {
-            
             return res.status(500).send(err);
         }
     },
@@ -636,14 +639,14 @@ module.exports = {
     //---------------Library-------------//
     addToCart: async (req, res) =>{
         try { 
-           
             let {ISBN, userid} = req.body;
-            console.log(ISBN, userid)
-            // check if item already exists
-            // add to cart/shelf
-            var result = await pool.query("INSERT INTO cart(userid,ISBN,readBook) VALUES(?,?,0)",[userid,ISBN]);
+            const x = uuidv1();
+            
+            console.log(x,ISBN, userid,)
+            var result = await pool.query("INSERT INTO cart(userid,ISBN,readBook,bookshelfID) VALUES(?,?,0,?)",[userid,ISBN,x]);
             return res.status(200).send({
-                success: true
+                success: true,
+                uniqID : x
             });   
         }
         catch(err){
@@ -670,7 +673,7 @@ module.exports = {
         try {
             // fetch all cart items
             let userid = req.body.userid;
-            var result = await pool.query("SELECT cart.ISBN,cart.readBook,cart.userid,book_dataset.genre from cart join book_dataset on book_dataset.ISBN = cart.ISBN WHERE userid=?",userid);
+            var result = await pool.query("SELECT cart.ISBN,cart.readBook,cart.userid,book_dataset.genre,cart.bookshelfID from cart join book_dataset on book_dataset.ISBN = cart.ISBN WHERE userid=?",userid);
             if (result[0].length == 0){
                 return res.status(200).send({
                     success: false,
