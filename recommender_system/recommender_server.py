@@ -42,7 +42,7 @@ while True:
         book_ids = message_dict['book_ids'] #isbn
         tag_ids = [int(x) for x in message_dict['tag_ids']] 
         count = int(message_dict['count'])
-    except KeyError:
+    except (KeyError, ValueError) as e:
         print('Invalid request.')
         socket.send(b"Invalid request.")
         continue

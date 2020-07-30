@@ -1,12 +1,11 @@
 
-#/usr/bin/python3
+#!/usr/bin/python3
 import os
 import sys
 import pandas as pd
 import numpy as np
 from collections import defaultdict
 from sqlalchemy import create_engine
-#import pymysql
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
@@ -31,6 +30,14 @@ class ContentRecommenderSystem:
         for i in range(len(self.book_tags)):
             self.book_tags_dict[self.book_tags['ISBN'].iloc[i]].append(self.book_tags['tag_id'].iloc[i])
 
+    # Combine all features into one
+    def get_combined_feature(self, book_df):
+        all_features = pd.merge(self.book_tags, self.tags, on='tag_id')
+        all_features = pd.merge(book_df, all_features, on='ISBN')
+        all_features = all_features.groupby('ISBN')['tag_name'].apply(' '.join).reset_index()
+        return book_df['author'].apply(lambda x: x.replace(' ','')) + ' ' + book_df['title'] + ' ' + all_features['tag_name']
+
+
     # Load dataset from csv
     def load_from_csv(self, dataset_path):
         # Paths
@@ -43,13 +50,8 @@ class ContentRecommenderSystem:
         self.book_tags = pd.read_csv(book_tags_path)
         books = pd.read_csv(books_path, encoding = "ISO-8859-1")
         
-        # Bit of cleaning and feature extraction
-        #books['author'] = books['authors'].apply(lambda x:  x.split(',')[0]) # Only use name of main author
-        #books = books[['book_id', 'goodreads_book_id', 'title', 'average_rating', 'author']]
-        all_features = pd.merge(self.book_tags, self.tags, on='tag_id')
-        all_features = pd.merge(books, all_features, on='ISBN')
-        all_features = all_features.groupby('ISBN')['tag_name'].apply(' '.join).reset_index()
-        books['all_features'] = books['author'].apply(lambda x: x.replace(' ','')) + ' ' + books['title'] + ' ' + all_features['tag_name']
+        # New feature containing combination of other features
+        books['all_features'] = self.get_combined_feature(books)
 
         self.books = books
         self.set_index_mapping()
@@ -62,26 +64,25 @@ class ContentRecommenderSystem:
         self.book_tags = pd.read_sql("SELECT * FROM book_tags", con=engine)
         books = pd.read_sql("SELECT * FROM books", con=engine)
         
-        # Bit of cleaning and feature extraction
-        all_features = pd.merge(self.book_tags, self.tags, on='tag_id')
-        all_features = pd.merge(books, all_features, on='ISBN')
-        all_features = all_features.groupby('ISBN')['tag_name'].apply(' '.join).reset_index()
-        books['all_features'] = books['author'].apply(lambda x: x.replace(' ','')) + ' ' + books['title'] + ' ' + all_features['tag_name']
+        # New feature containing combination of other features
+        books['all_features'] = self.get_combined_feature(books)
         
         self.books = books
         self.set_index_mapping()
         
-        
+    # Gets the similarity matrix for books    
     def fit(self):
         vectorizer = TfidfVectorizer(analyzer='word',ngram_range=(1,1),min_df=0.002, stop_words='english')
-        book_feature_matrix = vectorizer.fit_transform(self.books['all_features'])
-        self.similarity_matrix = linear_kernel(book_feature_matrix, book_feature_matrix)
+        book_feature_matrix = vectorizer.fit_transform(self.books['all_features']) # each row represents a book
+        self.similarity_matrix = linear_kernel(book_feature_matrix, book_feature_matrix) # [x,y] represents the similarity between book x and y
     
         
     def get_recommendations(self, book_ids, tag_ids, count=5, verbose=False):
         # Have each book contribute to a total score
-        # so just add similarity_matrix[idx] for all indices
-        indices = [self.book_to_index[book_id] for book_id in book_ids]
+        try: # invalid book_ids
+            indices = [self.book_to_index[book_id] for book_id in book_ids]
+        except KeyError:
+            return [] 
         score = np.sum(self.similarity_matrix[indices], axis=0)
 
         # then get top argmax indices that are not input

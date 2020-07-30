@@ -791,6 +791,39 @@ module.exports = {
         catch(err){
             return res.status(500).send(err);
         }
+    },
+    numberofreads: async(req,res) => {
+        try{
+            let {ISBN} = req.body;
+            var result = await pool.query("SELECT count(*) from cart\
+            WHERE ISBN=? and readBook=1 group by ISBN",[ISBN]);
+            return res.status(200).send({
+                success: true,
+                result: result[0]
+            });    
+        }
+        catch(err){
+            return res.status(500).send(err);
+        }
+    },
+    getRecommendation: async(req,res) => {
+        try{
+            let {ISBN,count} = req.body;
+            var test = '{"book_ids": ["'+String(ISBN)+'"], "tag_ids": [], "count": '+count+'}'
+            requester.send(test)
+            // Handle replies received
+            requester.on("message", function(reply) {
+                console.log("Received reply", reply.toString());
+                return res.status(200).send({
+                    success: true,
+                    result: reply.toString()
+                });
+            });
+            
+        }
+        catch(err){
+            return res.status(500).send(err);
+        }
     }
 
 }
