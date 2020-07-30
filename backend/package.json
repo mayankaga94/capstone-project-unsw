@@ -21,6 +21,7 @@
     "mysql2": "^2.1.0",
     "node-localstorage": "^2.1.6",
     "nodemon": "^2.0.4",
-    "sequelize": "^6.3.0"
+    "sequelize": "^6.3.0",
+    "zeromq": "^5.2.0"
   }
 }

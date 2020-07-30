@@ -124,6 +124,8 @@ router.route('/fetchuserdetailswithvote',cors())
 router.route('/totalreadbooks',cors())
 .get(userFunction.totalreadbooks)
 
+router.route('/getRecommendation',cors())
+    .post(userFunction.getRecommendation)
 
 //------------export all the routes------------//
 module.exports = router
