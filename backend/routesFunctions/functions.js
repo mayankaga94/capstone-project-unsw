@@ -16,6 +16,9 @@ requester.connect(`tcp://localhost:${PORT}`);
 
 
 module.exports = {
+
+
+    
     // next is not needed at the moment 
     register :  async(req,res,next) => {
         try{
@@ -817,15 +820,9 @@ module.exports = {
     },
     getRecommendation: async(req,res) => {
         try{
-            let {ISBN,tag} = req.body;
-            // var spawn = require("child_process").spawn;
-            // var process = spawn('python',["../../recommender_system/content_based.py",ISBN,tag,10]); 
-            // process.stdout.on('data', function(data) { 
-            //     return res.send(data.toString()); 
-            // } ) 
-            // var str = ISBN.toString()
-            var test = '{"book_ids": ['+String(ISBN)+'], "tag_ids": [], "count": 5}'
-            //requester.send(JSON.stringify(test))
+            let {ISBN,count} = req.body;
+            console.log(ISBN, count)
+            var test = '{"book_ids": ["'+String(ISBN)+'"], "tag_ids": [], "count": '+count+'}'
             requester.send(test)
             // Handle replies received
             requester.on("message", function(reply) {
