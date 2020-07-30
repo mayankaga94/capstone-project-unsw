@@ -28,7 +28,7 @@ class ContentRecommenderSystem:
 
     # Combine all features into one
     def get_combined_feature(self, books_df):
-        return books_df['title'] + ' ' + books_df['author'].apply(lambda x: x.replace(' ', '')) + ' ' + books_df['description']
+        return books_df['title'] + ' ' + books_df['author'].apply(lambda x: x.replace(' ', '')) + ' ' + books_df['description'] + ' ' + books_df['genre']
 
 
     # Load dataset from csv
