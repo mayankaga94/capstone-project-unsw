@@ -2,22 +2,21 @@ from content_based import *
 import zmq
 import json
 
-#from sqlalchemy import create_engine
-#import pymysql
+from sqlalchemy import create_engine
 
 # Connect to db (check test.ipynb to see how db is setup)
 PORT = 8080
-#MYSQL_USER = 'username'
-#MYSQL_PASS = 'password'
-#dbname = "bookdb"
-#engine = create_engine(f'mysql+pymysql://{MYSQL_USER}:{MYSQL_PASS}@localhost')
-#engine.execute("USE {}".format(dbname))
+MYSQL_USER = 'username'
+MYSQL_PASS = 'password'
+dbname = "bookdb"
+engine = create_engine(f'mysql+pymysql://{MYSQL_USER}:{MYSQL_PASS}@localhost')
+engine.execute("USE {}".format(dbname))
 
 dataset_path = "../dataset/goodbooks-10k"
 # Train recommender
 rs = ContentRecommenderSystem(dataset_path)
-#rs.load_from_db(engine) #rs.load_from_csv(dataset_path)
-#rs.fit()
+rs.load_from_db(engine) #rs.load_from_csv(dataset_path)
+rs.fit()
 print('Recommender System ready!')
 
 # Establish communication channel
@@ -33,9 +32,10 @@ while True:
     message_dict = json.loads(message_str)
     print("Received request: %s" % message)
     
-    # Todo: handle request to retrain
-    # rs.load_from_db(engine)
-    # rs.fit()
+    # Optional: handle request to retrain
+    # if message_str == 'retrain':
+    #    rs.load_from_db(engine)
+    #    rs.fit()
     
     # Handle bad request
     try:
