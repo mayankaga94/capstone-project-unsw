@@ -7,6 +7,9 @@ const { v1: uuidv1 } = require('uuid');
 // const uuidv1 = require('uuid/v4');
 
 module.exports = {
+
+
+    
     // next is not needed at the moment 
     register :  async(req,res,next) => {
         try{
@@ -809,6 +812,7 @@ module.exports = {
     getRecommendation: async(req,res) => {
         try{
             let {ISBN,count} = req.body;
+            console.log(ISBN, count)
             var test = '{"book_ids": ["'+String(ISBN)+'"], "tag_ids": [], "count": '+count+'}'
             requester.send(test)
             // Handle replies received

@@ -5,7 +5,7 @@ import sys
 import pandas as pd
 import numpy as np
 from collections import defaultdict
-from sqlalchemy import create_engine
+# from sqlalchemy import create_engine
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
