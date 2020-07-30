@@ -1,11 +1,11 @@
 import React from 'react'
 import Review from './Review';
 
-export default function DeleteReview(reviewid) {
+export default function DeleteReview(props) {
 
     const deleteAction = ()=>{
         let deletez = {
-            delete: reviewid.deleteid
+            delete: props.deleteid
         }
         var raw = JSON.stringify(deletez);
 
@@ -22,15 +22,16 @@ export default function DeleteReview(reviewid) {
           .then(response => response.text())
           .then((result) => {
             // setReview (...Review, )
-          } 
-          
-          )
+          })
     }
-
-
     return (
         <div>
-           <button  onClick= {()=> deleteAction() }>Delete</button>
+           <button  className = "deleteComment" onClick= {()=> (deleteAction(),
+           props.callreviewDeleteFunction({
+            delete : props.deleteid
+           }
+           ))
+          }>Delete</button>
         </div>
     )
 }

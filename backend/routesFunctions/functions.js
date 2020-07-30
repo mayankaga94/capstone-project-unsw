@@ -554,9 +554,10 @@ module.exports = {
     },
     fetchTask:  async (req, res) => {
         try {
-            let userid = req.body
+            let { userid  }= req.body
             let query = "Select * from tasklist where userid=?";
             var result = await pool.query(query,userid)
+
             return res.status(200).send({
                 result : result[0],
                 success : true,
@@ -571,7 +572,9 @@ module.exports = {
     },
     postVote: async (req, res) => {
         try {
+            
             let {reviewid, userid, vote} = req.body.voteInfo
+            console.log(req.body.voteInfo)
             // if user has alredy voted
             var result = await pool.query("SELECT * from vote where userid=? and reviewid=?",[userid,reviewid])
             var user = await pool.query("SELECT userid FROM review WHERE reviewid=?",reviewid);
@@ -689,10 +692,16 @@ module.exports = {
             return res.status(500).send(err)
         }
     },
+    
     editBookStatus: async (req,res) => {
         try{
-            let {userid,ISBN,readBook} = req.body
-            await pool.query("Update cart set readBook=? WHERE userid=? AND ISBN=?",[readBook,userid,ISBN]);
+            let {userid,bookshelfID,readBook} = req.body
+
+            let bookshelfID_string = '\"' + bookshelfID + '\"';
+            // x = uuid.fromString(bookshelfID)
+            console.log(userid, bookshelfID)
+
+            await pool.query("Update cart set readBook=? WHERE userid=? AND bookshelfID =convert(?,CHAR(50))",[readBook,userid,bookshelfID])
             return res.status(200).send({
                 success: true,
                 message: "Status updated successfully"

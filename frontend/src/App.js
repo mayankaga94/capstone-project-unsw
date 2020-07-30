@@ -8,7 +8,6 @@ import Discoverbook from './components/workspace/discoverbook';
 import Headerwrap from './components/header/header_wrap';
 import Bookdetails from './components/workspace/bookdetails'
 import { Link } from 'react-router-dom'
-import PersonalDashboard from './components/workspace/Dashboard/PersonalDashboard'
 import Footer from './components/footer/Footer'
 import Dashboard from './components/workspace/Dashboard/Dashboard';
 
@@ -68,6 +67,7 @@ function App() {
                       <Route  path  = "/bookdetails/:id" component = {Bookdetails} />
                  
               </Switch>
+              <Footer />
             </UserContext.Provider>
         </Router>
     </div>

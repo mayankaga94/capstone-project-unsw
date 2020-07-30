@@ -479,17 +479,25 @@ border-radius: 10px;
 padding:10px;
 }
 .readBook{
-    background: red;
-    padding: 5px;
-    color:white;
-    margin:10px;
+    background: #59aeac;
+    padding: 8px;
+    color: white;
+    border-radius: 10px;
+    margin: 10px;
+    text-align: right;
+
 }
 .read_genre{
     font-size: 14px;
-    color:#ccc
+    color:#535151;
 }
-.libraryHeader{
-   font-size: 16px;
+.libraryHeader, .todoheader{
+    font-size: 16px;
+    background: #eeeeee;
+    padding: 20px;
+    border-radius: 20px 20px 0 0;
+    font-weight: 600;
+    color: #393936;
 }
 .markRead{
     text-align: left;
@@ -510,7 +518,13 @@ padding:10px;
     max-height: 100px;
 }
 .title{
-    padding: 10px;
+    padding: 5px;
+    text-align: left;
+    font-weight: 600;
+}
+.titleDescriptio{
+    margin-left: 5px;
+    font-weight: 100;
 }
 .goalset{
     padding:20px;
@@ -520,19 +534,129 @@ padding:10px;
 }
 .upperSection .common-marginborder{
     margin:10px;
-    border-radius: 30px;
+    border-radius: 20px;
     border:1px solid #ccc;
-    min-height: 300px;
+    min-height: 350px;
 }
 
 .common-marginborder{
     margin:10px;
-    border-radius: 30px;
+    max-height: 400px;
+    overflow: scroll;
+    border-radius: 20px;
     border:1px solid #ccc;
     min-height: 400px;
 }
 .details{
     font-size: 18px;
     text-align: left;
+    padding: 10px 10px 10px 0;
+    color: #54a384;
+}
+
+.goal-summary{
+    margin: -10px 10px 40px ;
+    border-radius: 20px;
+    border:1px solid #ccc;
+    min-height: 350px;
+}
+.margin-top-100{
+    margin-top: 100px;
+}
+.progress{
+    margin : 5px !important;
+    min-height: 30px !important;
+    background-color: #e1e1e1 !important;
+}
+
+.avatarHeading{
+    font-size: 16px;
+    margin-top: -30px;
+    color: #6cb49b;
+    font-weight: 600;
+    padding-bottom: 20px;
+}
+.fa.fa-arrow-up{
+   color: #4debc9;
+}
+.dashboardHeading{
+    text-align: center;
+    color:#474444;
+}
+.setWidth{
+    max-width: 95%;
+    margin:0 auto;
+}
+#todolist{
+    margin: 40px 40px 30px 40px;
+  
+}
+#todolist input{
+    min-height: 40px;
+    outline: none;
+    border:1px solid #ccc;
+    min-width: 200px;
+}
+.specificTask{
+
+border: none;
+margin-right: 10px;
+min-width: 265px;
+float: left;
+margin: 0px 0 5px 45px;
+padding: 8px;
+text-align: left;
+}
+
+.todoDelete{
+    background: #dd4949;
     padding: 10px;
+    margin: 0 2px 5px 0;
+    color: white;
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+.taskinfo{
+    font-weight: 600;
+    margin:10px;
+    padding:10px;
+    color:#f25252;
+}
+.comletedTask{
+    color:green;
+    padding:10px;
+}
+.cartItems{
+    padding: 20px  0 0 30px;
+    text-align: left;
+}
+.todoitemslist{
+    max-height: 195px;
+    overflow: scroll;
+    padding-top:3px;
+}
+
+.totalBooks{
+    text-align: left;
+    padding: 30px 0  0 30px;
+    color: #7575dd;
+    font-weight: 600;
+}
+.footer{
+    min-height: 200px;
+    margin-top: 200px;
+    background : #ccc;
+}
+
+.deleteComment{
+    font-size: 12px;
+    margin-left: 1px;
+}
+
+.emptyCart{
+    text-emphasis: center;
+    font-size: 122px;
+    color:#ccc;
+    padding:40px;
 }

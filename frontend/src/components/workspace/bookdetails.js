@@ -14,22 +14,32 @@ export default function Bookdetails() {
 
 
         useEffect(() => {
+            console.log("called")
             getBook()
-        }, [])
+        }, [id])
 
-
-        const  callupFunction = (newvote) =>{
-                console.log("fdgdfgdfg")
-            const obj = {
-                votes :newvote.votes
-            }
-
-
-            setReview([...review, obj])
+        const  callupFunction = (newvote, reviewID) =>{
+            let updatedReview = review.map(reviews=>{
+                if(reviews.reviewID === reviewID){
+                    reviews.votes = newvote.votes
+                }
+                return reviews
+            }) 
+            setReview(updatedReview)
         }
+
+        const  calldownFunction = (newvote, reviewID) =>{
+
+                let updatedReview = review.map(reviews=>{
+                    if(reviews.reviewID === reviewID){
+                        reviews.votes = newvote.votes
+                    }
+                    return reviews
+                }) 
+                 setReview(updatedReview)
+    }
+
         const callReviewFunction = (newReview)=>{
-            // let intiState = [...review]
-            // console.log(review)
             const createdObject = {
                 user : newReview.userID,
                 comment: newReview.comment,
@@ -39,6 +49,15 @@ export default function Bookdetails() {
             setReview([...review, createdObject])
 
         }
+        // Delete the posts made by the user
+
+        const callreviewDeleteFunction = (newReview)=>{
+
+            console.log(newReview.delete)
+            console.log(review)
+            setReview(review.filter((k, index) => k.reviewID !== newReview.delete ))
+        }
+        // ---------------------------------
         const getPost =async() =>{
             const url = "http://localhost:5000/fetchReviews"
             fetch(url,
@@ -78,26 +97,21 @@ export default function Bookdetails() {
         return (
             <div>
                 <h1> Book</h1>
-
-                <div>
-                </div>
                 {book.map((book,index) => (
-                <Book key = {"dookDetails"+index} callReviewFunction = {callReviewFunction} callupFunction = {callupFunction}  bookReview = {review} Likes = {book.Likes}  pagecount = {book.pagecount}  ISBN = {book.ISBN}  genre = {book.genre}  description = {book.description}  rating = {book.rating} author = {book.author} url = {book.image} name = {book.title} /> 
+                <Book key = {"dookDetails"+index} callReviewFunction = {callReviewFunction}  callreviewDeleteFunction  = {callreviewDeleteFunction} callupFunction = {callupFunction}  calldownFunction = {calldownFunction} bookReview = {review} Likes = {book.Likes}  pagecount = {book.pagecount}  ISBN = {book.ISBN}  genre = {book.genre}  description = {book.description}  rating = {book.rating} author = {book.author} url = {book.image} name = {book.title} /> 
                 ))} 
-
-
                 <div className = "similarBooks">
-                <div className = "row">
-                      <div className = "similar">
-                        <h1>
-                            Books similar to this book
-                        </h1>             
-                      </div>
-                      <div className= "similarbooks">
-                              <Allbooks /> 
-                          
-                      </div>
-                  </div>
+                    <div className = "row">
+                        <div className = "similar">
+                            <h1>
+                                Books similar to this book
+                            </h1>             
+                        </div>
+                        <div className= "similarbooks">
+                                <Allbooks /> 
+                            
+                        </div>
+                    </div>
                 </div>
             </div>
         )
