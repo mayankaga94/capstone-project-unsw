@@ -4,8 +4,6 @@ import Review from './Review';
 export default function DeleteReview(reviewid) {
 
     const deleteAction = ()=>{
-
-
         let deletez = {
             delete: reviewid.deleteid
         }
@@ -32,7 +30,7 @@ export default function DeleteReview(reviewid) {
 
     return (
         <div>
-           <button  onClick= {()=> deleteAction() }></button>
+           <button  onClick= {()=> deleteAction() }>Delete</button>
         </div>
     )
 }

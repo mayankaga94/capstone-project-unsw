@@ -18,7 +18,7 @@ dob date
 -----book rating table------
 create TABLE book_ratings
 ( ratingid MEDIUMINT primary key AUTO_INCREMENT, 
-ISBN MEDIUMINT, 
+ISBN BIGINT, 
 userid MEDIUMINT, 
 rating FLOAT, 
 date  DATETIME,
