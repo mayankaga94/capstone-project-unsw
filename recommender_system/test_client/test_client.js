@@ -1,5 +1,5 @@
 var zmq = require('zeromq');
-const PORT = 5000;
+const PORT = 8080;
 
 // Socket to talk to server
 console.log("Connecting to recommender server…");

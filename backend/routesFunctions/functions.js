@@ -6,6 +6,15 @@ const pool = require('../config/sql_config')
 const { v1: uuidv1 } = require('uuid');
 // const uuidv1 = require('uuid/v4');
 
+var zmq = require('zeromq');
+const PORT = 8080;
+
+// Socket to talk to server
+console.log("Connecting to recommender server…");
+var requester = zmq.socket("req");
+requester.connect(`tcp://localhost:${PORT}`);
+
+
 module.exports = {
     // next is not needed at the moment 
     register :  async(req,res,next) => {
@@ -778,6 +787,32 @@ module.exports = {
                 success: true,
                 result: result[0]
             });    
+        }
+        catch(err){
+            return res.status(500).send(err);
+        }
+    },
+    getRecommendation: async(req,res) => {
+        try{
+            let {ISBN,tag} = req.body;
+            // var spawn = require("child_process").spawn;
+            // var process = spawn('python',["../../recommender_system/content_based.py",ISBN,tag,10]); 
+            // process.stdout.on('data', function(data) { 
+            //     return res.send(data.toString()); 
+            // } ) 
+            // var str = ISBN.toString()
+            var test = '{"book_ids": ['+String(ISBN)+'], "tag_ids": [], "count": 5}'
+            //requester.send(JSON.stringify(test))
+            requester.send(test)
+            // Handle replies received
+            requester.on("message", function(reply) {
+                console.log("Received reply", reply.toString());
+                return res.status(200).send({
+                    success: true,
+                    result: reply.toString()
+                });
+            });
+            
         }
         catch(err){
             return res.status(500).send(err);
