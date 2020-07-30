@@ -1,3 +1,12 @@
+# Python dependencies
+___
+`pip install pandas`
+`pip install SQLAlchemy`
+`pip install sklearn`
+`pip install zmq`
+
+
+
 # Files and subdirectories
 ___
 ## Directories:
