@@ -79,7 +79,10 @@ class ContentRecommenderSystem:
         
     def get_recommendations(self, book_ids, tag_ids, count=5, verbose=False):
         # Have each book contribute to a total score
-        indices = [self.book_to_index[book_id] for book_id in book_ids]
+        try: # invalid book_ids
+            indices = [self.book_to_index[book_id] for book_id in book_ids]
+        except KeyError:
+            return [] 
         score = np.sum(self.similarity_matrix[indices], axis=0)
 
         # then get top argmax indices that are not input
