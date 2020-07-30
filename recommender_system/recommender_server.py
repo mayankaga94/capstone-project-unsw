@@ -1,4 +1,4 @@
-from content_based import *
+from content_based2 import *
 import zmq
 import json
 
@@ -8,14 +8,15 @@ from sqlalchemy import create_engine
 PORT = 8080
 MYSQL_USER = 'username'
 MYSQL_PASS = 'password'
-dbname = "bookdb"
-engine = create_engine(f'mysql+pymysql://{MYSQL_USER}:{MYSQL_PASS}@localhost')
-engine.execute("USE {}".format(dbname))
+dataset_path = "../database"
+# dbname = "bookdb"
+# engine = create_engine(f'mysql+pymysql://{MYSQL_USER}:{MYSQL_PASS}@localhost')
+# engine.execute("USE {}".format(dbname))
 
-dataset_path = "../dataset/goodbooks-10k"
 # Train recommender
 rs = ContentRecommenderSystem(dataset_path)
-rs.load_from_db(engine) #rs.load_from_csv(dataset_path)
+#rs.load_from_db(engine) 
+rs.load_from_csv(dataset_path)
 rs.fit()
 print('Recommender System ready!')
 
