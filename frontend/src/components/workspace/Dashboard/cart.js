@@ -1,5 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react'
 import UserContext from '../../../context/usercontext';
+
 import Bookshelf from './bookshelf'
 import {v1 as uuid} from "uuid"
 
@@ -39,17 +40,24 @@ export default function Cart(props) {
         }
         },[])
 
+        const markRead = () =>{
 
-      
+            alert("hi")
+        }
+
 
     return (
-                <div className ="library goalset col-xs-12 col-lg-4 col-md-4 col-sm-4">
+                <div className ="library goalset col-xs-12 col-lg-6 col-md-6 col-sm-6">
+                  
                     <div className = "common-marginborder">     
+                    <div className = "libraryHeader">Your Shelf </div>
+                    <div className = "totalBooks"><span className = "">Total Books:</span> {library.length}</div>
                       {! library ? (<>cart is empty</>) : (library.map((library,index)=>(
-                            <Bookshelf id = {library } key  = {"library" + index } library = {library}/ >)
+                            <Bookshelf markRead = {markRead} id = {library } key  = {"library" + index } library = {library}/ >)
                         ))
                       }
                       </div>
+                     
                  </div>
 
     )

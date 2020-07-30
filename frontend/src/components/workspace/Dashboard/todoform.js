@@ -62,7 +62,7 @@ export default ({submit}) =>{
                                 submit(task.value)
                                 resetValue()
                             }} >
-                                <button   disabled={task.value.length===0}  onClick ={()=> submitz(task.value, loggedINUser)} >Submit</button>
+                                <button   disabled={task.value.length===0}  onClick ={()=> submitz(task.value, loggedINUser)} ></button>
                               <input {...task} />
                             </form >    
                         </div>

@@ -58,8 +58,6 @@ export class Booknew extends Component {
                             <Bookname author>{this.props.author}</Bookname>                       
                         </div>       
                 </Link> 
-
-                {/* rrrrrlike  */}
             </Wrapper>
         )
     }

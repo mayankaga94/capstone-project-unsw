@@ -13,7 +13,7 @@ export class Footer extends Component {
     render() {
         return (
             <div>
-                <div>
+                <div className = "footer">
                     <ul>
                         <Tabs>Home</Tabs>
                         <Tabs>about</Tabs>

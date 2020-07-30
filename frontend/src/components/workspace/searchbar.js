@@ -71,12 +71,14 @@ export  default function Searchbar() {
             <div>     
                 <SearchbarInput  type="text" placeholder="Search for a book" aria-label="Search" onChange =  {(e) =>setSearch(e.target.value)} />
                 <Seatchbutton color="unique" onClick = {() => searchBook(search)}>Search  </Seatchbutton>
-                
+                <div style={{marginBottom: '50px'}}>
+                <div>{bookFound && bookFound.length>0?`${bookFound.length} books found`: ''}</div>
                 {bookFound.map((bookFound,index) => (                   
                    <Booknew key = {"allBookfound"+ index} author = {bookFound.author}  ISBN = {bookFound.ISBN} url = {bookFound.image} name = {bookFound.title}  route = "Home"/>  )
                         
                     )
                 }
+                </div>
             </div>
         )
     }
