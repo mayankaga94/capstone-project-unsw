@@ -38,10 +38,18 @@ while True:
     #    rs.load_from_db(engine)
     #    rs.fit()
     
-    # Handle bad request
+    # For bigger dataset we can take in tags as well
+    if 'tag_ids' in message_dict:
+        try:
+            tag_ids = [int(x) for x in message_dict['tag_ids']] 
+        except (KeyError, ValueError) as e:
+            print('Invalid tags.')
+            socket.send(b"Invalid tags in request.")
+            continue
+    
+    # For all datasets we take in ISBNs and count
     try:
         book_ids = message_dict['book_ids'] #isbn
-        tag_ids = [int(x) for x in message_dict['tag_ids']] 
         count = int(message_dict['count'])
     except (KeyError, ValueError) as e:
         print('Invalid request.')
