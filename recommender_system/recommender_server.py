@@ -37,9 +37,9 @@ while True:
     
     # Handle bad request
     try:
-        book_ids = message_dict['book_ids']
-        tag_ids = message_dict['tag_ids']
-        count = message_dict['count']
+        book_ids = message_dict['book_ids'] #isbn
+        tag_ids = [int(x) for x in message_dict['tag_ids']] 
+        count = int(message_dict['count'])
     except KeyError:
         print('Invalid request.')
         socket.send(b"Invalid request.")
