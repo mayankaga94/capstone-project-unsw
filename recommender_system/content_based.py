@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 from collections import defaultdict
 from sqlalchemy import create_engine
-import pymysql
+#import pymysql
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
@@ -23,13 +23,13 @@ class ContentRecommenderSystem:
     def set_index_mapping(self):
         self.index_to_book = {}
         self.book_to_index = {}
-        for index, book_id in enumerate(self.books['isbn'].values):
+        for index, book_id in enumerate(self.books['ISBN'].values):
           self.index_to_book[index] = book_id
           self.book_to_index[book_id] = index
           
         self.book_tags_dict = defaultdict(list)
         for i in range(len(self.book_tags)):
-            self.book_tags_dict[self.book_tags['isbn'].iloc[i]].append(self.book_tags['tag_id'].iloc[i])
+            self.book_tags_dict[self.book_tags['ISBN'].iloc[i]].append(self.book_tags['tag_id'].iloc[i])
 
     # Load dataset from csv
     def load_from_csv(self, dataset_path):
@@ -47,8 +47,8 @@ class ContentRecommenderSystem:
         #books['author'] = books['authors'].apply(lambda x:  x.split(',')[0]) # Only use name of main author
         #books = books[['book_id', 'goodreads_book_id', 'title', 'average_rating', 'author']]
         all_features = pd.merge(self.book_tags, self.tags, on='tag_id')
-        all_features = pd.merge(books, all_features, on='isbn')
-        all_features = all_features.groupby('isbn')['tag_name'].apply(' '.join).reset_index()
+        all_features = pd.merge(books, all_features, on='ISBN')
+        all_features = all_features.groupby('ISBN')['tag_name'].apply(' '.join).reset_index()
         books['all_features'] = books['author'].apply(lambda x: x.replace(' ','')) + ' ' + books['title'] + ' ' + all_features['tag_name']
 
         self.books = books
@@ -64,8 +64,8 @@ class ContentRecommenderSystem:
         
         # Bit of cleaning and feature extraction
         all_features = pd.merge(self.book_tags, self.tags, on='tag_id')
-        all_features = pd.merge(books, all_features, on='isbn')
-        all_features = all_features.groupby('isbn')['tag_name'].apply(' '.join).reset_index()
+        all_features = pd.merge(books, all_features, on='ISBN')
+        all_features = all_features.groupby('ISBN')['tag_name'].apply(' '.join).reset_index()
         books['all_features'] = books['author'].apply(lambda x: x.replace(' ','')) + ' ' + books['title'] + ' ' + all_features['tag_name']
         
         self.books = books
@@ -85,20 +85,20 @@ class ContentRecommenderSystem:
         score = np.sum(self.similarity_matrix[indices], axis=0)
 
         # then get top argmax indices that are not input
-        mask = self.books['isbn'].apply(lambda x: all(e in self.book_tags_dict[x] for e in tag_ids))
+        mask = self.books['ISBN'].apply(lambda x: all(e in self.book_tags_dict[x] for e in tag_ids))
         book_indices = [i for i in np.argsort(score) if i not in indices][::-1]
         book_indices = [i for i in book_indices if mask[i]][:count]
 
         # Return recommendations by book indices
         if verbose == False:
-            book_isbns = [self.books.iloc[i]['isbn'] for i in book_indices][:count]
+            book_isbns = [self.books.iloc[i]['ISBN'] for i in book_indices][:count]
             return book_isbns
         
         # Return the dataframe and print results
-        recommendations = self.books.iloc[book_indices][['isbn', 'title', 'author', 'average_rating']].set_index('isbn')
+        recommendations = self.books.iloc[book_indices][['ISBN', 'title', 'author', 'rating']].set_index('ISBN')
         
         print("Input books:")
-        print(self.books.iloc[indices,:][['isbn', 'title', 'author', 'average_rating']].set_index('isbn').to_string())
+        print(self.books.iloc[indices,:][['ISBN', 'title', 'author', 'rating']].set_index('ISBN').to_string())
         
         print("\nRecommendations:")
         print(recommendations.to_string())
