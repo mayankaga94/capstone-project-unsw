@@ -1,4 +1,4 @@
---Create user table-----------
+-- Create user table-----------
 
 create TABLE user
 ( 
@@ -10,12 +10,12 @@ password longtext,
 avatarpath longtext, 
 level int, 
 dob date
-) 
+) ;
 
-----Book Table: upload from Book_dataset.csv -----------------
+-- --Book Table: upload from Book_dataset.csv -----------------
 
 
------book rating table------
+-- ---book rating table------
 create TABLE book_ratings
 ( ratingid MEDIUMINT primary key AUTO_INCREMENT, 
 ISBN BIGINT, 
@@ -23,14 +23,14 @@ userid MEDIUMINT,
 rating FLOAT, 
 date  DATETIME,
 FOREIGN KEY (userid) REFERENCES user(userid),
-)
+);
 
------------------Add points to User table-------------------------
+-- ---------------Add points to User table-------------------------
 
 Alter Table user
 ADD COLUMN points MEDIUMINT DEFAULT 0 AFTER dob;
 
------------------------User wish list----------------------------------
+-- ---------------------User wish list----------------------------------
 
 create TABLE wishlist
 ( 
@@ -40,9 +40,9 @@ userid MEDIUMINT,
 ISBN BIGINT, 
 purchased varchar(255) DEFAULT 'N',
 FOREIGN KEY (userid) REFERENCES user(userid)
-)
+);
 
-----------------user tasklist----------------------------------
+-- --------------user tasklist----------------------------------
 create TABLE tasklist
 ( 
 tasklistid MEDIUMINT primary key AUTO_INCREMENT, 
@@ -50,9 +50,9 @@ userid MEDIUMINT,
 task longtext, 
 status varchar(255) DEFAULT 'To Do',
 FOREIGN KEY (userid) REFERENCES User(userid)
-)
+);
 
----------------Review------------------------------------------
+-- -------------Review------------------------------------------
 create TABLE review
 ( 
 reviewid MEDIUMINT primary key AUTO_INCREMENT, 
@@ -61,8 +61,8 @@ bookid bigint,
 comment longtext,
 votes MEDIUMINT DEFAULT 0,
 FOREIGN KEY (userid) REFERENCES user(userid)
-)
--------------------Vote----------------------------------------
+);
+-- -----------------Vote----------------------------------------
 create TABLE vote
 ( 
 reviewid MEDIUMINT,
@@ -71,9 +71,9 @@ vote MEDIUMINT,
 primary key (reviewid,userid),
 FOREIGN KEY (reviewid) REFERENCES review(reviewid),
 FOREIGN KEY (userid) REFERENCES user(userid)
-)
+);
 
--------------------Cart----------------------------------------
+-- -----------------Cart----------------------------------------
 Create table cart
 ( 
 userid MEDIUMINT,
@@ -81,8 +81,8 @@ ISBN VARCHAR(13),
 readBook  Boolean ,    
 primary key (userid,ISBN),
 FOREIGN KEY (userid) REFERENCES user(userid)
-)
--------------------Admin----------------------------------------
+);
+-- -----------------Admin----------------------------------------
 create table adminLogin(
 username varchar(30) primary key,
 firstname varchar(30) not null,

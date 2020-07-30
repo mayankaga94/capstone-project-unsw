@@ -792,6 +792,20 @@ module.exports = {
             return res.status(500).send(err);
         }
     },
+    numberofreads: async(req,res) => {
+        try{
+            let {ISBN} = req.body;
+            var result = await pool.query("SELECT count(*) from cart\
+            WHERE ISBN=? and readBook=1 group by ISBN",[ISBN]);
+            return res.status(200).send({
+                success: true,
+                result: result[0]
+            });    
+        }
+        catch(err){
+            return res.status(500).send(err);
+        }
+    },
     getRecommendation: async(req,res) => {
         try{
             let {ISBN,tag} = req.body;
