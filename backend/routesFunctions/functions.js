@@ -13,12 +13,7 @@ const PORT = 8080;
 console.log("Connecting to recommender server…");
 var requester = zmq.socket("req");
 requester.connect(`tcp://localhost:${PORT}`);
-
-
 module.exports = {
-
-
-    
     // next is not needed at the moment 
     register :  async(req,res,next) => {
         try{

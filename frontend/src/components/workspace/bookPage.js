@@ -58,6 +58,44 @@ export default function Bookpage (props){
     useEffect(() => {
         getQuotes();
     }, [])
+
+
+// wiishlist--------------
+const [createList, setCreateList] = useState([])
+    
+
+const createWishlist = () =>{
+
+   
+        alert("yuorlogic wirking")
+    if (createList.length ===0){
+        alert("create a new lisr")
+    }
+    else{
+        alert("add to exisitng list")
+    }
+    const myList = {
+        list:"",
+        items:[[["neel"],["horror"]]]
+}
+    setCreateList({myList});
+    return  <h1>hiiiii</h1>
+    
+ }
+//  useEffect(() => {
+//     addingTowishlist();
+// }, [])
+
+
+ const addingTowishlist = () =>{
+    alert("letsvrolld")
+    createWishlist()
+}
+
+
+
+
+
     const getQuotes = async() =>{
 
         const url = "https://type.fit/api/quotes";
@@ -67,6 +105,9 @@ export default function Bookpage (props){
         }
         // adding items to wishlist
         const id  = useParams();
+
+
+
           const   rendercom =() =>{
                 setComp({
                     show : !comp.show
@@ -81,6 +122,7 @@ export default function Bookpage (props){
         const buybooknotlogged =() =>{
             alert("you need to login")
         }
+ 
         const postRating = (x) =>{
 
           const ratingDetails = {
@@ -187,7 +229,7 @@ export default function Bookpage (props){
                                   
                                   {/* {!userData.user ? */}
                                   {!userData.user ?    <span className =" addwishlist" onClick={() => buybooknotlogged()} ><i className="fa fa-heart" aria-hidden="true"><span className="fa-text">Add To Wishlist</span></i> 
-                                 </span>: <span className =" addwishlist" onClick={() => rendercom()} ><i className="fa fa-heart" aria-hidden="true"><span className="fa-text">Add To Wishlist</span></i> 
+                                 </span>: <span className =" addwishlist" onClick={() =>addingTowishlist()} ><i className="fa fa-heart" aria-hidden="true"><span className="fa-text">Add To Wishlist</span></i> 
                                     </span>
                                   }
                                 </div>
@@ -238,6 +280,25 @@ export default function Bookpage (props){
                                           </div>                                
                                     </>)}
                             </div>
+
+
+
+
+                            {/* ------------------wishlist----------- */}
+                            <div className ="wihlishtouterWrap goalset col-xs-12 col-lg-4 col-md-4">
+               
+                                            <span className =" addwishlist"><i className="fa fa-heart" aria-hidden="true"><span className="fa-text">Add To Wishlist</span></i> 
+                                                </span>
+                                    <button onClick={()=>(createWishlist())}> 
+                                    
+                                    
+                                    
+                                    
+                                    Create new Wishlist</button>
+                                        </div>
+
+
+
                         </div>
                     </div>
                   </div>

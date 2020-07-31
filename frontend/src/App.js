@@ -10,7 +10,7 @@ import Bookdetails from './components/workspace/bookdetails'
 import { Link } from 'react-router-dom'
 import Footer from './components/footer/Footer'
 import Dashboard from './components/workspace/Dashboard/Dashboard';
-
+import Wishlist  from './components/workspace/Dashboard/wishlist';
 
 
 function App() {
@@ -54,7 +54,9 @@ function App() {
           <UserContext.Provider value =  {{userData, setUserData}}>
             <Headerwrap /> 
               <Switch>
-                      <Route exact path  = "/" component  = {Workspace} />
+
+                
+                      <Route exact path  = "/" component  = {Workspace, Wishlist} />
                       <Route   exact path  = "/home" component = { Workspace} />
                       <Route exact path="/dashboard" component={Dashboard}/>
                       {/* <Route path = "/book/" compoponent = { Bookdetails}/> */}
