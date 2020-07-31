@@ -13,8 +13,6 @@ const PORT = 8080;
 console.log("Connecting to recommender server…");
 var requester = zmq.socket("req");
 requester.connect(`tcp://localhost:${PORT}`);
-
-
 module.exports = {
     // next is not needed at the moment 
     register :  async(req,res,next) => {
@@ -818,6 +816,7 @@ module.exports = {
     getRecommendation: async(req,res) => {
         try{
             let {ISBN,count} = req.body;
+            console.log(ISBN, count)
             var test = '{"book_ids": ["'+String(ISBN)+'"], "tag_ids": [], "count": '+count+'}'
             requester.send(test)
             // Handle replies received

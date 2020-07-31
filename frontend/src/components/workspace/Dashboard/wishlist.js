@@ -8,11 +8,16 @@ export default function WishList() {
     const [createList, setCreateList] = useState([])
     
 
-    // const createWishlist = () =>{
+    const createWishlist = () =>{
     
-    //     setCreateList(createList.concat(<Input key={inputList.length} />));
+
+        const myList = {
+            list:"",
+            items:[]
+ }
+        setCreateList({myList});
         
-    //  }
+     }
 
     const [wishList, setWishlist] = useState([]);
 
@@ -21,7 +26,9 @@ export default function WishList() {
                
             <span className =" addwishlist"><i className="fa fa-heart" aria-hidden="true"><span className="fa-text">Add To Wishlist</span></i> 
                 </span>
-                <button>Create new Wishlist</button>
+    <button onClick={()=>{createWishlist()
+
+    }}> Create new Wishlist</button>
         </div>
     )
 }

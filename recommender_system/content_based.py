@@ -5,7 +5,7 @@ import sys
 import pandas as pd
 import numpy as np
 from collections import defaultdict
-from sqlalchemy import create_engine
+# from sqlalchemy import create_engine
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
@@ -49,9 +49,6 @@ class ContentRecommenderSystem:
         self.tags = pd.read_csv(tags_path)
         self.book_tags = pd.read_csv(book_tags_path)
         books = pd.read_csv(books_path, encoding = "ISO-8859-1")
-        
-        # New feature containing combination of other features
-        books['all_features'] = self.get_combined_feature(books)
 
         self.books = books
         self.set_index_mapping()
@@ -64,47 +61,42 @@ class ContentRecommenderSystem:
         self.book_tags = pd.read_sql("SELECT * FROM book_tags", con=engine)
         books = pd.read_sql("SELECT * FROM books", con=engine)
         
-        # New feature containing combination of other features
-        books['all_features'] = self.get_combined_feature(books)
-        
         self.books = books
         self.set_index_mapping()
         
     # Gets the similarity matrix for books    
     def fit(self):
         vectorizer = TfidfVectorizer(analyzer='word',ngram_range=(1,1),min_df=0.002, stop_words='english')
-        book_feature_matrix = vectorizer.fit_transform(self.books['all_features']) # each row represents a book
+        book_feature_matrix = vectorizer.fit_transform(self.get_combined_feature(self.books)) # each row represents a book
         self.similarity_matrix = linear_kernel(book_feature_matrix, book_feature_matrix) # [x,y] represents the similarity between book x and y
     
         
     def get_recommendations(self, book_ids, tag_ids, count=5, verbose=False):
         # Have each book contribute to a total score
-        try: # invalid book_ids
+        try: 
             indices = [self.book_to_index[book_id] for book_id in book_ids]
         except KeyError:
             return [] 
         score = np.sum(self.similarity_matrix[indices], axis=0)
 
         # then get top argmax indices that are not input
-        mask = self.books['ISBN'].apply(lambda x: all(e in self.book_tags_dict[x] for e in tag_ids))
+        mask = self.books['ISBN'].apply(lambda x: all(e in self.book_tags_dict[x] for e in tag_ids)) 
         book_indices = [i for i in np.argsort(score) if i not in indices][::-1]
-        book_indices = [i for i in book_indices if mask[i]][:count]
+        book_indices = [i for i in book_indices if mask[i]][:count] # filter tags
 
-        # Return recommendations by book indices
-        if verbose == False:
-            book_isbns = [self.books.iloc[i]['ISBN'] for i in book_indices][:count]
-            return book_isbns
+        # Get recommendations
+        book_isbns = [self.books.iloc[i]['ISBN'] for i in book_indices]
         
-        # Return the dataframe and print results
-        recommendations = self.books.iloc[book_indices][['ISBN', 'title', 'author', 'rating']].set_index('ISBN')
-        
-        print("Input books:")
-        print(self.books.iloc[indices,:][['ISBN', 'title', 'author', 'rating']].set_index('ISBN').to_string())
-        
-        print("\nRecommendations:")
-        print(recommendations.to_string())
+        # Print results and return recommendations
+        if verbose:        
+            print("Input books:")
+            print(self.books.iloc[indices,:][['ISBN', 'title', 'author', 'rating']].set_index('ISBN').to_string())
             
-        return recommendations
+            print("\nRecommendations:")
+            print(self.books.iloc[book_indices][['ISBN', 'title', 'author', 'rating']].set_index('ISBN').to_string())
+        
+        # Return recommendations
+        return book_isbns
 
         
 
