@@ -10,7 +10,7 @@ from collections import defaultdict
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 
-dataset_path = "../dataset/goodbooks-10k"
+dataset_path = "../database"
 
 class ContentRecommenderSystem:
     def __init__(self, dataset_path=None):
@@ -20,36 +20,26 @@ class ContentRecommenderSystem:
         
     # Mapping from index to isbn and vice versa
     def set_index_mapping(self):
-        self.index_to_book = {}
-        self.book_to_index = {}
-        for index, book_id in enumerate(self.books['ISBN'].values):
-          self.index_to_book[index] = book_id
-          self.book_to_index[book_id] = index
-          
-        self.book_tags_dict = defaultdict(list)
-        for i in range(len(self.book_tags)):
-            self.book_tags_dict[self.book_tags['ISBN'].iloc[i]].append(self.book_tags['tag_id'].iloc[i])
+        self.index_to_isbn13 = {}
+        self.isbn13_to_index = {}
+        for index, isbn13 in enumerate(self.books['ISBN'].values):
+            self.index_to_isbn13[index] = isbn13
+            self.isbn13_to_index[isbn13] = index
 
     # Combine all features into one
-    def get_combined_feature(self, book_df):
-        all_features = pd.merge(self.book_tags, self.tags, on='tag_id')
-        all_features = pd.merge(book_df, all_features, on='ISBN')
-        all_features = all_features.groupby('ISBN')['tag_name'].apply(' '.join).reset_index()
-        return book_df['author'].apply(lambda x: x.replace(' ','')) + ' ' + book_df['title'] + ' ' + all_features['tag_name']
+    def get_combined_feature(self, books_df):
+        return books_df['title'] + ' ' + books_df['author'].apply(lambda x: x.replace(' ', '')) + ' ' + books_df['description'] + ' ' + books_df['genre']
 
 
     # Load dataset from csv
     def load_from_csv(self, dataset_path):
         # Paths
-        books_path = os.path.join(dataset_path, "final_books.csv")
-        tags_path = os.path.join(dataset_path, "final_tags.csv")
-        book_tags_path = os.path.join(dataset_path, "final_book_tags.csv")
-        
-        # Load tables
-        self.tags = pd.read_csv(tags_path)
-        self.book_tags = pd.read_csv(book_tags_path)
-        books = pd.read_csv(books_path, encoding = "ISO-8859-1")
+        books_path = os.path.join(dataset_path, "Book_dataset.csv")
 
+        # Load tables
+        books = pd.read_csv(books_path, encoding = "ANSI")
+        books.dropna(inplace=True)
+        
         self.books = books
         self.set_index_mapping()
         
@@ -57,12 +47,12 @@ class ContentRecommenderSystem:
     # Load dataset from db      
     def load_from_db(self, engine):
         # Load tables
-        self.tags = pd.read_sql("SELECT * FROM tags", con=engine)
-        self.book_tags = pd.read_sql("SELECT * FROM book_tags", con=engine)
         books = pd.read_sql("SELECT * FROM books", con=engine)
+        books.dropna(inplace=True)
         
         self.books = books
         self.set_index_mapping()
+        
         
     # Gets the similarity matrix for books    
     def fit(self):
@@ -72,29 +62,31 @@ class ContentRecommenderSystem:
     
         
     def get_recommendations(self, book_ids, tag_ids, count=5, verbose=False):
-        # Have each book contribute to a total score
-        try: 
-            indices = [self.book_to_index[book_id] for book_id in book_ids]
+    
+        try:
+            indices = [self.isbn13_to_index[isbn13] for isbn13 in map(int, book_ids)]
         except KeyError:
-            return [] 
+            indices = [] 
         score = np.sum(self.similarity_matrix[indices], axis=0)
-
-        # then get top argmax indices that are not input
-        mask = self.books['ISBN'].apply(lambda x: all(e in self.book_tags_dict[x] for e in tag_ids)) 
-        book_indices = [i for i in np.argsort(score) if i not in indices][::-1]
-        book_indices = [i for i in book_indices if mask[i]][:count] # filter tags
-
-        # Get recommendations
-        book_isbns = [self.books.iloc[i]['ISBN'] for i in book_indices]
         
-        # Print results and return recommendations
-        if verbose:        
+        # then get top argmax indices that are not input
+        book_indices = [i for i in np.argsort(score) if i not in indices][::-1][:count]
+        
+        # Get recommendations
+        try:
+            book_isbns = [str(int(self.books.iloc[i]['ISBN'])) for i in book_indices]
+        except ValueError:
+            print('ISBN can only contain numbers.') # since our smaller dataset only has ISBNs with numbers
+        
+        # Print recommendations and then return
+        if verbose:
             print("Input books:")
             print(self.books.iloc[indices,:][['ISBN', 'title', 'author', 'rating']].set_index('ISBN').to_string())
             
             print("\nRecommendations:")
             print(self.books.iloc[book_indices][['ISBN', 'title', 'author', 'rating']].set_index('ISBN').to_string())
         
+
         # Return recommendations
         return book_isbns
 
@@ -107,6 +99,7 @@ if __name__ == '__main__':
     rs.fit()
     
     # Get recommendations
+    tag_ids = [] # No tag ids for this dataset
     while True:
         print('===============================================================================')
         print("Enter ISBNs separated by a space (or 'q' to exit):")
@@ -120,15 +113,6 @@ if __name__ == '__main__':
             print("Invalid input")
             continue
         
-        print("Enter tag IDs separated by a space (or 'q' to exit):")
-        input_str = input()
-        if input_str == 'q':
-            sys.exit()
-        try:       
-            tag_ids = list(map(int, input_str.split()))
-        except:
-            print("Invalid input")
-            continue
         
         print("Enter the number of recommendations to display (or 'q' to exit):")
         input_str = input()
@@ -147,9 +131,8 @@ if __name__ == '__main__':
         Books similar to The Hunger Games and Harry Potter and the Philosopher's Stone that include a love triangle
         
         Enter ISBNs separated by a space (or 'q' to exit):
-        439023483 439554934
-        Enter tag IDs separated by a space (or 'q' to exit):
-        100
+        9780316015844 9780545010221
+        
         Enter the number of recommendations to display (or 'q' to exit):
         10
         '''

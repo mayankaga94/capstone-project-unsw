@@ -14,7 +14,7 @@ requester.on("message", function(reply) {
 // Example requests
 for (var i = 0; i < 10; i++) {
   console.log("Sending request", i, '…');
-  requester.send('{"book_ids": ["439023483", "439554934"], "tag_ids": [100], "count": 5}');
+  requester.send('{"book_ids": ["9780316015844", "9780545010221"], "tag_ids": [], "count": "8"}');
 }
 
 // Close client when ctrl+c pressed
