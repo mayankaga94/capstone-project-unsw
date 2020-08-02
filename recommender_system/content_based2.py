@@ -5,7 +5,6 @@ import sys
 import pandas as pd
 import numpy as np
 from collections import defaultdict
-# from sqlalchemy import create_engine
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
@@ -17,7 +16,6 @@ class ContentRecommenderSystem:
         if dataset_path is not None:
             self.load_from_csv(dataset_path)    
             self.fit()
-        
     # Mapping from index to isbn and vice versa
     def set_index_mapping(self):
         self.index_to_isbn13 = {}
@@ -37,7 +35,7 @@ class ContentRecommenderSystem:
         books_path = os.path.join(dataset_path, "Book_dataset.csv")
 
         # Load tables
-        books = pd.read_csv(books_path, encoding = "ANSI")
+        books = pd.read_csv(books_path, encoding = "ISO-8859-1")
         books.dropna(inplace=True)
         
         self.books = books

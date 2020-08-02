@@ -2,7 +2,7 @@ from content_based2 import *
 import zmq
 import json
 
-from sqlalchemy import create_engine
+# from sqlalchemy import create_engine
 
 # Connect to db (check test.ipynb to see how db is setup)
 PORT = 8080

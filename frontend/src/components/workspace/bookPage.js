@@ -5,13 +5,14 @@ import { Link } from 'react-router-dom'
 import Comments from './comments.js'
 import Searchbar from './searchbar'
 import Quotes from './Quotes'
-import CustomWishlist from '../workspace/Dashboard/customWishlist'
+import CustomWishlist from '../workspace/customWishlist'
 import Wishlist from '../workspace/Dashboard/wishlist'
 import '../../Styling.css'
 import Review from './Review'
 import UserContext from '../../context/usercontext'
 import { useParams} from 'react-router-dom'
-import WishList from './Dashboard/wishlist.js'
+// import WishList from './Dashboard/wishlist.js'
+import RecommededBooks from './RecommededBooks'
 import listContext from '../../context/list_context';
 
 
@@ -60,16 +61,14 @@ export default function Bookpage (props){
     }, [])
 
 
-// wiishlist--------------
-const [createList, setCreateList] = useState([])
+//       ------------- wiishlist--------------
+const [createList, setCreateList] = useState({list:"inactive"})
     
 
 const createWishlist = () =>{
 
-   
-        alert("yuorlogic wirking")
     if (createList.length ===0){
-        alert("create a new lisr")
+    
     }
     else{
         alert("add to exisitng list")
@@ -78,17 +77,14 @@ const createWishlist = () =>{
         list:"",
         items:[[["neel"],["horror"]]]
 }
-    setCreateList({myList});
+
+    setCreateList({list:"active",
+        myList});
     return  <h1>hiiiii</h1>
     
  }
-//  useEffect(() => {
-//     addingTowishlist();
-// }, [])
-
 
  const addingTowishlist = () =>{
-    alert("letsvrolld")
     createWishlist()
 }
 
@@ -233,6 +229,11 @@ const createWishlist = () =>{
                                     </span>
                                   }
                                 </div>
+                                <Wishlist />
+                                { createList.list ==="active" ?    <CustomWishlist  /> : null }
+
+                                
+                             
                             </div>
                       </div>
                   </section>
@@ -282,26 +283,22 @@ const createWishlist = () =>{
                             </div>
 
 
-
-
                             {/* ------------------wishlist----------- */}
                             <div className ="wihlishtouterWrap goalset col-xs-12 col-lg-4 col-md-4">
                
                                             <span className =" addwishlist"><i className="fa fa-heart" aria-hidden="true"><span className="fa-text">Add To Wishlist</span></i> 
                                                 </span>
                                     <button onClick={()=>(createWishlist())}> 
-                                    
-                                    
-                                    
-                                    
                                     Create new Wishlist</button>
                                         </div>
-
-
-
                         </div>
                     </div>
                   </div>
+
+                  <div className = "row">
+                                        <RecommededBooks  bookName = {props.name}  ISBN = {props.ISBN} />
+                  </div>
+            
             </Wrapper>
         )
     }

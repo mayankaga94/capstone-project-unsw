@@ -832,6 +832,28 @@ module.exports = {
         catch(err){
             return res.status(500).send(err);
         }
+    },
+    getRecommendBooks: async (req,res) =>{
+
+        let {list} = req.body;
+        console.log(list)
+        try{
+
+            for (var i = 0; i<list.length;i++){
+            console.log("begin",list[i])
+           var result =  await pool.query("SELECT * from book_dataset where ISBN =convert(?,char(50))",list[i]);
+        //    console.log(result)
+
+            return res.status(200).send({
+                success: true,
+                result : result,
+                message: "Successfully deleted item"
+            });   
+        
+        }}
+        catch(err){
+            return res.status(500).send(err);
+        }
     }
 
 }

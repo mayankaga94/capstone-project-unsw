@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom'
 import Footer from './components/footer/Footer'
 import Dashboard from './components/workspace/Dashboard/Dashboard';
 import Wishlist  from './components/workspace/Dashboard/wishlist';
+import RecommededBooks from './components/workspace/RecommededBooks'
 
 
 function App() {
@@ -66,7 +67,7 @@ function App() {
                       <link  to='/dashboard' />
                       }  */}
                       <Route exact path  = "/bookdetails/filter/:id" component = {BookPage} />
-                      <Route  path  = "/bookdetails/:id" component = {Bookdetails} />
+                      <Route  path  = "/bookdetails/:id" component = {Bookdetails } />
                  
               </Switch>
               <Footer />

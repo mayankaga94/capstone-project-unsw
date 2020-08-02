@@ -1,7 +1,5 @@
 import React, { useEffect, useState  } from 'react'
 import { useParams} from 'react-router-dom'
-import Allbooks from './Allbooks'
-
 import Book  from './bookPage'
 
 export default function Bookdetails() {
@@ -94,25 +92,14 @@ export default function Bookdetails() {
                     getPost()
                 });
             }
+
+            
         return (
             <div>
                 <h1> Book</h1>
                 {book.map((book,index) => (
                 <Book key = {"dookDetails"+index} callReviewFunction = {callReviewFunction}  callreviewDeleteFunction  = {callreviewDeleteFunction} callupFunction = {callupFunction}  calldownFunction = {calldownFunction} bookReview = {review} Likes = {book.Likes}  pagecount = {book.pagecount}  ISBN = {book.ISBN}  genre = {book.genre}  description = {book.description}  rating = {book.rating} author = {book.author} url = {book.image} name = {book.title} /> 
                 ))} 
-                <div className = "similarBooks">
-                    <div className = "row">
-                        <div className = "similar">
-                            <h1>
-                                Books similar to this book
-                            </h1>             
-                        </div>
-                        <div className= "similarbooks">
-                                <Allbooks /> 
-                            
-                        </div>
-                    </div>
-                </div>
             </div>
         )
 }
