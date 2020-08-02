@@ -67,6 +67,18 @@ class ContentRecommenderSystem:
             indices = [] 
         score = np.sum(self.similarity_matrix[indices], axis=0)
         
+        # Genre of input books
+        genre_count = dict()
+        for genre in list(self.books[self.books['ISBN'].isin(book_ids)]['genre']):
+          genre_count[genre] = genre_count.get(genre, 0) + 1
+        
+        # Give more weight to books with same genre
+        genre_weight = 0.2
+        for i, isbn13 in self.index_to_isbn13.items():
+            genre = self.books[self.books['ISBN'] == isbn13]['genre'].values[0]
+            if genre in genre_count:
+                score[i] += genre_weight * genre_count[genre] / len(book_ids)
+        
         # then get top argmax indices that are not input
         book_indices = [i for i in np.argsort(score) if i not in indices][::-1][:count]
         
@@ -79,10 +91,10 @@ class ContentRecommenderSystem:
         # Print recommendations and then return
         if verbose:
             print("Input books:")
-            print(self.books.iloc[indices,:][['ISBN', 'title', 'author', 'rating']].set_index('ISBN').to_string())
+            print(self.books.iloc[indices,:][['ISBN', 'title', 'author', 'rating', 'genre']].set_index('ISBN').to_string())
             
             print("\nRecommendations:")
-            print(self.books.iloc[book_indices][['ISBN', 'title', 'author', 'rating']].set_index('ISBN').to_string())
+            print(self.books.iloc[book_indices][['ISBN', 'title', 'author', 'rating', 'genre']].set_index('ISBN').to_string())
         
 
         # Return recommendations

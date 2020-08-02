@@ -125,7 +125,7 @@ module.exports = {
                 return res.status(200).send({result})
                 })
             }
-        catch{
+        catch(err){
             return res.status(500).send(err);
         }
     },
@@ -138,7 +138,7 @@ module.exports = {
                 result: result[0]
             })
         }
-        catch{
+        catch(err){
             return res.status(500).send(err);
         }
     },
