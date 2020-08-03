@@ -38,7 +38,7 @@ export default function RecommededBooks(props) {
            <div className  = "row">
                <div className = "col-xs-12 col-md-12 col-sm-12 col-lg-12">
 
-                    {getRecommendation(ISBN)}
+                    {() =>getRecommendation(ISBN)}
                </div>
            </div>
 

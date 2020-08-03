@@ -109,8 +109,16 @@ router.route('/user/library/cart',cors())
 
 //----------------Wishlist------------------//
 router.route('/user/wishlist',cors())
-    .get(userFunction.fetchWishlist)
+    // .get(userFunction.fetchWishlist)
     .post(userFunction.addToWishlist)
+
+router.route('/user/wishlistfetch',cors())
+    .post(userFunction.fetchWishlist)
+
+    
+router.route('/user/wishlistName',cors())
+    .post(userFunction.addWishlistName)
+
 
 router.route('/user/wishlist/items',cors())
     .get(userFunction.fetchWishlistItems)
@@ -131,7 +139,7 @@ router.route('/getRecommendation',cors())
 router.route('/numberofreads',cors())
     .post(userFunction.numberofreads)
 
-router.route('/getRecommendedBooks')
-    .post(userFunction.getRecommendBooks)
+// router.route('/getRecommendedBooks')
+//     .post(userFunction.getRecommendBooks)
 //------------export all the routes------------//
 module.exports = router
