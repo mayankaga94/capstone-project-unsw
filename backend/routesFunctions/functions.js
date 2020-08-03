@@ -109,15 +109,11 @@ module.exports = {
             
     },
     homepage : async ( req, res) =>{
- 
         res.send({
             user : req.user,
             post : 'you should nott access it without logging'
         })
-
         // User.findbyone({_id : req.user})
-
-
     },
     booksFetch :  async (req,res) => {
         try { 
@@ -675,7 +671,7 @@ module.exports = {
         try {
             // fetch all cart items
             let userid = req.body.userid;
-            var result = await pool.query("SELECT cart.ISBN,cart.readBook,cart.userid,book_dataset.genre,cart.bookshelfID from cart join book_dataset on book_dataset.ISBN = cart.ISBN WHERE userid=?",userid);
+            var result = await pool.query("SELECT cart.ISBN,cart.readBook,cart.userid,book_dataset.genre,book_dataset.title,book_dataset.author,cart.bookshelfID from cart join book_dataset on book_dataset.ISBN = cart.ISBN WHERE userid=?",userid);
             if (result[0].length == 0){
                 return res.status(200).send({
                     success: false,
