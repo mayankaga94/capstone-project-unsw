@@ -1,17 +1,20 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import UserContext from '../../../context/usercontext';
 
 
 export default function Bookshelf(props) {
+
+
+    const [bookRead, setbookRead] =useState({read:0})
 
     const empty = props.empty
             const genre = props.library.genre
             const ISBN = props.library.ISBN
             const read = props.library.read
             const key = props.library.key
-            const readbook = props.readBook
+            const readbook = props.library.readBook
             const id = props.library.bookshelfID
-
+            // const readbook = props.readBook
     const readFunction =  () =>{
 
     }
@@ -23,11 +26,13 @@ export default function Bookshelf(props) {
         // access to e.target here
         console.log(id);
     }
-    const markRead =(id) =>{
+    const markRead =(id,read) =>{
+
+        setbookRead({read:1})
 
         let updateSatus = {
-            userid: "2",
-            readBook: "0",
+            userid: userid,
+            readBook: read,
             bookshelfID:  id
         }
         console.log(updateSatus)
@@ -60,8 +65,10 @@ export default function Bookshelf(props) {
                                 <div className = "col-xs-8 col-lg-8 col-md-8 col-md-8">
                                     <div>{ISBN} </div> 
                                     <div className ="read_genre">{genre}</div>
-                                    <span>{readbook}</span><span>{read}</span> 
-                                    <button  className = "markRead" onClick = { ()=> markRead(id)}>Mark as read</button> 
+                                    {/* <span>{readbook}</span><span>{read}</span>  */}
+
+                                    {(bookRead.read === 0 &&  readbook === 0)  ? <button  className = "markRead" onClick = { ()=> markRead(id,1)}>Mark as read</button>  :<div><i className="fa fa-check" aria-hidden="true"></i></div> }
+                                    
                                     </div>
                             <div className = "col-xs-4 col-lg-4 col-md-4 col-md-4">
                                 <button  value={id} className = "readBook"  onClick={((e) => handleClick(e, id))}> Read</button>

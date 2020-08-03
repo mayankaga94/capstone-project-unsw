@@ -57,7 +57,7 @@ function App() {
               <Switch>
 
                 
-                      <Route exact path  = "/" component  = {Workspace, Wishlist} />
+                      <Route exact path  = "/" component  = {Workspace} />
                       <Route   exact path  = "/home" component = { Workspace} />
                       <Route exact path="/dashboard" component={Dashboard}/>
                       {/* <Route path = "/book/" compoponent = { Bookdetails}/> */}

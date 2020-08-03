@@ -660,3 +660,37 @@ text-align: left;
     color:#ccc;
     padding:40px;
 }
+.fa.fa-check{
+    COLOR: #8ed38e;
+    border-radius: 50%;
+    border: 2px solid #8ed38e;
+    padding: 5px;
+}
+
+.createWishlist{
+    padding:10px;
+
+}
+
+.wishlist-button{
+    background: green;
+    color:white;
+    padding:5px;
+    font-size: 14px;
+}
+
+.wishlistWrapper{
+    background-color: #ccc;
+}
+
+.wishlistWrapper-heading{
+    color:red;
+    text-align: center;
+    font-size:12px;
+}
+.wishlistWrapper-heading-add{
+    color:red;
+    font-size:14px;
+    text-align: center;
+    margin-bottom: 20px;
+}
