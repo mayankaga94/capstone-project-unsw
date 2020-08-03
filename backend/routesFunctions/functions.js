@@ -777,7 +777,7 @@ module.exports = {
         try{
             let {wishlistName,userid} = req.body;
             var result = await pool.query("SELECT * FROM wishlist \
-            join book_dataset on book_dataset.ISBN = wishlist.ISBN\
+            join book_dataset on book_dataset.ISBN = convert(wishlist.ISBN,CHAR(50))\
             WHERE wishlistname=? AND userid=?",[wishlistName,userid]);
             return res.status(200).send({
                 success: true,
