@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const pool = require('../config/sql_config')
 const { v1: uuidv1 } = require('uuid');
+const { promisify } = require('util')
 // const uuidv1 = require('uuid/v4');
 
 var zmq = require('zeromq');
@@ -837,10 +838,10 @@ module.exports = {
     getRecommendation: async(req,res) => {
         try{
             let {ISBN,count} = req.body;
-            console.log(ISBN, count)
+            // console.log(ISBN, count)
             var test = '{"book_ids": ['
             for (let i = 0; i < ISBN.length; i++){
-                console.log(ISBN[i])
+                // console.log(ISBN[i])
                 if(i == ISBN.length-1){
                     test += '"' + String(ISBN[i]) + '"'    
                 }
@@ -848,34 +849,56 @@ module.exports = {
                     test += '"' + String(ISBN[i]) + '",'
                 }
             }
-            // var test = '{"book_ids": ["'+String(ISBN)+'"], "tag_ids": [], "count": '+count+'}'
             test += '], "tag_ids": [], "count": '+count+'}'
-            console.log(test)
             requester.send(test)
             // Handle replies received
-            requester.on("message", function(reply) {
-                console.log("Received reply", reply.toString());
-                var result = reply.toString()
-                return res.status(200).send({
-                    success: true,
-                    result: reply.toString()
-                });
-            });
-            
+            const handleRequester = (requester) => {
+                return new Promise((resolve,reject) => {
+                    requester.on("message", function(reply){
+                        // console.log("Received reply", reply.toString());
+                        var result = reply.toString()
+                        result = result.split(",")
+                        var isbn_list = []
+                        for(let i = 0; i < result.length; i++){
+                            // console.log(result[i].slice(2,-1))
+                            if(i == result.length-1){
+                                isbn_list.push(result[i].slice(2,-2))
+                            }
+                            else {
+                                isbn_list.push(result[i].slice(2,-1))
+                            }
+                        }
+                        return resolve(isbn_list)
+                    })
+                })
+            }
+            var reply = await handleRequester(requester)
+            // console.log(reply)
+            // console.log(reply[2])
+            let query = "SELECT * from book_dataset where ISBN=?";
+            // let query = 'SELECT * from book_dataset where ISBN in "?"'
+            var result2 = []
+            for (let i = 0;i < reply.length;i++){
+                var temp = await pool.query(query,reply[i])
+                result2.push(temp[0])
+            }
+            // console.log(result2)
+            return res.status(200).send({
+                success: true,
+                result : result2
+            });   
         }
         catch(err){
             return res.status(500).send(err);
         }
     },
     getRecommendBooks: async (req,res) =>{
-
         let {list} = req.body;
         console.log(list)
         try{
-
             for (var i = 0; i<list.length;i++){
             console.log("begin",list[i])
-           var result =  await pool.query("SELECT * from book_dataset where ISBN =convert(?,char(50))",list[i]);
+            var result =  await pool.query("SELECT * from book_dataset where ISBN =convert(?,char(50))",list[i]);
         //    console.log(result)
 
             return res.status(200).send({
