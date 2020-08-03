@@ -776,7 +776,9 @@ module.exports = {
     fetchWishlistItems: async(req,res) => {
         try{
             let {wishlistName,userid} = req.body;
-            var result = await pool.query("SELECT * FROM wishlist WHERE wishlistname=? AND userid=?",[wishlistName,userid]);
+            var result = await pool.query("SELECT * FROM wishlist \
+            join book_dataset on book_dataset.ISBN = wishlist.ISBN\
+            WHERE wishlistname=? AND userid=?",[wishlistName,userid]);
             return res.status(200).send({
                 success: true,
                 result: result[0]
