@@ -838,11 +838,24 @@ module.exports = {
         try{
             let {ISBN,count} = req.body;
             console.log(ISBN, count)
-            var test = '{"book_ids": ["'+String(ISBN)+'"], "tag_ids": [], "count": '+count+'}'
+            var test = '{"book_ids": ['
+            for (let i = 0; i < ISBN.length; i++){
+                console.log(ISBN[i])
+                if(i == ISBN.length-1){
+                    test += '"' + String(ISBN[i]) + '"'    
+                }
+                else {
+                    test += '"' + String(ISBN[i]) + '",'
+                }
+            }
+            // var test = '{"book_ids": ["'+String(ISBN)+'"], "tag_ids": [], "count": '+count+'}'
+            test += '], "tag_ids": [], "count": '+count+'}'
+            console.log(test)
             requester.send(test)
             // Handle replies received
             requester.on("message", function(reply) {
                 console.log("Received reply", reply.toString());
+                var result = reply.toString()
                 return res.status(200).send({
                     success: true,
                     result: reply.toString()
