@@ -745,7 +745,7 @@ module.exports = {
     fetchWishlist: async(req,res) => {
         try{
             let {userid} = req.body;
-            var result = await pool.query("SELECT wishlistname,count(*) FROM wishlist WHERE userid=? GROUP BY wishlistname",userid);
+            var result = await pool.query("SELECT wishlistname,count(*) as count FROM wishlist WHERE userid=? GROUP BY wishlistname",userid);
             return res.status(200).send({
                 success: true,
                 result: result[0]
