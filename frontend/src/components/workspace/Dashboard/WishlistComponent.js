@@ -18,6 +18,7 @@ export default function WishlistComponent(props) {
         console.log("hi")
         // var raw = JSON.stringify({"userid":user, "wishlistName" : wishlistName});
         var requestOptions = {
+        
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
