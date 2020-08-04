@@ -146,7 +146,6 @@ const addTolist  = (i) =>{
                                     
                                     {wishlist.map((wishlist, i ) => (
                                                     <div>
-                                                            hiii
                                                              {wishlist.title,i}
                                                     </div> 
                                                 ))}          
