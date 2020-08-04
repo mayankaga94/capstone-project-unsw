@@ -36,7 +36,9 @@ class ContentRecommenderSystem:
 
         # Load tables
         books = pd.read_csv(books_path, encoding = "ISO-8859-1")
-        books.dropna(inplace=True)
+        books = books.drop_duplicates(subset ="ISBN", 
+                     keep = False, inplace = True) 
+        books = books.dropna(inplace=True)
         
         self.books = books
         self.set_index_mapping()
