@@ -115,10 +115,9 @@ router.route('/user/wishlist',cors())
 router.route('/user/wishlistfetch',cors())
     .post(userFunction.fetchWishlist)
 
-    
+
 router.route('/user/wishlistName',cors())
     .post(userFunction.addWishlistName)
-
 
 router.route('/user/wishlist/items',cors())
     .get(userFunction.fetchWishlistItems)

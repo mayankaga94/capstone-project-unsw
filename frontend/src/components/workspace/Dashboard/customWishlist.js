@@ -1,26 +1,24 @@
-import React from 'react'
-import UserContext from '../../context/usercontext'
+import React , { useContext, useState, useEffect}from 'react'
+import UserContext from '../../../context/usercontext'
+
+import WishlistComponent from './WishlistComponent'
+
+
 
 export default function CustomWishlist(props) {
 
+
+
+
 const { userData, setUserData } = useContext(UserContext);
 
+const [wislistNamez, setWishlistNamez] = useState()
 
+const loggedINUser = userData && userData.user && userData.user.userid
 
-
-
-
-export default function CustomWishlist() {
-
-
-
-
+useEffect(() =>{
     const loggedINUser = userData && userData.user && userData.user.userid
-
-
-
-
-    var raw = JSON.stringify({"userid":loggedINUser,"wishlistname": wishlistName.title});
+    var raw = JSON.stringify({"userid":loggedINUser});
     var requestOptions = {
     method: 'POST',
     headers : {
@@ -30,28 +28,45 @@ export default function CustomWishlist() {
     redirect: 'follow'
     };
 
-    fetch("http://localhost:5000/user/wishlistName", requestOptions)
-    .then(response => response.text())
-    .then(result => console.log(result))
+    fetch("http://localhost:5000/user/wishlistfetch", requestOptions)
+    .then(response => response.json())
+    .then(result =>{
+              
+                setWishlistNamez(result.result)
+                },
+        
+
+        )
     .catch(error => console.log('error', error));
 
 
-
+},[])
 
     return (
         <div className = "customWishlistx goalset col-xs-12 col-lg-6 col-md-6 col-sm-6">
             <div className = "common-marginborder">
             <div> <div className = "libraryHeader"> Your Collection</div></div>
-            
                     <div className= "wishlistHeader">
 
                     </div>
-                    <div className = "wishlist-section">
-                        Your wishlist is empty
 
-                  <div className = "emptyCart">  <i class="fa fa-cart-plus" aria-hidden="true"></i></div>     
+                    {wislistNamez?  
+                    <div>  
+                   { wislistNamez && wislistNamez.map((wislistNamez,index) =>(
+                        <div classNAme = "wishlist-heading">
+                                  <WishlistComponent  user = {loggedINUser} index = {index}  category = {wislistNamez.wishlistname}  noOfBooks = {wislistNamez.count} />
+                        </div>
+                   ))} 
+                    </div> 
+                    : 
+                    <>
+                    <div className = "wishlist-section">
+                    Your wishlist is empty
+                    <div className = "emptyCart">  <i class="fa fa-cart-plus" aria-hidden="true"></i></div>     
                     </div>
-                    </div>
-        </div>
-    )
-}
+                        </>
+
+                    }
+            </div>
+            </div>
+ )}
