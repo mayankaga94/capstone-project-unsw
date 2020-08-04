@@ -7,7 +7,7 @@ import Workspace from './components/workspace/Workspace';
 import Discoverbook from './components/workspace/discoverbook';
 import Headerwrap from './components/header/header_wrap';
 import Bookdetails from './components/workspace/bookdetails'
-import { Link } from 'react-router-dom'
+
 import Footer from './components/footer/Footer'
 import Dashboard from './components/workspace/Dashboard/Dashboard';
 import Wishlist  from './components/workspace/Dashboard/wishlist';

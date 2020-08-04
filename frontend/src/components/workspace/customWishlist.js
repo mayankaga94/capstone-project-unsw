@@ -5,6 +5,10 @@ import UserContext from '../../context/usercontext'
 
 export default function CustomWishlist(props) {
 
+
+
+    // console.log(props)
+
 const { userData, setUserData } = useContext(UserContext);
 const loggedINUser = userData && userData.user && userData.user.userid
 const isbn = props.ISBN
@@ -56,6 +60,10 @@ useEffect(() =>{
 }
 )
 .catch(error => console.log('error', error));
+
+
+
+console.log(wishlist)
 
 },[])
 
@@ -134,7 +142,7 @@ const addTolist  = (i) =>{
                                                     <div>
                                                         <button onClick = {()=>addTolist(i)}>{title}</button>
                                                             <div>
-                                                                {/* {wishlist.list} */}
+                                                                {title}
                                                             </div>
                                                     </div> 
                                                 ))}
@@ -144,11 +152,11 @@ const addTolist  = (i) =>{
                                     </>)}   
 
                                     
-                                    {wishlist.map((wishlist, i ) => (
+                                    {/* {wishlist.map((wishlist, i ) => (
                                                     <div>
-                                                             {wishlist.title,i}
+                                                             {wishlist.title}
                                                     </div> 
-                                                ))}          
+                                                ))}           */}
                             </div>
                        </div>
                     </div>

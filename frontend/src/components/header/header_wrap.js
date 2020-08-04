@@ -5,6 +5,8 @@ import { redirect, Redirect} from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import AuthOptions from './authoptions'
+import $ from 'jquery';
+
 
 export const Nav = styled.div`
 
@@ -103,6 +105,17 @@ export default function  Headerwrap () {
         })
         history.push("/")
     }
+
+    const handleClick = () => {
+
+        $('.changeLayout ').on('click', function(){
+
+            $(".App").toggleClass("nightmode");
+        });
+     }
+
+
+
     return(
         // creating header
         <header style = {{position : "relative"}}>
@@ -129,9 +142,12 @@ export default function  Headerwrap () {
                                                 </div>   
                                              </li>
                                             <li className = "headerItems float-left">                
-                                            <div>                            
-                                                 <span className =" "><i className="fa fa-heart" aria-hidden="true"></i> 
-                                                 <p>Wishlist</p>
+                                            <div  className = "changeLayout">                            
+                                                 <span className =" "   onClick = {handleClick} ><i className="fa fa-heart" aria-hidden="true"></i> 
+
+                                                 <p>Wishlist </p>
+
+
                                                  </span>   
                                                  </div>
                                             </li>
