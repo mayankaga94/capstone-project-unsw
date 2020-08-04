@@ -808,12 +808,12 @@ module.exports = {
     fetchWishlistItems: async(req,res) => {
         try{
             let {wishlistname,userid} =  req.headers;
-            let useridstring = String(userid)
-            console.log(wishlistname,useridstring)
+            // let useridstring = String(userid)
+            // console.log(wishlistname,useridstring)
             var result = await pool.query("SELECT w.ISBN,w.purchased,w.userid,w.wishlistname,\
             b.genre,b.title,b.author\
-             FROM wishlist w join book_dataset b on b.ISBN = convert(w,ISBN,char(50))\
-             WHERE w.wishlistname=? AND w.userid=?",[wishlistname,useridstring]);
+             FROM wishlist w join book_dataset b on b.ISBN = convert(w.ISBN,char(50))\
+             WHERE Lower(w.wishlistname)=lower(?) AND w.userid=?",[wishlistname,userid]);
             return res.status(200).send({
                 success: true,
                 result: result[0]
