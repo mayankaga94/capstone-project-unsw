@@ -38,7 +38,7 @@ class ContentRecommenderSystem:
         books = pd.read_csv(books_path, encoding = "ISO-8859-1")
         books = books.drop_duplicates(subset ="ISBN", 
                      keep = False, inplace = True) 
-        books = books.dropna(inplace=True)
+        b\books.dropna(inplace=True)
         
         self.books = books
         self.set_index_mapping()
