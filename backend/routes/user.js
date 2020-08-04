@@ -138,7 +138,7 @@ router.route('/getRecommendation',cors())
 router.route('/numberofreads',cors())
     .post(userFunction.numberofreads)
 
-// router.route('/getRecommendedBooks')
-//     .post(userFunction.getRecommendBooks)
+ router.route('/getRecommendedBooks')
+   .post(userFunction.getRecommendBooks)
 //------------export all the routes------------//
 module.exports = router
