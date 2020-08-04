@@ -5,26 +5,24 @@ import UserContext from '../../context/usercontext'
 
 export default function CustomWishlist(props) {
 
-console.log(props)
 const { userData, setUserData } = useContext(UserContext);
 const loggedINUser = userData && userData.user && userData.user.userid
 const isbn = props.ISBN
-
 const [wishlist, setWishlist] = useState([])
 const[wishlistName, setWishlistName] = useState({})
-const [checkboxState, setCehckboxState]  = useState({checked:false})
 
 const createWishlist = () =>{
+
+    console.log("how many times im cak")
 
     setWishlist([{created: "false",title:"ssd", list : []},...wishlist])
 }
 
 const handleChange = (e) =>{
 
-    e.preventDefault()
+    // e.preventDefault()
     setWishlistName({title: e.currentTarget.value})
 }
-
 
 var raw = JSON.stringify({"userid":loggedINUser});
 var requestOptions = {
@@ -36,29 +34,27 @@ body: raw,
 redirect: 'follow'
 };
 
-
-
 // -----------useEffect ------------------//
 useEffect(() =>{
+    console.log("hi")
     fetch("http://localhost:5000/user/wishlistfetch", requestOptions)
 .then(response => response.json())
 .then(result => {
+
     const lists = result.result
-    console.log(lists)
+    const x = []
     lists.map((lists,index) =>{
-        // console.log("hi",index,lists)
-        const newWishlist = {
+        const newWishlistz = {
             title:lists.wishlistname,
             created: "true",
             list : []
         }
-        console.log(newWishlist)
-        setWishlist([newWishlist])
-    }
-  
+        x.push(newWishlistz)
+    },
+    setWishlist(x,  ...wishlist)
     )
-    // console.log("finish")
-})
+}
+)
 .catch(error => console.log('error', error));
 
 },[])
@@ -67,26 +63,14 @@ useEffect(() =>{
 
 const createWishlistTitle = () =>{
 
+    console.log("biii")
+
     const newWishlist = {
         title: wishlistName.title,
         created: "true",
         list : []
     }
     setWishlist([newWishlist, ...wishlist])
-    var raw = JSON.stringify({"userid":loggedINUser,"wishlistname": wishlistName.title});
-    var requestOptions = {
-    method: 'POST',
-    headers : {
-        "Content-type": "application/json"
-    },
-    body: raw,
-    redirect: 'follow'
-    };
-
-    fetch("http://localhost:5000/user/wishlistName", requestOptions)
-    .then(response => response.text())
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
 }
 
 const addTolist  = (i) =>{
@@ -99,13 +83,6 @@ const addTolist  = (i) =>{
         created: "true",
         list : name
     }
-    // setWishlist([newWishlist])
-    // wishlist.map((k, index) =>{
-    //         console.log(k)
-    // })
-
-    // console.log("howdy mate",wishlist[i].title,"user is",loggedINUser , isbn)
-
     var raw = JSON.stringify({"userid": loggedINUser ,"wishlistName": wishlist[i].title, "ISBN" :isbn });
     var requestOptions = {
     method: 'POST',
@@ -122,6 +99,10 @@ const addTolist  = (i) =>{
     .catch(error => console.log('error', error));
     }
 
+    if(wishlist.length >1){
+    console.log(wishlist)
+
+    }
 
     return (
         <div className = "customWishlistx goalset col-xs-12 col-lg-6 col-md-6 col-sm-6">
@@ -143,20 +124,32 @@ const addTolist  = (i) =>{
                             <div className = "wishlistWrapper">
                                 <h1 className = "wishlistWrapper-heading"> -Or- </h1>
                                 <h1 className = "wishlistWrapper-heading-add"> Add to your Existing List </h1>
-                                {wishlist.length >0 ?
+
+
+
+                                
+                                      {wishlist && wishlist.length >0 ?
                                          <>
                                              {wishlist && wishlist.map(({created, list, title}, i ) => (
                                                     <div>
                                                         <button onClick = {()=>addTolist(i)}>{title}</button>
                                                             <div>
-                                                                {wishlist.list}
+                                                                {/* {wishlist.list} */}
                                                             </div>
                                                     </div> 
                                                 ))}
                                         </>                                    
                                  :(<>Your wishlist is empty
                                     <div className = "emptyCart">  <i class="fa fa-cart-plus" aria-hidden="true"></i></div>
-                                    </>)}                             
+                                    </>)}   
+
+                                    
+                                    {wishlist.map((wishlist, i ) => (
+                                                    <div>
+                                                            hiii
+                                                             {wishlist.title,i}
+                                                    </div> 
+                                                ))}          
                             </div>
                        </div>
                     </div>

@@ -493,7 +493,7 @@ padding:10px;
 }
 .libraryHeader, .todoheader{
     font-size: 16px;
-    background: #eeeeee;
+   
     padding: 20px;
     border-radius: 20px 20px 0 0;
     font-weight: 600;
@@ -693,4 +693,50 @@ text-align: left;
     font-size:14px;
     text-align: center;
     margin-bottom: 20px;
+}
+
+.list_header{
+
+    width: 100%;
+    float: left;
+    background-color: #68a8c2;
+    cursor: pointer;
+    margin-bottom: 5px;
+    color: #3b3636;
+    text-align: left;
+}
+
+.listcontainer{
+   color: #2e2d2d;
+    float:left;
+}
+.wishlistContainer{
+    color:white;
+    background-color: white;
+    padding:10px;
+}
+.wishlistContainer .listcontainer{
+    float:left;
+    margin:5px;
+}
+.wishlistContainer .tobuy{
+    float: right;
+    background-color: #bbbceb;
+    margin: 5px 28px 0 0;
+    padding: 7px;
+    font-size: 14px;
+    border-radius: 10px;
+}
+.wishlistContainer .todoDelete{
+    float:right
+}
+.list_header .todoDelete{
+    float:right;
+    background: none;
+    color:white;
+}
+.wishliName{
+    padding:7px 5px 5px 9px;
+    float:left;
+    font-weight: 600;
 }

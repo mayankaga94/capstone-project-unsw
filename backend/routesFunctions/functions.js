@@ -670,6 +670,7 @@ module.exports = {
     getCartItems: async (req,res) => {
         try {
             // fetch all cart items
+
             let userid = req.body.userid;
             var result = await pool.query("SELECT cart.ISBN,cart.readBook,cart.userid,book_dataset.genre,book_dataset.title,book_dataset.author,cart.bookshelfID from cart join book_dataset on book_dataset.ISBN = convert(cart.ISBN,char(50)) WHERE userid=?",userid);
             if (result[0].length == 0){
@@ -729,7 +730,7 @@ module.exports = {
     addToWishlist: async (req,res) => {
         try {
             let {wishlistName,userid,ISBN} = req.body;
-            console.log(wishlistName,userid,ISBN)
+           
             // insert item to wishlist
             await pool.query('INSERT INTO wishlist(wishlistname,userid,ISBN) VALUES(?,?,?)',[wishlistName,userid,ISBN]);
             return res.status(200).send({
@@ -750,6 +751,7 @@ module.exports = {
     deleteFromWishlist: async (req,res) => {
         try{
             let {wishlistName,userid,ISBN} = req.body;
+            console.log(wishlistName,userid,ISBN)
             await pool.query("DELETE FROM wishlist WHERE wishlistname=? AND userid=? AND ISBN=?",[wishlistName,userid,ISBN]);
             return res.status(200).send({
                 success: true,
@@ -775,10 +777,10 @@ module.exports = {
     },
     fetchWishlistItems: async(req,res) => {
         try{
-            let {wishlistName,userid} = req.body;
-            var result = await pool.query("SELECT * FROM wishlist \
-            join book_dataset on book_dataset.ISBN = convert(wishlist.ISBN,CHAR(50))\
-            WHERE wishlistname=? AND userid=?",[wishlistName,userid]);
+            let {wishlistname,userid} =  req.headers;
+            let useridstring = String(userid)
+            console.log(wishlistname,useridstring)
+            var result = await pool.query("SELECT * FROM wishlist WHERE wishlistname=? AND userid=?",[wishlistname,useridstring]);
             return res.status(200).send({
                 success: true,
                 result: result[0]
