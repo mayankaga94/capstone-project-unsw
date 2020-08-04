@@ -499,6 +499,34 @@ module.exports = {
             return res.status(500).send(err);
         }
     },
+    searchBookByAuthor:  async (req, res) => {
+        try {
+            let {author} = req.body
+            let query = "Select * from book_dataset where LOWER(author) like LOWER(CONCAT('%',?,'%'))";
+            var result = await pool.query(query,author)
+            return res.status(200).send({
+                result : result[0],
+                success: true
+                });
+            }
+        catch(err) {
+            return res.status(500).send(err);
+        }
+    },
+    searchBookByRating:  async (req, res) => {
+        try {
+            let {rating} = req.body
+            let query = "Select * from book_dataset where rating >= ?";
+            var result = await pool.query(query,rating)
+            return res.status(200).send({
+                result : result[0],
+                success: true
+                });
+            }
+        catch(err) {
+            return res.status(500).send(err);
+        }
+    },
     addTask:  async (req, res) => {
         try {
             let {userid,task} = req.body
@@ -672,7 +700,9 @@ module.exports = {
             // fetch all cart items
 
             let userid = req.body.userid;
-            var result = await pool.query("SELECT cart.ISBN,cart.readBook,cart.userid,book_dataset.genre,book_dataset.title,book_dataset.author,cart.bookshelfID from cart join book_dataset on book_dataset.ISBN = cart.ISBN WHERE userid=?",userid);
+            var result = await pool.query("SELECT cart.ISBN,cart.readBook,cart.userid,\
+            book_dataset.genre,book_dataset.title,book_dataset.author,cart.bookshelfID \
+            from cart join book_dataset on book_dataset.ISBN = convert(cart.ISBN,char(50)) WHERE userid=?",userid);
             if (result[0].length == 0){
                 return res.status(200).send({
                     success: false,
@@ -780,7 +810,10 @@ module.exports = {
             let {wishlistname,userid} =  req.headers;
             let useridstring = String(userid)
             console.log(wishlistname,useridstring)
-            var result = await pool.query("SELECT * FROM wishlist WHERE wishlistname=? AND userid=?",[wishlistname,useridstring]);
+            var result = await pool.query("SELECT w.ISBN,w.purchased,w.userid,w.wishlistname,\
+            b.genre,b.title,b.author\
+             FROM wishlist w join book_dataset b on b.ISBN = convert(w,ISBN,char(50))\
+             WHERE w.wishlistname=? AND w.userid=?",[wishlistname,useridstring]);
             return res.status(200).send({
                 success: true,
                 result: result[0]

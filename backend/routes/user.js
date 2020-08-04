@@ -70,9 +70,14 @@ router.route('/admin/removeBook',cors())
 router.route('/searchbytitle',cors())
     .post(userFunction.searchBookByTitle)
 
-// -------------------------------------//
 router.route('/searchbygenre',cors())
     .post(userFunction.searchBookByGenre)
+
+router.route('/searchBookByAuthor',cors())
+    .post(userFunction.searchBookByAuthor)
+
+router.route('/searchBookByRating',cors())
+    .post(userFunction.searchBookByRating)
 
 // -------------------------------------//
 router.route('/user/task',cors())
