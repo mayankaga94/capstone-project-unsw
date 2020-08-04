@@ -5,37 +5,27 @@ export default function RecommededBooks(props) {
 
     const ISBN = props.ISBN
     const [recommendedISBN, setRecommededISN] = useState([])
-
-
-    const getRecommendation = (recommendISBN) => {
-
-        console.log("zzzzz")
+    useEffect(() => {
             var requestOptions = {
             method: 'POST',
             headers : {
                 "Content-type": "application/json"
             },
-            body: JSON.stringify({"ISBN":recommendISBN,"count":10}),
+            body: JSON.stringify({"ISBN":ISBN,"count":10}),
             redirect: 'follow'
             };
             fetch("http://localhost:5000/getRecommendation", requestOptions)
-            .then(response => response.text())
-            .then(result => (console.log(result)
+            .then(response => response.json())
+            .then(result => console.log(result))
+            // .then(response => response.json())
+            // .then(result => (console.log(result.result),
+            // setRecommededISN(result.result)
                
-            )      
-                )
+            // )      
+            //     )
             .catch(error => console.log('error', error));
-    }
 
-    const fetchRecommendedBooks = () =>{
-        
-    }
-
-
-
-
-
-
+        },[])
     return (
         <div>
 

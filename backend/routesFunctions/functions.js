@@ -916,6 +916,8 @@ module.exports = {
                 result2.push(temp[0])
             }
             // console.log(result2)
+
+            // console.log(result2)
             return res.status(200).send({
                 success: true,
                 result : result2
