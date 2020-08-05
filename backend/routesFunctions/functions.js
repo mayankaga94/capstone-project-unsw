@@ -408,7 +408,9 @@ module.exports = {
                 res.status(500).send('book not exist')
             }
             else{
-                let query = "SELECT * FROM review WHERE bookid=?";
+                let query = "SELECT u.firstname,u.lastname,r.userid,r.votes,r.comment,r.bookid\
+                FROM review r join user u on u.userid = r.userid \
+                WHERE r.bookid=?";
                 var bookReview = await pool.query(query, bookreviewID)
                 // console.log(bookReview)
                     return res.status(200).send({
@@ -475,7 +477,7 @@ module.exports = {
             console.log(req.body)
             let {booktitle} = req.body
             console.log(booktitle)
-            let query = "Select * from book_dataset where title like CONCAT('%', ?, '%')";
+            let query = "Select * from book_dataset where LOWER(title) like LOWER(CONCAT('%',?,'%'))";
             var result = await pool.query(query,booktitle)
             // res.status(200).send('success');
             return res.status(200).send({
