@@ -10,6 +10,8 @@ export default function WishlistComponent(props) {
     const index = props.index
     const user = props.user
 
+    const author = props.author
+    const booktitle = props.title
     const [subList, setsubList] = useState()
 
 
@@ -47,7 +49,7 @@ export default function WishlistComponent(props) {
                 </div>
                 <div>
                 {subList && subList.map((subList,index) =>(    
-                    <Sublist  name = {wishlistName}  user = {user} isbn  = {subList.ISBN} index = {index} />
+                    <Sublist  title = { subList.title} author = {subList.author} name = {wishlistName}  user = {user} isbn  = {subList.ISBN} index = {index} />
                 ))}
             </div>
 

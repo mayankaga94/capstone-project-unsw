@@ -282,21 +282,11 @@ const createWishlist = () =>{
                                           </div>                                
                                     </>)}
                             </div>
-
-
-                            {/* ------------------wishlist----------- */}
-                            {/* <div className ="wihlishtouterWrap goalset col-xs-12 col-lg-4 col-md-4">
-               
-                                            <span className =" addwishlist"><i className="fa fa-heart" aria-hidden="true"><span className="fa-text">Add To Wishlist</span></i> 
-                                                </span>
-                                    <button onClick={()=>(createWishlist())}> 
-                                    Create new Wishlist</button>
-                                        </div> */}
                         </div>
                     </div>
                   </div>
 
-                  <div className = "row">
+                  <div className = "clearfix">
                                         <RecommededBooks  bookName = {props.name}  ISBN = {props.ISBN} />
                   </div>
             

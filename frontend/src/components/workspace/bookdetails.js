@@ -10,9 +10,7 @@ export default function Bookdetails() {
         const [book, setbook] = useState([]);
         const [review, setReview] =  useState([]);
 
-
         useEffect(() => {
-            console.log("called")
             getBook()
         }, [id])
 

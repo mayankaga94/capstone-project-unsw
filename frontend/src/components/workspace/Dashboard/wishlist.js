@@ -1,7 +1,4 @@
 import React, {useState} from 'react';
-import NewWishlist from './NewWishlist'
-
-
 
 export default function WishList() {
 

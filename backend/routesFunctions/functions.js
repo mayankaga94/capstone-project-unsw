@@ -871,7 +871,7 @@ module.exports = {
     getRecommendation: async(req,res) => {
         try{
             let {ISBN,count} = req.body;
-            // console.log(ISBN, count)
+            console.log(ISBN, count)
             var test = '{"book_ids": ['
             for (let i = 0; i < ISBN.length; i++){
                 // console.log(ISBN[i])
@@ -915,7 +915,6 @@ module.exports = {
                 var temp = await pool.query(query,reply[i])
                 result2.push(temp[0])
             }
-            // console.log(result2)
 
             // console.log(result2)
             return res.status(200).send({

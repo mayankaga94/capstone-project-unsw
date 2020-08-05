@@ -52,78 +52,58 @@ export  const Rating = styled.div`
 
 export default function RecommededBooks(props) {
 
+
     const ISBN = props.ISBN
     const [recommendedISBN, setRecommededISN] = useState([])
-
     const [similarbooks, setsimilarbooks] = useState([])
-
-   
-    const x = []
+    
     useEffect(() => {
-
+        let x = []
 
             var requestOptions = {
             method: 'POST',
             headers : {
                 "Content-type": "application/json"
             },
-            body: JSON.stringify({"ISBN":ISBN,"count":10}),
+            body: JSON.stringify({"ISBN":[ISBN],"count":10}),
             redirect: 'follow'
             };
             fetch("http://localhost:5000/getRecommendation", requestOptions)
-            // .then(response => response.json())
-            // .then(result => console.log(result))
             .then(response => response.json())
-            .then(result => (
-               
-               result &&  result.result  &&  result.result.map((result,index) =>(
-                       
-
-                    x.push([result[0]]),
-                    console.log(result[0])
-                    // setRecommededISN(x)
-                    // console.log(result[0])
-                    // console.log(x)
-                     
-               ))
-            )      
-                )
+            .then(result => {
+               result &&  result.result  &&  result.result.forEach((result,index) =>{
+                    x.push(result[0])
+                })
+                setRecommededISN(x)
+            
+                })
             .catch(error => console.log('error', error));
-
-    
-
-        },[])
-        
-    
-
-        // console.log(recommendedISBN)
+        },[ISBN])
+ 
     return (
-        <div>
+        <div className = "similar-books-wrap">
 
-           <h1> Books similar to {props.bookName}
+           <h1 className ="book-similar-heading"> Books similar to {props.bookName}
 
-           <div className  = "row">
+           <div className  = "clearfix">
                <div className = "col-xs-12 col-md-12 col-sm-12 col-lg-12">
 
-
-            
                {/* {recommendedISBN  && recommendedISBN.map((recommendedISBN,index) =>(
                         console.log(recommendedISBN[0])
                     // setsimilarbooks(recommendedISBN[0])
                 ))} */}
 
 
-                    {/* { similarbooks && similarbooks.map((similarbooks,index) =>(
+             { recommendedISBN && recommendedISBN.map((similarbooks,index) =>(
 
-                        <Link to  ={'/bookdetails/' + similarbooks.ISBN}>
+                        <Link  className = "recommendBookslink" to  ={'/bookdetails/' + similarbooks.ISBN}>
                         <div><Bookimg src ={similarbooks.image}></Bookimg></div>
                         <div className = "book_description">
                             <Bookname>{similarbooks.name}</Bookname> 
                             <Bookname author>{similarbooks.author}</Bookname>                       
                         </div>       
                         </Link> 
-                        
-                    ))} */}
+                    ))}
                </div>
            </div>
 

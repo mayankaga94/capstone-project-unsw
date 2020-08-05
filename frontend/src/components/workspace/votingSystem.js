@@ -11,6 +11,8 @@ export default function VotingSystem(props) {
     const notUpdateDownVote =  0 
     const updatedownVote =  -1 
 
+
+    
     const upVote = () =>{
 
         let counter = 0

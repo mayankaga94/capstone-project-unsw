@@ -12,7 +12,7 @@ export default function CustomWishlist(props) {
 
 const { userData, setUserData } = useContext(UserContext);
 
-const [wislistNamez, setWishlistNamez] = useState()
+const [wislistNamez, setWishlistNamez] = useState([])
 
 const loggedINUser = userData && userData.user && userData.user.userid
 
