@@ -473,7 +473,7 @@ module.exports = {
             console.log(req.body)
             let {booktitle} = req.body
             console.log(booktitle)
-            let query = "Select * from book_dataset where title like CONCAT('%', ?, '%')";
+            let query = "Select * from book_dataset where LOWER(title) like LOWER(CONCAT('%',?,'%'))";
             var result = await pool.query(query,booktitle)
             // res.status(200).send('success');
             return res.status(200).send({
