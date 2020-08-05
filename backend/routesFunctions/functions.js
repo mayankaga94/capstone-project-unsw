@@ -406,7 +406,9 @@ module.exports = {
                 res.status(500).send('book not exist')
             }
             else{
-                let query = "SELECT * FROM review WHERE bookid=?";
+                let query = "SELECT u.firstname,u.lastname,r.userid,r.votes,r.comment,r.bookid\
+                FROM review r join user u on u.userid = r.userid \
+                WHERE r.bookid=?";
                 var bookReview = await pool.query(query, bookreviewID)
                 // console.log(bookReview)
                     return res.status(200).send({
