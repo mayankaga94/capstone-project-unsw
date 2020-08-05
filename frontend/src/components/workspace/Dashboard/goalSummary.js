@@ -1,13 +1,6 @@
 import React from 'react'
 
 
-
-
-// const fetchDetails () =>{
-    
-// }
-
-
 export default function GoalSummary() {
     return (
         <>

@@ -13,7 +13,9 @@ export const SearchbarInput = styled.input`
     width :400px;
     min-height :50px;
     border : 1px solid #c2c2c2;
-    padding-left : 5px;
+    border-radius: 20px 0 0 20px;
+    font-size: 15px;
+    padding-left: 18px;
     outline : none;
 
 `
@@ -24,9 +26,11 @@ color: white;
 padding : 15px;
 font-weight  : 600;
 border : 2px solid #ccc;
+border-radius: 0 20px 20px 0;
 background  : #d1d1d1;
 border : none;
 outline  : none;
+font0wight:600;
 font-size: 14px;
 transition: 0.3s;
 &:hover  {

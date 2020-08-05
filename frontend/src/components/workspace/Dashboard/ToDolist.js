@@ -91,10 +91,10 @@ export default function ToDolist({onSubmit}) {
             setReviewid([createdObject.reviewid,...reviewid])      
         }
 
-const badFunc = (task)=> {
-         setTodos([{task, complete :false,}, ...todos])
-        setHack(!hack)
-}
+        const badFunc = (task)=> {
+                setTodos([{task, complete :false,}, ...todos])
+                setHack(!hack)
+        }
 
 
 // console.log(todos)

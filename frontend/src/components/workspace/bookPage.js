@@ -16,6 +16,7 @@ import RecommededBooks from './RecommededBooks'
 import listContext from '../../context/list_context';
 
 
+
 export const Wrapper = styled.div`
 font-size:20px;
 text-align :left;
@@ -71,7 +72,7 @@ const createWishlist = () =>{
     
     }
     else{
-        alert("add to exisitng list")
+     
     }
     const myList = {
         list:"",
@@ -198,7 +199,7 @@ const createWishlist = () =>{
                       <div className = "col-sm-7 col-xs-7 col-lg-7 right-subSection">
                           <Book><span className = "bookHeading">Title:</span>{props.name}</Book>
                           <Book ><span className = "bookHeading">Author: </span>{props.author}</Book> 
-                          <Book><span className = "bookHeading">Rating: </span>{props.rating} {props.Likes}</Book>
+                          <Book><span className = "bookHeading">Rating: </span>{props.rating}  {props.Likes}</Book>
                             <Book><span className = "bookHeading">No.of pages: </span>{props.pagecount}</Book>
                             <Book><span className = "bookHeading">Genre:</span>{props.genre} <span className = "bookHeading"> ISBN: </span>{props.ISBN}</Book>
                             <div className=" bookHeading">
@@ -281,21 +282,11 @@ const createWishlist = () =>{
                                           </div>                                
                                     </>)}
                             </div>
-
-
-                            {/* ------------------wishlist----------- */}
-                            {/* <div className ="wihlishtouterWrap goalset col-xs-12 col-lg-4 col-md-4">
-               
-                                            <span className =" addwishlist"><i className="fa fa-heart" aria-hidden="true"><span className="fa-text">Add To Wishlist</span></i> 
-                                                </span>
-                                    <button onClick={()=>(createWishlist())}> 
-                                    Create new Wishlist</button>
-                                        </div> */}
                         </div>
                     </div>
                   </div>
 
-                  <div className = "row">
+                  <div className = "clearfix">
                                         <RecommededBooks  bookName = {props.name}  ISBN = {props.ISBN} />
                   </div>
             

@@ -7,6 +7,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import Store from './components/workspace/store'
 
+import $ from 'jquery';
+
 ReactDOM.render(
   <React.StrictMode>
      <Store>

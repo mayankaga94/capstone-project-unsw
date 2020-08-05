@@ -1,14 +1,12 @@
 import React, { useState , useEffect, useContext} from 'react'
 import Details from './Summary'
-import Readlist from './Readlist'
 import ToDolist from './ToDolist'
-import Calend from './Calendar'
-import Owncomments from './Owncomments'
-import History from './History'
+
 import Cart from './cart'
 import GoalSummary from './goalSummary'
 import CustomWishlist from './customWishlist'
 import UserContext from '../../../context/usercontext'
+import RecommendationList from './recommendationList'
 
 export default function  Dashboard(){
      const [library, setLibrary ] =useState([])
@@ -31,7 +29,10 @@ export default function  Dashboard(){
                 </div>
                 <div className =" col-xs-12 col-lg-4 col-md-4 col-sm-4"> 
                  <ToDolist className =" col-xs-12 col-lg-4 col-md-4 col-sm-12"  />  </div>
-                  
+
+                 <div className =" col-xs-12 col-lg-12 col-md-12 col-sm-12"> 
+                 <RecommendationList />
+                 </div>
                     </>
                     )      
                 : null

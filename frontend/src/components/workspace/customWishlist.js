@@ -5,11 +5,20 @@ import UserContext from '../../context/usercontext'
 
 export default function CustomWishlist(props) {
 
+
+
+    // console.log(props)
+
 const { userData, setUserData } = useContext(UserContext);
 const loggedINUser = userData && userData.user && userData.user.userid
+
+
+const userLevel = userData && userData.level && userData.user.level
+
+
 const isbn = props.ISBN
 const [wishlist, setWishlist] = useState([])
-const[wishlistName, setWishlistName] = useState({})
+const [wishlistName, setWishlistName] = useState({})
 
 const createWishlist = () =>{
 
@@ -43,19 +52,24 @@ useEffect(() =>{
 
     const lists = result.result
     const x = []
-    lists.map((lists,index) =>{
+    lists.map((list,index) =>{
         const newWishlistz = {
-            title:lists.wishlistname,
+            title:list.wishlistname,
             created: "true",
             list : []
         }
         x.push(newWishlistz)
-    },
-    setWishlist(x,  ...wishlist)
+    }
     )
+    console.log('!!!!!!!!!!!', x)
+    setWishlist(x,  ...wishlist)
 }
 )
 .catch(error => console.log('error', error));
+
+
+
+console.log(wishlist)
 
 },[])
 
@@ -113,42 +127,33 @@ const addTolist  = (i) =>{
                                 <div className = "exisitingWishlist">
                                 </div>
                              <div className = "createWishlist">
-                               <input  placeholder = "enter the name of your wishlist"  onChange = {handleChange}/> ,
+                               <input  placeholder = "enter the name of your wishlist"  onChange = {handleChange}/>
                                 <button className ="wishlist-button" onClick  = {()=>{   
                             createWishlistTitle()
-                            }}>Click to creatre</button>
+                            }}>Creatre</button>
                             </div>
                             </div>
                     </div>
                     <div className = "wishlist-section">      
                             <div className = "wishlistWrapper">
-                                <h1 className = "wishlistWrapper-heading"> -Or- </h1>
-                                <h1 className = "wishlistWrapper-heading-add"> Add to your Existing List </h1>
-
-
-
-                                
+                                <div className = "heading-wrapper">
+                                    <h1 className = "wishlistWrapper-heading"> -Or- </h1>
+                                    <h1 className = "wishlistWrapper-heading-add"> Add to your Existing List </h1>
+                                </div>
                                       {wishlist && wishlist.length >0 ?
                                          <>
                                              {wishlist && wishlist.map(({created, list, title}, i ) => (
                                                     <div>
-                                                        <button onClick = {()=>addTolist(i)}>{title}</button>
-                                                            <div>
-                                                                {/* {wishlist.list} */}
-                                                            </div>
+                                                        <button className = "addtowishlist-button" onClick = {()=>addTolist(i)} style={{color:'red'}}>
+                                                            
+                                                            {title}</button>
+                                                        
                                                     </div> 
                                                 ))}
                                         </>                                    
                                  :(<>Your wishlist is empty
                                     <div className = "emptyCart">  <i class="fa fa-cart-plus" aria-hidden="true"></i></div>
                                     </>)}   
-
-                                    
-                                    {wishlist.map((wishlist, i ) => (
-                                                    <div>
-                                                             {wishlist.title,i}
-                                                    </div> 
-                                                ))}          
                             </div>
                        </div>
                     </div>

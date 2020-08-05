@@ -24,7 +24,7 @@ export default function Review(props) {
                         <p className = "reviewDescription"> {props.comment}</p>   
 
                         {userData.user ?
-                            < VotingSystem  calldownFunction = {props.calldownFunction }  callupFunction = {props.callupFunction} reviewID = {reviewid} voterID = {checkUser} userID={ userData.user.userid} votes = {props.votes} />     
+                            < VotingSystem  callDelete = {props.delete} calldownFunction = {props.calldownFunction }  callupFunction = {props.callupFunction} reviewID = {reviewid} voterID = {checkUser} userID={ userData.user.userid} votes = {props.votes} />     
                         :null  }
 
                         {loggedINUser== checkUser ? 
