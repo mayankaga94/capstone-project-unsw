@@ -123,6 +123,7 @@ router.route('/user/wishlistfetch',cors())
 
 router.route('/user/wishlistName',cors())
     .post(userFunction.addWishlistName)
+    .delete(userFunction.deleteWishlist)
 
 router.route('/user/wishlist/items',cors())
     .get(userFunction.fetchWishlistItems)
