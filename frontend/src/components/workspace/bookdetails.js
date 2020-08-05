@@ -1,8 +1,18 @@
-import React, { useEffect, useState  } from 'react'
+import React, { useEffect, useState, useContext  } from 'react'
 import { useParams} from 'react-router-dom'
 import Book  from './bookPage'
+import UserContext from '../../context/usercontext'
+
+
 
 export default function Bookdetails() {
+
+
+
+    const { userData, setUserData } = useContext(UserContext);
+    const loggedINUser = userData && userData.user && userData.user.userid
+
+
 
     // fetch the particular id of the book
         const id  = useParams();

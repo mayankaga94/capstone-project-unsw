@@ -1,13 +1,24 @@
-import React from 'react'
+import React, { useState} from 'react'
+
 
 export default function VotingSystem(props) {
     
+
+
+
+
+    const [upvoteTrack, setupvoteTrack] = useState(true)
+    const [downvoteTrack, setdownVoteTrack] = useState(true)
    const voterID =  props.voterID
     const loggedInUser = props.userID
     const reviewID = props.reviewID
     const votes  = props.votes
+    const acessLevel = props.acessLevel
     const notUpdateVote =  0 
     const updateVote =  1 
+    // const updateVote =  1
+
+    const voteUpdate = votes
     const notUpdateDownVote =  0 
     const updatedownVote =  -1 
 
@@ -15,32 +26,38 @@ export default function VotingSystem(props) {
     
     const upVote = () =>{
 
-        let counter = 0
+
+        console.log(voteUpdate )
+
+        setupvoteTrack(!upvoteTrack)
+        setdownVoteTrack(true)
         try{
             if (voterID == loggedInUser) {
                 alert("you cannot upvote your own comment")
-                return <h1>you cannot upvote your own vote</h1>
             }
             else{
-                let vote = 1,
-                voteInfo = {
-                    vote: 1,
-                    userid: voterID,
-                    reviewid: props.reviewID
-                }
+                // if (upvoteTrack){
+                // }
+                        let vote = 1,
+                        voteInfo = {
+                            vote: 1,
+                            userid: voterID,
+                            reviewid: props.reviewID
+                        }
 
-                var raw = JSON.stringify({voteInfo});
-                var requestOptions = {
-                method: 'POST',
-                headers : {
-                    "Content-type": "application/json"
-                },
-                body: raw,
-                };
-                fetch("http://localhost:5000/review/vote", requestOptions)
-                .then(response => response.text())
-                .then(result => console.log(result))
-                .catch(error => console.log('error', error));
+                        var raw = JSON.stringify({voteInfo});
+                        var requestOptions = {
+                        method: 'POST',
+                        headers : {
+                            "Content-type": "application/json"
+                        },
+                        body: raw,
+                        };
+                        fetch("http://localhost:5000/review/vote", requestOptions)
+                        .then(response => response.text())
+                        .then(result => console.log(result))
+                        .catch(error => console.log('error', error));
+                    
             }
         }
         catch{
@@ -49,31 +66,38 @@ export default function VotingSystem(props) {
     }
     const downVote = () =>{
 
+        setdownVoteTrack(!downvoteTrack)
+        setupvoteTrack(true)
+
         try{
             if (voterID == loggedInUser) {
-
-                alert("you cannot downvote your own comment")
-                return <h1>you cannot downvote your own vote</h1>
+                alert("you cannot downVote your own comment")
+            }
+            else if(  acessLevel < 1){
+                alert("you cannot downVote at htis level")
             }
             else{
-                let vote = -1,
-                voteInfo = {
-                    vote: -1,
-                    userid: voterID,
-                    reviewid: props.reviewID
-                }
-                var raw = JSON.stringify({voteInfo});
-                var requestOptions = {
-                method: 'POST',
-                headers : {
-                    "Content-type": "application/json"
-                },
-                body: raw,
-                };
-                fetch("http://localhost:5000/review/vote", requestOptions)
-                .then(response => response.text())
-                .then(result => console.log(result))
-                .catch(error => console.log('error', error));
+         
+                    // updateVote = updateVote - 1
+                    let vote = -1,
+                    voteInfo = {
+                        vote: -1,
+                        userid: voterID,
+                        reviewid: props.reviewID
+                    }
+                    var raw = JSON.stringify({voteInfo});
+                    var requestOptions = {
+                    method: 'POST',
+                    headers : {
+                        "Content-type": "application/json"
+                    },
+                    body: raw,
+                    };
+                    fetch("http://localhost:5000/review/vote", requestOptions)
+                    .then(response => response.text())
+                    .then(result => console.log(result))
+                    .catch(error => console.log('error', error));
+                
             }
         }
         catch{
@@ -88,35 +112,58 @@ export default function VotingSystem(props) {
                     <div className = "upvotes">
                         <span className = "reviewStart">   
                         {loggedInUser === voterID ? 
-                        <button onClick={() =>{props.callupFunction({
-                            votes : notUpdateVote
-                                }, reviewID);upVote()}}> 
-                            <span> <i className="fa fa-thumbs-up" aria-hidden="true"></i></span>
-                            
-                            </button>
-                            :       
-                             <button onClick={() =>{props.callupFunction({
-                                votes : updateVote
-                                    }, reviewID);upVote()}}> 
-                                <span> <i className="fa fa-thumbs-up" aria-hidden="true"></i></span>
-                                </button> }                   
+                        <>
+                                       <button onClick={() =>{props.callupFunction(reviewID);upVote()}}> 
+                                            <span> <i className="fa fa-thumbs-up" aria-hidden="true"></i></span>
+                                            
+                                            </button>
+                                        </>
+                                    :<>  
+
+                                    {upvoteTrack ?
+                                                <button onClick={() =>{props.callupFunction({
+                                                    votes :  votes + 1
+                                                        }, reviewID);upVote()}}> 
+                                                    <span> <i className="fa fa-thumbs-up" aria-hidden="true"></i></span>
+                                                    </button>     
+                                                    : <span> <i className="fa fa-thumbs-up" aria-hidden="true"></i></span>}        
+
+                                    </>   
+                                }                   
                         </span>
                     </div>
                     <div className = "downvotes">
                             <span className = "reviewStart"> 
-                            {loggedInUser === voterID  ? 
-                            <button onClick={() =>{props.calldownFunction({
-                            votes : notUpdateDownVote
-                                }, reviewID);downVote()}}> 
-                            <span> <i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
-                            
-                            </button>
-                            :       
-                             <button onClick={() =>{props.calldownFunction({
-                                votes : updatedownVote
-                                    }, reviewID);downVote()}}> 
-                                <span> <i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
-                                </button> }   
+                            {loggedInUser === voterID ? 
+                                    <>
+                                        <button onClick={() =>{props.calldownFunction(
+                                       reviewID);downVote()}}> 
+                                        <span> <i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
+                                        </button>
+                                        </>
+                            :     <>  
+
+
+                            {downvoteTrack  ?
+                                        <>
+                                    {acessLevel <1 ? 
+                                            <>
+                                                <button onClick={() =>{props.calldownFunction(reviewID);downVote()}}> 
+                                                    <span> <i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
+                                                    </button>   
+                                            </>
+                                             :
+                                            <button onClick={() =>{props.calldownFunction({
+                                                votes : votes  - 1
+                                                    }, reviewID);downVote()}}> 
+                                                <span> <i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
+                                                </button>   
+                                                }
+                                            </>
+                                            
+                                            :   <span> <i className="fa fa-thumbs-down" aria-hidden="true"></i></span> }
+                                 </>
+                        }   
                         </span>
                      </div>
             </div>

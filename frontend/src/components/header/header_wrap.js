@@ -126,7 +126,7 @@ export default function  Headerwrap () {
                 </div>
                 {userData.user ? (
                                 <Nav>
-                                    <Logo> Bookshelf</Logo>
+                                    <Logo className = " hidden-xs"> Bookshelf</Logo>
                                         <ul className = "float-right">
 
                                         <Link to  ={'/home' }>
@@ -136,7 +136,7 @@ export default function  Headerwrap () {
                                             <li className = " headerItems float-left"><div><i className="fa fa-tachometer" aria-hidden="true"></i></div><span className = "">Dashboard</span></li>
                                         </Link>   
                                             
-                                             <li className = "headerItems float-left">
+                                             <li className = "headerItems   hidden-xs  float-left">
                                               <div  className =" "><i className="fa fa-shopping-cart" aria-hidden="true"></i> 
                                                 <p>Cart</p>
                                                 </div>   
@@ -145,7 +145,7 @@ export default function  Headerwrap () {
                                             <div  className = "changeLayout">                            
                                                  <span className =" "   onClick = {handleClick} ><i className="fa fa-heart" aria-hidden="true"></i> 
 
-                                                 <p>Wishlist </p>
+                                                 <p>DarkMode</p>
 
 
                                                  </span>   

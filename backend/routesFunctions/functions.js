@@ -18,6 +18,8 @@ module.exports = {
     // next is not needed at the moment 
     register :  async(req,res,next) => {
         try{
+
+            console.log(req.body)
             let {firstName,lastName,emailID,password,password2,dob} = req.body
             let errors = []
             // Empty fields

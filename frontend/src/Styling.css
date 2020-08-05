@@ -866,3 +866,37 @@ margin-bottom: 20px;
 .libraryHeader{
     text-align: center;
 }
+
+
+
+
+@media only screen and (max-width: 768px) {
+    .bookHeadingWrap{
+        margin: 0 auto;
+        display: table;
+        text-align: center;
+    }
+    .bookimg{
+        padding:0 !important;
+        margin : 0 auto;
+        display: table;
+    }
+    .bookDescprops{
+        max-width: 70%;
+        display: inline-block;
+    }
+    .line-divide{
+        max-width: 100%;
+    }
+    .commentButton{
+        font-size: 14px;
+    }
+
+    .api-call{
+        text-align:center;
+        margin-top:40px;
+    }
+}
+
+
+

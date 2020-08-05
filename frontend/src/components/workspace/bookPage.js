@@ -52,6 +52,10 @@ export  const Rating = styled.div`
 
 export default function Bookpage (props){
 
+    
+    const { userData, setUserData } = useContext(UserContext);
+    const loggedINUser = userData && userData.user && userData.user.userid
+    const reviewmade   = props.loggedInuser
     const [quotes, setquotes]  = useState([]);
     const [comp, setComp] = useState({show:false})
 
@@ -89,10 +93,6 @@ const createWishlist = () =>{
     createWishlist()
 }
 
-
-
-
-
     const getQuotes = async() =>{
 
         const url = "https://type.fit/api/quotes";
@@ -110,16 +110,12 @@ const createWishlist = () =>{
                     show : !comp.show
                 })
           }
-        const { userData, setUserData } = useContext(UserContext);
-        const loggedINUser = userData && userData.user && userData.user.userid
-
         const renderReviews = () => {
             const reviews  = props.bookReview;
         }
         const buybooknotlogged =() =>{
             alert("you need to login")
         }
- 
         const postRating = (x) =>{
 
           const ratingDetails = {
@@ -193,15 +189,15 @@ const createWishlist = () =>{
                    <h1 className = "bookHeadingWrap"> {props.name} </h1>
                   <section className = "row">
                       <div className = "col-sm-5 col-xs-5 col-lg-5 left-subSection">
-                             <div><Bookimg src ={props.url}></Bookimg></div>
+                             <div><Bookimg className = "bookimg" src ={props.url}></Bookimg></div>
                              
                       </div>
                       <div className = "col-sm-7 col-xs-7 col-lg-7 right-subSection">
-                          <Book><span className = "bookHeading">Title:</span>{props.name}</Book>
-                          <Book ><span className = "bookHeading">Author: </span>{props.author}</Book> 
-                          <Book><span className = "bookHeading">Rating: </span>{props.rating}  {props.Likes}</Book>
-                            <Book><span className = "bookHeading">No.of pages: </span>{props.pagecount}</Book>
-                            <Book><span className = "bookHeading">Genre:</span>{props.genre} <span className = "bookHeading"> ISBN: </span>{props.ISBN}</Book>
+                          <Book><span className = "bookHeading">Title:</span><span className = "bookDescprops">{props.name}</span></Book>
+                          <Book ><span className = "bookHeading">Author: </span><span className = "bookDescprops"> {props.author} </span></Book> 
+                          <Book><span className = "bookHeading">Rating: </span> <span className = "bookDescprops">{props.rating}  {props.Likes} </span></Book>
+                            <Book><span className = "bookHeading">No.of pages: </span> <span className = "bookDescprops">{props.pagecount}</span></Book>
+                            <Book><span className = "bookHeading">Genre:</span>{props.genre} <span className = "bookHeading d-none d-sm-block ">  </span><span className = "bookDescprops d-none d-sm-block">ISBN: {props.ISBN}</span></Book>
                             <div className=" bookHeading">
                                     <span>Description</span>
                                     <Book className = "description">{props.description}</Book>
@@ -249,11 +245,11 @@ const createWishlist = () =>{
                                 <div className = "reviewWrapper">
                                  </div>
                                  { props.bookReview && props.bookReview.map((review,index) =>(
-                                        <><Review  key ={"bookPage"+index}  callreviewDeleteFunction = { props.callreviewDeleteFunction} calldownFunction = {props.calldownFunction} callupFunction = {props.callupFunction} comment = {review.comment} reviewid = {review.reviewID} userid= {review.userid} votes = {review.votes}/></>        
+                                        <><Review  key ={"bookPage"+index}  callreviewDeleteFunction = { props.callreviewDeleteFunction} calldownFunction = {props.calldownFunction} callupFunction = {props.callupFunction}  user = {review.user}  comment = {review.comment} reviewid = {review.reviewID} userid= {review.userid} votes = {review.votes}/></>        
                                          ))     
                                 }        
                             </div> 
-                            {userData.user ? ( <Comments  callReviewFunction = {props.callReviewFunction}/>) :(<></>)}   
+                            {userData.user ? ( <Comments  userid =  {loggedINUser} callReviewFunction = {props.callReviewFunction}/>) :(<></>)}   
                             </div>
                         </div>
                         <div className = "col-lg-2 col-md-2 col-sm-2 col-md-offset-2 float-left">
