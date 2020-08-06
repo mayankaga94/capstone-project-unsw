@@ -20,3 +20,13 @@ Week6:
 Added admin addBook and removeBook functions
 
 Week7:
+Re-write codes to make backend clean and consistent
+
+Week8:
+Added removed comments function on backend
+
+Week9:
+Final report
+
+Week10:
+Final report 
