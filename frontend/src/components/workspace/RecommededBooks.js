@@ -48,10 +48,7 @@ export  const Rating = styled.div`
     padding :5px 5px 5px 0;
 `
 
-
-
 export default function RecommededBooks(props) {
-
 
     const ISBN = props.ISBN
     const [recommendedISBN, setRecommededISN] = useState([])
@@ -87,29 +84,18 @@ export default function RecommededBooks(props) {
 
            <div className  = "clearfix">
                <div className = "col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                    { recommendedISBN && recommendedISBN.map((similarbooks,index) =>(
 
-               {/* {recommendedISBN  && recommendedISBN.map((recommendedISBN,index) =>(
-                        console.log(recommendedISBN[0])
-                    // setsimilarbooks(recommendedISBN[0])
-                ))} */}
-
-
-             { recommendedISBN && recommendedISBN.map((similarbooks,index) =>(
-
-                        <Link  className = "recommendBookslink" to  ={'/bookdetails/' + similarbooks.ISBN}>
-                        <div><Bookimg src ={similarbooks.image}></Bookimg></div>
-                        <div className = "book_description">
-                            <Bookname>{similarbooks.name}</Bookname> 
-                            <Bookname author>{similarbooks.author}</Bookname>                       
-                        </div>       
-                        </Link> 
-                    ))}
+                                <Link  className = "recommendBookslink" to  ={'/bookdetails/' + similarbooks.ISBN}>
+                                <div><Bookimg src ={similarbooks.image}></Bookimg></div>
+                                <div className = "book_description">
+                                    <Bookname>{similarbooks.name}</Bookname> 
+                                    <Bookname author>{similarbooks.author}</Bookname>                       
+                                </div>       
+                                </Link> 
+                            ))}
                </div>
            </div>
-
-           {/* {books.map((books,index) => ( */}
-
-
            </h1>            
         </div>
     )

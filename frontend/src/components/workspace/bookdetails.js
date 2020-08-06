@@ -3,17 +3,10 @@ import { useParams} from 'react-router-dom'
 import Book  from './bookPage'
 import UserContext from '../../context/usercontext'
 
-
-
 export default function Bookdetails() {
 
-
-
-    const { userData, setUserData } = useContext(UserContext);
-    const loggedINUser = userData && userData.user && userData.user.userid
-
-
-
+        const { userData, setUserData } = useContext(UserContext);
+        const loggedINUser = userData && userData.user && userData.user.userid
     // fetch the particular id of the book
         const id  = useParams();
         const bookreviewid = id
@@ -24,9 +17,6 @@ export default function Bookdetails() {
           
             getBook()
         }, [id])
-
-
-
         const  callupFunction = (newvote, reviewID) =>{
             let updatedReview = review.map(reviews=>{
                 if(reviews.reviewid === reviewID){
@@ -47,34 +37,17 @@ export default function Bookdetails() {
                 }) 
                  setReview(updatedReview)
     }
-
-
-
         const callReviewFunction = (newReview)=>{
-
-
-                console.log(newReview)
-
             const createdObject = {
                 user : newReview.userid,
                 comment: newReview.comment,
                 votes : newReview.votes
-
-
-                // bookid: id,
-                // userid:  userlogged,
-                // comment : comm,
-                // votes : 0
-
             }
             setReview([...review, createdObject])
-
         }
         // Delete the posts made by the user
 
         const callreviewDeleteFunction = (newReview)=>{
-
-        alert("hii")
             setReview(review.filter((k, index) => k.reviewid !== newReview.delete ))
         }
         // ---------------------------------
@@ -107,14 +80,11 @@ export default function Bookdetails() {
             })
             .then((response) => {
                 response.json().then((data) => {
-                        // console.log(data.result);
                         setbook(data.result)
                     });
                     getPost()
                 });
-            }
-
-            
+            }    
         return (
             <div>
                 <h1> Book</h1>

@@ -55,20 +55,12 @@ function App() {
           <UserContext.Provider value =  {{userData, setUserData}}>
             <Headerwrap /> 
               <Switch>
-
-                
                       <Route exact path  = "/" component  = {Workspace} />
                       <Route   exact path  = "/home" component = { Workspace} />
-                   <Route exact path="/dashboard" component={Dashboard}/> }
-                      {/* <Route path = "/book/" compoponent = { Bookdetails}/> */}
+                      <Route exact path="/dashboard" component={Dashboard}/> }
                       <Route exact path  = "/books" component = {Discoverbook} />
-                      {/* {userData.user ? 
-                      ( <Route path="/home/dashboard" component={PersonalDashboard}/> ):
-                      <link  to='/dashboard' />
-                      }  */}
                       <Route exact path  = "/bookdetails/filter/:id" component = {BookPage} />
                       <Route  path  = "/bookdetails/:id" component = {Bookdetails } />
-                 
               </Switch>
               <Footer />
             </UserContext.Provider>

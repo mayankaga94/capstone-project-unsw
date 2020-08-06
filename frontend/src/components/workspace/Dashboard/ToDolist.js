@@ -58,14 +58,10 @@ export default function ToDolist({onSubmit}) {
              })
              .then((response) => {          
                 response.json().then((data) => {
-                        console.log(data)
                     });
                 });
     }
     const deltetodos = (i, tasklistid) =>{
-
-
-        console.log(tasklistid)
 
         var raw = JSON.stringify({tasklistid});
         var requestOptions = {
@@ -90,14 +86,11 @@ export default function ToDolist({onSubmit}) {
             }
             setReviewid([createdObject.reviewid,...reviewid])      
         }
-
         const badFunc = (task)=> {
                 setTodos([{task, complete :false,}, ...todos])
                 setHack(!hack)
         }
 
-
-// console.log(todos)
 const completelength  = todos.filter(todo=>todo.status ==="complete")
 
 let fraction = completelength.length*100/todos.length
@@ -113,8 +106,6 @@ let fractionRounded =  fraction.toFixed(2);
                 <CircleProgress percentage={fractionRounded} text = "completed" strokeWidth={12} secondaryColor="#ccc" />
                 {todos.length <=1 ?<div><span>Task:</span> {todos.length}</div>: <div ><span className = "taskinfo">Total tasks:</span> {todos.length}</div> }
                 <div><span className = "comletedTask">Completed Tasks:</span> {completelength.length}</div>
-
-                {/* {todos.status =="complete" ? } */}
             </div>
             <div className = "common-marginborder">                 
             <TodoForm  callReviewidFunction = {callReviewFunctionid}  submit = {badFunc} />

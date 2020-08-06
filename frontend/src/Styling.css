@@ -547,24 +547,26 @@ padding:10px;
     padding:20px;
 }
 .upperSection{
-    min-height: 300px;
+    min-height: 350px;
 }
 .upperSection .common-marginborder{
     margin:10px;
     border-radius: 20px;
     border:1px solid #ccc;
     min-height: 350px;
+    max-height: 350px;
     padding:10px;
     box-shadow: 5px 5px 5px 5px #ccc;
 }
 
 .common-marginborder{
     margin:10px;
-    max-height: 400px;
+    max-height: 350;
     overflow: scroll;
     border-radius: 20px;
     border:1px solid #ccc;
-    min-height: 400px;
+    min-height: 350px;
+    max-height: 350px;
     box-shadow: 5px 5px 5px 5px #ccc;
 }
 .details{
@@ -662,7 +664,7 @@ text-align: left;
 
 .totalBooks{
     text-align: left;
-    padding: 30px 0  0 30px;
+    padding: 0 0  0 30px;
     color: #7575dd;
     font-weight: 600;
 }
@@ -892,6 +894,13 @@ margin-bottom: 20px;
 background-color : #414141
 }
 
+.dashboard-Heading{
+    margin: 30px;
+    font-size: 24px;
+    color: black;
+    font-weight: 600;
+    text-align: left;
+}
 .fa-cart-plus.emptylibrary{
     font-size: 153px;
     padding: 64px;
@@ -900,16 +909,166 @@ background-color : #414141
 .cartItems a{
     color:black !important;
 }
+.closebtn{
+    margin: -40px 20px;
+    cursor: pointer;
+}
+.nightmode .common-marginborder{
+    box-shadow: none;
+}
+
+.nightmode .wishlistWrapper .heading-wrapper{
+    background:  none;
+}
+.nightmode .common-marginborder.chartheight{
+    color: white;
+}
+.nightmode .todoitemslist{
+    color:wheat;
+}
+.nightmode .goal-summary{
+    box-shadow: none;
+    color:White;
+
+
+}
+
+.nightmode .bookHeading {
+    color:wheat;
+}
+
+.nightmode .bookHeading.bookDescprops{
+    color:wheat;
+}
+.nightmode .common-marginborder.chartheight{
+    color: white;
+}
+.nightmode .bookDescprops{
+    color:white
+}
+
+.nightmode .description{
+    color:White;
+}
+.wishlistContaine{
+    margin-bottom: 10px;
+}
+.nightmode .wishlistContainer{
+    border-radius: 20px;
+}
+.nightmode .bookHeadingWrap{
+    color:white;
+}
+.nightmode .myDetails{
+    color:white;
+}
+.nightmode .cartItems{
+    color:White;
+}
+.nightmode .cartItems a{
+    color:white !important;
+}
+@media only screen and (max-width: 968px)  and (min-width: 769px) {
+.cartItems{
+    padding-left: 10px;
+}
+.headerItems{
+    max-width: 100px;
+}
+.App .float-right{
+    padding-left : 0 !important
+}
+}
 @media only screen and (max-width: 768px) {
+    .genresWrap{
+        padding-left:0;
+    }
+    .App .float-right{
+        float: none !important;
+        padding-left : 0 !important
+    }
+    .headerItems{
+      min-width: 100px;
+        margin: 0;
+        padding:15px;
+    }
     .bookHeadingWrap{
         margin: 0 auto;
         display: table;
         text-align: center;
     }
+
+    .nightmode .common-marginborder{
+        box-shadow: none;
+    }
+
+    .nightmode .wishlistWrapper .heading-wrapper{
+        background:  none;
+    }
+    .nightmode .common-marginborder.chartheight{
+        color: white;
+    }
+    .nightmode .todoitemslist{
+        color:wheat;
+    }
+    .nightmode .goal-summary{
+        box-shadow: none;
+        color:White;
+
+    }
+
+    .nightmode .libraryHeader{
+        color:White
+    }
+    .nightmode .upperSection{
+        color:white;
+    }
+    .nightmode .productFeedback .libraryHeader, .nightmode .wishlistHeader{
+        color:white;
+        background-color: #2b2b2b;
+    }
+    .productFeedback.bookHeading, .userrating{
+        display:table;
+        margin:0 auto;
+
+    }
+    .book-similar-heading{
+        font-size: 16px;
+        padding:15px;
+    }
+   .bookDescprops, .description{
+        font-size: 14px !important;
+    }
+    .bookHeadingWrap{
+        font-size: 16px;
+    }
+
+    .nightmode .bookHeading{
+        color:#ccc;
+
+    }
+
+    .nightmode .bookDescprops, .nightmode .description, .nightmode  .bookHeadingWrap{
+        color:white;
+    }
+    .bookHeading{
+        margin-left: 0;
+    }
+    .reviewsWrap{
+        margin:0;
+    }
+   .row.margin-0-xs{
+        margin : 0 !important;
+    }
+    .line-divide{
+        padding-top: 0;
+    }
     .bookimg{
+
         padding:0 !important;
         margin : 0 auto;
         display: table;
+        height:200px;
     }
     .bookDescprops{
         max-width: 70%;
@@ -925,6 +1084,9 @@ background-color : #414141
     .api-call{
         text-align:center;
         margin-top:40px;
+    }
+    .common-marginborder.chartheight{
+      margin:20px;
     }
 }
 

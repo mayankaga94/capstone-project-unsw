@@ -19,17 +19,13 @@ const DetailsWrap = styled.div`
 export default function  Details() {
 
     const { userData, setUserData } = useContext(UserContext);
-
-    // const loggedINUser = userData && userData.user && userData.user.userid
-
-
-
     const loggedINUser = userData && userData.user && userData.user.userid
     const firstName  =  userData.user.firstname
     const lastName  =  userData.user.lastname
     const emailId = userData.user.emailid
     const level =  userData.user.level
     const dob =  userData.user.dob
+    const vote =  userData.user.vote
     const points =  userData.user.points
 console.log(loggedINUser)
 
@@ -41,23 +37,16 @@ console.log(loggedINUser)
          {loggedINUser ? 
                 ( <><div className =" details"> Your Details </div>
                     <div className = "myDetails row">
-                        {/* My details     */}
-                        
-                            <div className = "col-lg-5 col-md-5 col-sm-5">
-                           
+                            <div className = "col-lg-5 col-md-5 col-sm-5">               
                                 <div className = "title">Name : <span className = "titleDescriptio">  {firstName} {lastName}</span></div>
                                 <div  className = "title">Email ID:<span className = "titleDescriptio">{emailId} </span> </div>
-
-
                             </div>
 
                             <div className = "col-lg-3 col-md-3 col-sm-3 border-right">
                                     <div className = "title">Level: <span className = "titleDescriptio">{level}</span></div>
                                     <div className = "title">Total Points: <span className = "titleDescriptio">{points}</span></div>
                                     <ProgressBar now={points} />
-                                    <div className = "title">Total Upvotes: <span className = "titleDescriptio"><i class="fa fa-arrow-up" aria-hidden="true"></i></span> <span>50 </span></div>
-
-
+                                    <div className = "title">Total Upvotes: <span className = "titleDescriptio"><i class="fa fa-arrow-up" aria-hidden="true"></i></span> <span>{vote} </span></div>
                             </div>
                             <div className = "col-lg-4 col-md-4 col-sm-4">
                                 <div className = "avatarHeading">Avatar</div>

@@ -52,23 +52,15 @@ export  const Rating = styled.div`
 
 export default function Bookpage (props){
 
-
-    
     const { userData, setUserData } = useContext(UserContext);
     const loggedINUser = userData && userData.user && userData.user.userid
     const reviewmade   = props.loggedInuser
     const [quotes, setquotes]  = useState([]);
     const [comp, setComp] = useState({show:false})
-
     const [purchase, setPurchase] = useState({purchased:false});
-
+    const [addedtoWishlist, setaddedtoWishlist] = useState(true);
     const [bookpurchased, setbookpurchased] = useState(true)
-
-
-
-
     const id  = useParams();
-
 
     useEffect(() => {
     const cartDetails = {"userid":loggedINUser,"ISBN":id.id}        
@@ -83,7 +75,6 @@ export default function Bookpage (props){
         redirect: 'follow'
         };
 
-
     fetch("http://localhost:5000/user/library", requestOptions)
             .then(response => {
 
@@ -95,7 +86,7 @@ export default function Bookpage (props){
                 response.text()}
             }
                 )
-            .then(result => console.log("hiiiii",result)
+            .then(result => console.log(result)
             )
             .catch(error => {
                 console.log('error', error)
@@ -103,152 +94,141 @@ export default function Bookpage (props){
             }
            );
     },[])
-
-
-
-
     useEffect(() => {
           
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }, [props.ISBN])
-
-
-   
-
-
-
 
     useEffect(() => {
         getQuotes();
     }, [])
 
 
+        //       ------------- wiishlist--------------//
+
+        const addedtowishlist = () =>{
+            setaddedtoWishlist(false)
+        }
+
+
+    const callclosefunction = () =>{
 
 
 
-
-//       ------------- wiishlist--------------
-const [createList, setCreateList] = useState({list:"inactive"})
-
+        setCreateList({list:"inactive"})
+                }
 
 
-const [bookwishlist, setbookwishlist] = useState(true)
-    
 
-const createWishlist = () =>{
-
-
-    if (createList.length ===0){
-    
+    const [createList, setCreateList] = useState({list:"inactive"})
+    const [bookwishlist, setbookwishlist] = useState(true)
+        
+    const createWishlist = () =>{
+        if (createList.length ===0){
+        
+        }
+        else{
+        }
+        const myList = {
+            list:"",
+            items:[[["neel"],["horror"]]]
     }
-    else{
-     
+        setCreateList({list:"active",
+            myList});
+
+        return  <h1>hiiiii</h1>
+        
     }
-
-    const myList = {
-        list:"",
-        items:[[["neel"],["horror"]]]
-}
-    setCreateList({list:"active",
-        myList});
-
-    return  <h1>hiiiii</h1>
-    
- }
- const addingTowishlist = () =>{
-    createWishlist()
-}
-
-const alreadyadded = () =>{
-    alert("item already in your shelf")
-}
-
+    const addingTowishlist = () =>{
+        createWishlist()
+    }
+    const alreadyadded = () =>{
+        alert("item already in your shelf")
+    }
     const getQuotes = async() =>{
 
-        const url = "https://type.fit/api/quotes";
-        const response = await fetch(url);
-        const data = await response.json();
-        setquotes(data[0])
-        }
-        // adding items to wishlist
-        // const id  = useParams();
-          const   rendercom =() =>{
-                setComp({
-                    show : !comp.show
-                })
-          }
+            const url = "https://type.fit/api/quotes";
+            const response = await fetch(url);
+            const data = await response.json();
+            setquotes(data[0])
+            }
+            const   rendercom =() =>{
+                    setComp({
+                        show : !comp.show
+                    })
+            }
 
-        const buybooknotlogged =() =>{
-            alert("you need to login")
-        }
-        const postRating = (x) =>{
+            const buybooknotlogged =() =>{
+                alert("you need to login")
+            }
+            const postRating = (x) =>{
 
-          const ratingDetails = {
-              "bookid":id.id,
-              "userid": loggedINUser,
-              "rating": x     
-        }
-            var requestOptions = {
-            method: 'POST',
-            headers : {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(ratingDetails),
-            redirect: 'follow'
-            };
-
-                fetch("http://localhost:5000/book/rating", requestOptions)
-                .then(response => response.text())
-                .then(result => console.log(result))
-                .catch(error => console.log('error', error));
-
-        }
-        const buybook  = () =>{
-
-
-            setbookpurchased(false)
-
-            const cartDetails = {"userid":loggedINUser,"ISBN":id.id}        
-            var raw = JSON.stringify(cartDetails);
-
+            const ratingDetails = {
+                "bookid":id.id,
+                "userid": loggedINUser,
+                "rating": x     
+            }
                 var requestOptions = {
                 method: 'POST',
                 headers : {
                     "Content-type": "application/json"
                 },
-                body: raw,
+                body: JSON.stringify(ratingDetails),
                 redirect: 'follow'
                 };
 
-                fetch("http://localhost:5000/user/library", requestOptions)
-                .then(response => response.text())
-                .then(result => console.log(result))
+                    fetch("http://localhost:5000/book/rating", requestOptions)
+                    .then(response => response.text())
+                    .then(result => console.log(result))
+                    .catch(error => console.log('error', error));
+
+            }
+            const buybook  = () =>{
+
+
+                setbookpurchased(false)
+
+                const cartDetails = {"userid":loggedINUser,"ISBN":id.id}        
+                var raw = JSON.stringify(cartDetails);
+
+                    var requestOptions = {
+                    method: 'POST',
+                    headers : {
+                        "Content-type": "application/json"
+                    },
+                    body: raw,
+                    redirect: 'follow'
+                    };
+
+                    fetch("http://localhost:5000/user/library", requestOptions)
+                    .then(response => response.text())
+                    .then(result => console.log(result))
+                    
+                    .catch(error => console.log('error', error));
+            }
+            const ratingChanged = (newRating) => {
+    
+                const ratingDetails = {
+                    "bookid":id.id,
+                    "userid": loggedINUser,
+                    "rating": newRating     
+            }
+                var requestOptions = {
+                method: 'POST',
+                headers : {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(ratingDetails),
+                redirect: 'follow'
+                };
+    
+                    fetch("http://localhost:5000/book/rating", requestOptions)
+                    .then(response => response.text())
+                    .then(result => console.log(result))
+                    .catch(error => console.log('error', error));
                 
-                .catch(error => console.log('error', error));
-        }
-        const ratingChanged = (newRating) => {
-  
-            const ratingDetails = {
-                "bookid":id.id,
-                "userid": loggedINUser,
-                "rating": newRating     
-          }
-              var requestOptions = {
-              method: 'POST',
-              headers : {
-                  "Content-type": "application/json"
-              },
-              body: JSON.stringify(ratingDetails),
-              redirect: 'follow'
-              };
-  
-                  fetch("http://localhost:5000/book/rating", requestOptions)
-                  .then(response => response.text())
-                  .then(result => console.log(result))
-                  .catch(error => console.log('error', error));
+            };
             
-          };
-          
         return (
              <Wrapper>
                  <div className = "categoryList">
@@ -294,39 +274,29 @@ const alreadyadded = () =>{
                                         }
                                     </>
                                   }
-                                  
-
-
-
-
                                   {/* ---------------------------------------book purchase ends --------------------------- */}
-                                  {/* {!userData.user ? */}
+                                 
                                   {!userData.user ?  
 
                                    <span className =" addwishlist" onClick={() => buybooknotlogged()} ><i className="fa fa-heart" aria-hidden="true"><span className="fa-text">Add To Wishlist</span></i>   </span>
                                    : 
-
                                    <>
 
-                                    {bookwishlist ?
-                                    <span className =" addwishlist" onClick={() =>addingTowishlist()} ><i className="fa fa-heart" aria-hidden="true"><span className="fa-text">Add To Wishlist</span></i>  </span>
-                                        :    <span className =" addwishlist"><i className="fa fa fa-check" aria-hidden="true"><span className="fa-text">Added to</span></i>  </span> }
-                                  </>
-                                
-                                
+                                    {bookwishlist ?    
+                                        <span className =" addwishlist" onClick={() =>addingTowishlist()} ><i className="fa fa-heart" aria-hidden="true"><span className="fa-text">Add To Wishlist</span></i>  </span>
+                                  
+                                        :    <span className =" addwishlist" onClick ={()=>alreadyadded()} ><i className="fa  fa-heart" aria-hidden="true"><span className="fa-text">Added</span></i>  </span> }
+                                  </>                 
                                 }
                                 </div>
-                                {/* <Wishlist  /> */}
-                                { createList.list ==="active" ?    <CustomWishlist   name = {props.name}  ISBN = {id.id} genre = {props.genre} /> : null }
 
-                                
-                             
+                                { createList.list ==="active" ?   <> <CustomWishlist   name = {props.name}  close  = {()=>callclosefunction} ISBN = {id.id} genre = {props.genre} />  </>: null }                          
                             </div>
                       </div>
                   </section>
 
                 <div className = "row ">
-                    <div className = "col-lg-12 line-divide">
+                    <div className = "col-lg-12 line-divide ">
                         <div className = "col-lg-5 col-md-5 col-sm-5 float-left">                     
                            <div className = "reviewsWrap">
                                 Reviews
@@ -336,7 +306,8 @@ const alreadyadded = () =>{
                                  </div>
                                  { props.bookReview && props.bookReview.map((review,index) =>(
                                         <><Review  key ={"bookPage"+index}  callreviewDeleteFunction = { props.callreviewDeleteFunction} calldownFunction = {props.calldownFunction} callupFunction = {props.callupFunction}  user = {review.user} firstname  = {review.firstname}  comment = {review.comment} reviewid = {review.reviewid} userid= {review.userid} votes = {review.votes}/></>        
-                                         ))     
+                                         ))  
+
                                 }        
                             </div> 
                             {userData.user ? ( <Comments  userid =  {loggedINUser} callReviewFunction = {props.callReviewFunction}/>) :(<></>)}   
