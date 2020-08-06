@@ -14,3 +14,40 @@ Week-3
 Participated in preparing project proposal.
 Made  the design for the sytem.
 developed a fraction of front-end.
+
+Week-3
+Participated in preparing project proposal.
+Submitted Project Proposal.
+Created  homepage for our app
+
+Week-4
+Created login and registration section and secured authorisation by using JWT
+Implemented middlewares on backend side.
+
+Week-5
+Started developing voting System for user rating.
+made book review section.
+Completed all user stories assigned.
+Completed sprint 1.
+
+Week-7
+
+Cleaned the github repository for better team work 
+Relaxed the whole week
+
+Week-8
+Did no work in week 8
+
+Week-9
+Performed major api routing and error handling on frontend side.
+Started implementing dashboard, to-do list and user library. 
+Coded graphs for better analysis.
+Integrated machine learning part on frontend.
+
+Week-10
+Worked on desing improvement and user experience.
+Tested all the API routes.
+Tested each functionailty connected to the APIs.
+Started preparing Project report document.
+Resolved bugs/defects logged during testing.
+Completed Sprint-3.
