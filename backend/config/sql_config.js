@@ -1,6 +1,5 @@
 // const util = require('util')
 const mysql = require('mysql2')
-const Sequelize = require('sequelize')
 const pool = require('./sql_key')
 
 // Change this key according to your mysql database and 
