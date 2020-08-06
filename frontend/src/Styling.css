@@ -950,16 +950,47 @@ background-color : #414141
 .nightmode .description{
     color:White;
 }
-
-
+.wishlistContaine{
+    margin-bottom: 10px;
+}
+.nightmode .wishlistContainer{
+    border-radius: 20px;
+}
+.nightmode .bookHeadingWrap{
+    color:white;
+}
+.nightmode .myDetails{
+    color:white;
+}
+.nightmode .cartItems{
+    color:White;
+}
+.nightmode .cartItems a{
+    color:white !important;
+}
 @media only screen and (max-width: 968px)  and (min-width: 769px) {
 .cartItems{
     padding-left: 10px;
+}
+.headerItems{
+    max-width: 100px;
+}
+.App .float-right{
+    padding-left : 0 !important
 }
 }
 @media only screen and (max-width: 768px) {
     .genresWrap{
         padding-left:0;
+    }
+    .App .float-right{
+        float: none !important;
+        padding-left : 0 !important
+    }
+    .headerItems{
+      min-width: 100px;
+        margin: 0;
+        padding:15px;
     }
     .bookHeadingWrap{
         margin: 0 auto;
