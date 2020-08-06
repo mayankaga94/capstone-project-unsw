@@ -7,15 +7,9 @@ const CommentsWrapper = styled.div`
     font-size: 14px;
     background-color: red;
 `
-// const Wrapper = styled.div`
-//     margin: 20px;
-//     font-size: 14px;
-//     background-color: red;
-// `
 const button = styled.button`
     color:blue;
 `
-
 class  Comments extends Component{
     state = {
         count :2

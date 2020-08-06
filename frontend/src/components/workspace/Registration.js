@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-// import UserContext from '../../context/usercontext'
 import styled from 'styled-components'
 import '../../Styling.css'
 export const Register = styled.div`

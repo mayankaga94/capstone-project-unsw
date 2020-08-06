@@ -3,12 +3,9 @@ import Booknew from './booknew'
 import { Link } from 'react-router-dom'
 export default function  Categorybased() {
 
-    const [category, setCategory]  = useState([])
-
+        const [category, setCategory]  = useState([])
         const categoryBooks =(genre) =>{
 
-        // const genreDetail = genre
-        //      console.log(genreDetail)
             const url = "http://localhost:5000/searchbygenre"
             fetch(url,
                 {

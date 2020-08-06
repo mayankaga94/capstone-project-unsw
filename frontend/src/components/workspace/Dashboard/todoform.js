@@ -4,7 +4,6 @@ import UserContext from '../../../context/usercontext';
 
 
 const useInputValue = (initialValue)=>{
-        
     const [value , setValue] = useState(initialValue)
     return {
         value,
@@ -29,13 +28,6 @@ const submitz = (task, loggedINUser,  )=>{
              })
              .then((response) => {          
                 response.json().then((data) => {
-
-                    console.log(data)
-                    //  {
-                    //     callReviewidFunction({
-                    //     reviewid: data.tasklistid,
-                    //     }); 
-                    //     }
                     });
                 
                 });
@@ -43,7 +35,7 @@ const submitz = (task, loggedINUser,  )=>{
     
 export default ({submit}) =>{
 
-    // console.log(props)
+
 
     let check  = true 
     const { userData, setUserData } = useContext(UserContext);

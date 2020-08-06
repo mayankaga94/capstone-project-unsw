@@ -17,9 +17,6 @@ export default function CustomWishlist(props) {
     const [wishlistName, setWishlistName] = useState({})
 
     const createWishlist = () =>{
-
-        console.log("how many times im cak")
-
         setWishlist([{created: "false",title:"ssd", list : []},...wishlist])
     }
 
@@ -39,7 +36,6 @@ export default function CustomWishlist(props) {
 
     // -----------useEffect ------------------//
     useEffect(() =>{
-        console.log("hi")
         fetch("http://localhost:5000/user/wishlistfetch", requestOptions)
     .then(response => response.json())
     .then(result => {
@@ -65,9 +61,6 @@ export default function CustomWishlist(props) {
     // --------useEffect------------//
 
     const createWishlistTitle = () =>{
-
-        console.log("biii")
-
         const newWishlist = {
             title: wishlistName.title,
             created: "true",
@@ -77,11 +70,7 @@ export default function CustomWishlist(props) {
     }
 
     const addTolist  = (i) =>{
-
-
-
         const name  = props.name 
-    
         const isbn = props.ISBN
         const genre = props.genre
         const newWishlist = {
@@ -104,12 +93,7 @@ export default function CustomWishlist(props) {
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
         }
-
-        if(wishlist.length >1){
-        console.log(wishlist)
-
-        }
-
+        
         return (
             <div className = "customWishlistx goalset col-xs-12 col-lg-6 col-md-6 col-sm-6">
                 <div className = "common-marginborder">

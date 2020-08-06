@@ -7,16 +7,8 @@ export default function WishlistComponent(props) {
     const user = props.user
     const [subList, setsubList] = useState()
 
-
-
     const Deletewishlist = () =>{
-
-
-        alert("hiii")
-
         const userid = user
-
-        console.log(wishlistName, user)
         var requestOptions = {
             method: 'DELETE',
             headers : {
@@ -32,16 +24,7 @@ export default function WishlistComponent(props) {
                         },
                 )
             .catch(error => console.log('error', error));
-
-
-
-
     }
-
-
-
-
-
     const expandList = () =>{
         var requestOptions = {
         method: 'GET',

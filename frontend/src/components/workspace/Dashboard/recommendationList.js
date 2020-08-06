@@ -35,34 +35,33 @@ export default function RecommendationList() {
 
        const  ISBN_arr = []
         if (loggedINUser){
-              console.log(loggedINUser)
-        const shelfDetails = {"userid":loggedINUser}
-        var raw = JSON.stringify(shelfDetails);
+                        const shelfDetails = {"userid":loggedINUser}
+                        var raw = JSON.stringify(shelfDetails);
 
-            var requestOptions = {
-            method: 'POST',
-            headers : {
-                "Content-type": "application/json"
-            },
-            body: raw,
-            redirect: 'follow'
-            };
+                            var requestOptions = {
+                            method: 'POST',
+                            headers : {
+                                "Content-type": "application/json"
+                            },
+                            body: raw,
+                            redirect: 'follow'
+                            };
 
-            fetch("http://localhost:5000/user/library/cart", requestOptions)
-            .then(response => response.json())
-            // ((data) => {
-            .then((result) =>{
-                // console.log("xcvvvcv",result)
-                result  && result.userShelf && result.userShelf.forEach((result, index) =>{
-        
-                    ISBN_arr.push(result.ISBN)
-                })
+                            fetch("http://localhost:5000/user/library/cart", requestOptions)
+                            .then(response => response.json())
+                            // ((data) => {
+                            .then((result) =>{
+                                // console.log("xcvvvcv",result)
+                                result  && result.userShelf && result.userShelf.forEach((result, index) =>{
+                        
+                                    ISBN_arr.push(result.ISBN)
+                                })
 
-             setrecommendisbns(ISBN_arr)    
-            
-            })
-            .catch(error => console.log('error', error));
-        }
+                            setrecommendisbns(ISBN_arr)    
+                            
+                            })
+                            .catch(error => console.log('error', error));
+                      }
 
        
         },[])
@@ -136,12 +135,8 @@ export default function RecommendationList() {
                     setrecommendDetailsState(recommendDetails)
                     recommendDetailsState &&  setreviewState(ratingcountsobj)
                       recommendDetailsState &&  setchartState(obj)
-
-                      
-                        console.log("dsds ",labels)
                 })
             .catch(error => console.log('error', error));
-          
         }        
          },[recommendisbns])  
          recommendDetailsState &&  console.log(recommendDetailsState)
@@ -155,22 +150,16 @@ export default function RecommendationList() {
 
                     <RecommdList  author = {book.author} title = { book.title} rating = {book.rating} genre = {book.genre} isbn = {book.ISBN}/>
                   ))}
-                
-
                     </div>
                    
                </div>
 
                <div className ="col-xs-12 col-lg-8 col-md-8 col-sm-8">
-
                    <div className = " row   chartheight common-marginborder library goalset">
-
                        <div className = "col-xs-12 col-lg-6 col-md-6 col-sm-6">
                          <Bar 
                                 data={chartState}
                                 options = {{
-                                    
-
                                     maintainAspectRatio: false,
                                     legend: {
                                         display: true,
@@ -179,11 +168,6 @@ export default function RecommendationList() {
                                         }
                                         },
                                     scales: {
-                                        // xAxes: [{
-                                        //     ticks: {
-                                        //         display: false //this will remove only the label
-                                        //     }
-                                        // }],
                                         yAxes: [{
                                             ticks: {
                                                 max: 5,
@@ -202,11 +186,6 @@ export default function RecommendationList() {
                                 options = {{
                                     maintainAspectRatio: false,
                                     scales: {
-                                        // xAxes: [{
-                                        //     ticks: {
-                                        //         display: false //this will remove only the label
-                                        //     }
-                                        // }],
                                         yAxes: [{
                                             ticks: {
 
@@ -229,9 +208,7 @@ export default function RecommendationList() {
                               <span className = "legendDescription">{book}</span></div>
                                 ))}
                            </div>
-                   </div>
-                           
-                   
+                   </div>   
                    </div>
         </div>
     )

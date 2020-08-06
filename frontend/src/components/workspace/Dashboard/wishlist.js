@@ -3,11 +3,7 @@ import React, {useState} from 'react';
 export default function WishList() {
 
     const [createList, setCreateList] = useState([])
-    
-
     const createWishlist = () =>{
-    
-
         const myList = {
             list:"",
             items:[]

@@ -6,9 +6,6 @@ import Allbooks from './Allbooks'
 
 import Book  from './bookPage'
 
-
-    // fetch the particular id of the book
-
 export const SearchbarInput = styled.input`
     width :400px;
     min-height :50px;
@@ -45,15 +42,6 @@ export  default function Searchbar() {
         const [search, setSearch]  = useState([])
         const[bookFound, setBookfound] = useState([])
         const { itemSeatched }= search
-
-
-
-        // const id  = useParams();
-        // const bookreviewid = id
-
-        
-        
-       
         const searchBook =(search) =>{
             let booktitle = search
             const url = "http://localhost:5000/searchbytitle"

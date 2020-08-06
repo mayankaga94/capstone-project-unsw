@@ -3,16 +3,10 @@ import React, { useState} from 'react'
 
 export default function VotingSystem(props) {
     
-
-
-
-
     const [upvoteTrack, setupvoteTrack] = useState(true)
     const [downvoteTrack, setdownVoteTrack] = useState(true)
-   const voterID =  props.voterID
-
-    console.log(props)
-   const userid = props.userid
+    const voterID =  props.voterID
+    const userid = props.userid
     const loggedInUser = props.loggedINUser
     const reviewID = props.reviewID
     const acessLevel =props.acessLevel
@@ -78,7 +72,6 @@ export default function VotingSystem(props) {
             else{
                 setdownVoteTrack(!downvoteTrack)
                 setupvoteTrack(true)
-                    // updateVote = updateVote - 1
                     let vote = -1,
                     voteInfo = {
                         vote: -1,
