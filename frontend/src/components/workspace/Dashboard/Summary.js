@@ -30,6 +30,7 @@ export default function  Details() {
     const emailId = userData.user.emailid
     const level =  userData.user.level
     const dob =  userData.user.dob
+    const vote =  userData.user.vote
     const points =  userData.user.points
 console.log(loggedINUser)
 
@@ -55,7 +56,7 @@ console.log(loggedINUser)
                                     <div className = "title">Level: <span className = "titleDescriptio">{level}</span></div>
                                     <div className = "title">Total Points: <span className = "titleDescriptio">{points}</span></div>
                                     <ProgressBar now={points} />
-                                    <div className = "title">Total Upvotes: <span className = "titleDescriptio"><i class="fa fa-arrow-up" aria-hidden="true"></i></span> <span>50 </span></div>
+                                    <div className = "title">Total Upvotes: <span className = "titleDescriptio"><i class="fa fa-arrow-up" aria-hidden="true"></i></span> <span>{vote} </span></div>
 
 
                             </div>

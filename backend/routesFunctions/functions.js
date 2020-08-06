@@ -19,7 +19,7 @@ module.exports = {
     register :  async(req,res,next) => {
         try{
 
-            console.log(req.body)
+          
             let {firstName,lastName,emailID,password,password2,dob} = req.body
             let errors = []
             // Empty fields
@@ -48,7 +48,7 @@ module.exports = {
                         });
                 }
                 password = bcrypt.hashSync(password,10)
-                // console.log(password)
+
                 let query2 = "INSERT INTO user(firstname,lastname,emailID,password,dob,level) VALUES (?,?,?,?,?,1)";
                 await pool.query(query2,[firstName,lastName,emailID,password,dob]);
                 return res.status(200).send({
@@ -99,7 +99,7 @@ module.exports = {
     userDetails : async( req, res) =>{
         try{
             const userDetails = req.user
-            let query = "SELECT * FROM user WHERE emailID=?"
+            let query = "SELECT * FROM user left join vote on vote.userid=user.userid WHERE emailID=?"
             var result = await pool.query(query,userDetails)
             return res.status(200).send({
                 result :result[0]
@@ -214,7 +214,7 @@ module.exports = {
     },
     postRating : async (req, res) => {
         try {
-            console.log(req.body)
+           
             let {bookid,userid,rating} = req.body
             
             if(rating < 0 || rating > 5){
@@ -412,7 +412,6 @@ module.exports = {
                 FROM review r join user u on u.userid = r.userid \
                 WHERE r.bookid=?";
                 var bookReview = await pool.query(query, bookreviewID)
-                // console.log(bookReview)
                     return res.status(200).send({
                         bookReview :bookReview[0]
                     })
@@ -473,10 +472,9 @@ module.exports = {
     },
     searchBookByTitle: async (req, res) => {
         try {
-            console.log("hi")
-            console.log(req.body)
+         
             let {booktitle} = req.body
-            console.log(booktitle)
+          
             let query = "Select * from book_dataset where LOWER(title) like LOWER(CONCAT('%',?,'%'))";
             var result = await pool.query(query,booktitle)
             // res.status(200).send('success');
@@ -568,7 +566,7 @@ module.exports = {
     deleteTask: async (req,res) => {
         try {
             let {tasklistid} = req.body
-            console.log(tasklistid)
+           
             await pool.query("DELETE from tasklist WHERE tasklistid=?",tasklistid);
             return res.status(200).send({
                 success : true,
@@ -671,7 +669,7 @@ module.exports = {
             let {ISBN, userid} = req.body;
             const x = uuidv1();
             
-            console.log(x,ISBN, userid,)
+         
             var result = await pool.query("INSERT INTO cart(userid,ISBN,readBook,bookshelfID) VALUES(?,?,0,?)",[userid,ISBN,x]);
             // delete book from user's wishlist
             await pool.query("DELETE FROM wishlist WHERE userid=? AND ISBN=?",[userid,ISBN])
@@ -729,9 +727,6 @@ module.exports = {
             let {userid,bookshelfID,readBook} = req.body
 
             let bookshelfID_string = '\"' + bookshelfID + '\"';
-            // x = uuid.fromString(bookshelfID)
-            console.log(userid, bookshelfID)
-
             await pool.query("Update cart set readBook=? WHERE userid=? AND bookshelfID =convert(?,CHAR(50))",[readBook,userid,bookshelfID])
             return res.status(200).send({
                 success: true,
@@ -785,6 +780,7 @@ module.exports = {
     },
     deleteWishlist: async(req,res) => {
         try{
+            console.log(req.body)
             let {wishlistName,userid} = req.body;
             await pool.query("DELETE FROM wishlist WHERE wishlistname=? AND userid=?",[wishlistName,userid]);
             return res.status(200).send({
@@ -799,7 +795,7 @@ module.exports = {
     deleteFromWishlist: async (req,res) => {
         try{
             let {wishlistName,userid,ISBN} = req.body;
-            console.log(wishlistName,userid,ISBN)
+
             await pool.query("DELETE FROM wishlist WHERE wishlistname=? AND userid=? AND ISBN=?",[wishlistName,userid,ISBN]);
             return res.status(200).send({
                 success: true,
@@ -826,8 +822,6 @@ module.exports = {
     fetchWishlistItems: async(req,res) => {
         try{
             let {wishlistname,userid} =  req.headers;
-            // let useridstring = String(userid)
-            // console.log(wishlistname,useridstring)
             var result = await pool.query("SELECT w.ISBN,w.purchased,w.userid,w.wishlistname,\
             b.genre,b.title,b.author\
              FROM wishlist w join book_dataset b on b.ISBN = convert(w.ISBN,char(50))\
@@ -889,10 +883,8 @@ module.exports = {
     getRecommendation: async(req,res) => {
         try{
             let {ISBN,count} = req.body;
-            console.log(ISBN, count)
             var test = '{"book_ids": ['
             for (let i = 0; i < ISBN.length; i++){
-                // console.log(ISBN[i])
                 if(i == ISBN.length-1){
                     test += '"' + String(ISBN[i]) + '"'    
                 }
@@ -906,12 +898,11 @@ module.exports = {
             const handleRequester = (requester) => {
                 return new Promise((resolve,reject) => {
                     requester.on("message", function(reply){
-                        // console.log("Received reply", reply.toString());
                         var result = reply.toString()
                         result = result.split(",")
                         var isbn_list = []
                         for(let i = 0; i < result.length; i++){
-                            // console.log(result[i].slice(2,-1))
+
                             if(i == result.length-1){
                                 isbn_list.push(result[i].slice(2,-2))
                             }
@@ -924,8 +915,7 @@ module.exports = {
                 })
             }
             var reply = await handleRequester(requester)
-            // console.log(reply)
-            // console.log(reply[2])
+           
             let query = "SELECT * from book_dataset where ISBN=?";
             // let query = 'SELECT * from book_dataset where ISBN in "?"'
             var result2 = []
@@ -934,7 +924,7 @@ module.exports = {
                 result2.push(temp[0])
             }
 
-            // console.log(result2)
+           
             return res.status(200).send({
                 success: true,
                 result : result2
@@ -946,13 +936,10 @@ module.exports = {
     },
     getRecommendBooks: async (req,res) =>{
         let {list} = req.body;
-        console.log(list)
+     
         try{
             for (var i = 0; i<list.length;i++){
-            console.log("begin",list[i])
             var result =  await pool.query("SELECT * from book_dataset where ISBN =convert(?,char(50))",list[i]);
-        //    console.log(result)
-
             return res.status(200).send({
                 success: true,
                 result : result,

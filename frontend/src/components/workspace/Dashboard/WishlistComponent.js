@@ -7,6 +7,41 @@ export default function WishlistComponent(props) {
     const user = props.user
     const [subList, setsubList] = useState()
 
+
+
+    const Deletewishlist = () =>{
+
+
+        alert("hiii")
+
+        const userid = user
+
+        console.log(wishlistName, user)
+        var requestOptions = {
+            method: 'DELETE',
+            headers : {
+                "Content-type": "application/json"
+            },
+            body : JSON.stringify({"wishlistName" :wishlistName, 
+                                        "userid" :userid})
+
+            };
+            fetch("http://localhost:5000/user/wishlistName", requestOptions)
+            .then(response => response.json())
+            .then(result =>{
+                        },
+                )
+            .catch(error => console.log('error', error));
+
+
+
+
+    }
+
+
+
+
+
     const expandList = () =>{
         var requestOptions = {
         method: 'GET',
@@ -28,7 +63,7 @@ export default function WishlistComponent(props) {
         <>
                  <div className = "list_header clearfix" onClick = {()=>expandList()}>
                         <span className = "wishliName"> {wishlistName}</span> <span></span>
-                        <button className = "todoDelete"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                        <button className = "todoDelete" onClick = {()=>Deletewishlist()} ><i class="fa fa-trash" aria-hidden="true"></i></button>
                 </div>
                 <div>
                     {subList && subList.map((subList,index) =>(    

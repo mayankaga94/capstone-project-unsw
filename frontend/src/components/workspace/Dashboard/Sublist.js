@@ -43,10 +43,10 @@ export default function Sublist(props) {
                   <Link to  ={'/bookdetails/' + isbn}>
                           <div className ="listcontainer"> 
                           
-                          <div>{author}</div>
+                          <div>{title}</div>
 
                           <div>
-                           By:  {title}
+                           By:  {author}
 
                             </div></div>
                             </Link>

@@ -16,6 +16,15 @@ const [wislistNamez, setWishlistNamez] = useState([])
 
 const loggedINUser = userData && userData.user && userData.user.userid
 
+
+const deleteWishlistz = (name) =>{
+
+    alert("hi",name)
+
+
+    setWishlistNamez(wislistNamez.filter((k, index) => k.reviewid !== wislistNamez.name ))
+}
+
 useEffect(() =>{
     const loggedINUser = userData && userData.user && userData.user.userid
     var raw = JSON.stringify({"userid":loggedINUser});
@@ -54,7 +63,7 @@ useEffect(() =>{
                     <div>  
                    { wislistNamez && wislistNamez.map((wislistNamez,index) =>(
                         <div classNAme = "wishlist-heading">
-                                  <WishlistComponent  user = {loggedINUser} index = {index}  category = {wislistNamez.wishlistname}  noOfBooks = {wislistNamez.count} />
+                                  <WishlistComponent  user = {loggedINUser} index = {index}  deletewislist = {()=>deleteWishlistz} category = {wislistNamez.wishlistname}  noOfBooks = {wislistNamez.count} />
                         </div>
                    ))} 
                     </div> 

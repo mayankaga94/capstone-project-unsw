@@ -10,7 +10,10 @@ export default function VotingSystem(props) {
     const [upvoteTrack, setupvoteTrack] = useState(true)
     const [downvoteTrack, setdownVoteTrack] = useState(true)
    const voterID =  props.voterID
-    const loggedInUser = props.userID
+
+    console.log(props)
+   const userid = props.userid
+    const loggedInUser = props.loggedINUser
     const reviewID = props.reviewID
     const acessLevel =props.acessLevel
     const votes  = props.votes
@@ -29,8 +32,8 @@ export default function VotingSystem(props) {
 
         
         try{
-            if (voterID == loggedInUser) {
-                alert("you cannot upvote your own comment")
+            if (voterID === loggedInUser) {
+                alert("you cannot Upvote your own comment")
             }
             else{
                 setupvoteTrack(!upvoteTrack)
@@ -66,11 +69,11 @@ export default function VotingSystem(props) {
         
 
         try{
-            if (voterID == loggedInUser) {
-                alert("you cannot downpvote your own comment")
+            if (voterID === loggedInUser) {
+                alert("you cannot downVote your own comment")
             }
             else if (acessLevel <1){
-                alert("you cannot donvvote at this level")
+                alert("you cannot downVote at this level")
             }
             else{
                 setdownVoteTrack(!downvoteTrack)
@@ -108,26 +111,30 @@ export default function VotingSystem(props) {
                  <span className = "reviewSubheading">{votes}</span>
                     <div className = "upvotes">
                         <span className = "reviewStart">   
-                        {loggedInUser === voterID ? 
-                        <>
+                         { loggedInUser === userid ? 
+
+
+                                   <>
                                        <button onClick={() =>{props.callupFunction({
-                                            votes : notUpdateVote
+                                            votes : voteUpdate
                                                 }, reviewID);upVote()}}> 
                                             <span> <i className="fa fa-thumbs-up" aria-hidden="true"></i></span>
                                             
                                             </button>
+                                          
                                         </>
                                     :
                                     
-                                    
                                     <>  
                                     {upvoteTrack? 
-
+                                                    <>
                                                 <button onClick={() =>{props.callupFunction({
                                                     votes :  votes + updateVote
                                                         }, reviewID);upVote()}}> 
                                                     <span> <i className="fa fa-thumbs-up" aria-hidden="true"></i></span>
-                                                    </button>        
+                                                    </button>   
+                                                    
+                                                    </>
                                            :   
                                             <span> <i className="fa fa-thumbs-up" aria-hidden="true"></i></span>
                                            
@@ -142,7 +149,7 @@ export default function VotingSystem(props) {
                     </div>
                     <div className = "downvotes">
                             <span className = "reviewStart"> 
-                            {loggedInUser === voterID   ? 
+                            { loggedInUser === voterID   ? 
                                     <>
                                         <button onClick={() =>{props.calldownFunction({
                                         votes : votes -  notUpdateDownVote

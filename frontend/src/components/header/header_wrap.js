@@ -126,7 +126,7 @@ export default function  Headerwrap () {
                 </div>
                 {userData.user ? (
                                 <Nav>
-                                    <Logo className = " hidden-xs"> Bookshelf</Logo>
+                                    <Logo className = "d-none d-sm-block"> Bookshelf</Logo>
                                         <ul className = "float-right">
 
                                         <Link to  ={'/home' }>
@@ -136,7 +136,7 @@ export default function  Headerwrap () {
                                             <li className = " headerItems float-left"><div><i className="fa fa-tachometer" aria-hidden="true"></i></div><span className = "">Dashboard</span></li>
                                         </Link>   
                                             
-                                             <li className = "headerItems   hidden-xs  float-left">
+                                             <li className = "headerItems  d-none d-sm-block  float-left">
                                               <div  className =" "><i className="fa fa-shopping-cart" aria-hidden="true"></i> 
                                                 <p>Cart</p>
                                                 </div>   

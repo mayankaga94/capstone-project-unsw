@@ -77,6 +77,9 @@ export default function CustomWishlist(props) {
     }
 
     const addTolist  = (i) =>{
+
+
+
         const name  = props.name 
     
         const isbn = props.ISBN
@@ -110,7 +113,9 @@ export default function CustomWishlist(props) {
         return (
             <div className = "customWishlistx goalset col-xs-12 col-lg-6 col-md-6 col-sm-6">
                 <div className = "common-marginborder">
+               
                 <div> <div className = "libraryHeader"> Your Collection</div></div> 
+                <div className = "closebtn pull-right" onClick = {props.close()}> x</div>
                         <div className= "wishlistHeader">
                                 <div>
                                     <div className = "exisitingWishlist">
@@ -124,6 +129,7 @@ export default function CustomWishlist(props) {
                                 </div>
                         </div>
                         <div className = "wishlist-section">      
+                             
                                 <div className = "wishlistWrapper">
                                     <div className = "heading-wrapper">
                                         <h1 className = "wishlistWrapper-heading"> -Or- </h1>
