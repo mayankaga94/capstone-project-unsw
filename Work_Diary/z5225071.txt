@@ -31,3 +31,24 @@ Prepared Book dataset with web scraping.
 Prepared a huge book collection with respect to genre.
 Created Books database with all related information.
 created table in the database to store ratings.
+
+Week-8
+Developed API routes to Search functionality.
+Developed API routes to Reviews functionality.
+Developed SQL queries to fetch data from database.
+Developed SQL queries to create the remaining tables in the database.
+
+Week-9
+Completed Sprint-2.
+Started Sprint-3.
+Assigned user stories to all scrum members.
+Developed SQL queries to API routes for vote functionality.
+Developed SQL queries to API routes for wishlist functionality.
+Developed SQL queries to API routes for recommendation functionality.
+
+Week-10
+Tested all the API routes.
+Tested each functionailty connected to the APIs.
+Started preparing Project report document.
+Developed SQL queries to modify the functionality of the API's.
+Resolved bugs/defected logged during testing.
