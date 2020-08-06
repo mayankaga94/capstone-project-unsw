@@ -9,3 +9,21 @@ Contributed overall to the group proposal.
 Added user stories. 
 Uploaded app.js to github along with sample user model installed required libraries.
 Added initial routes.
+
+Week 4
+Added review logic in the backend
+
+Week 5
+Added rating logic in the backend
+
+Week 6
+Added voting feature for users in the backend
+
+Week 7 
+Added user library functionality in the backend
+
+Week 8 
+Added user wishlists functionality in the backend
+
+Week 9
+Integrated recommendation system with the backend
