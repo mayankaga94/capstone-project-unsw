@@ -53,5 +53,5 @@ Tested all the API routes.
 Tested each functionailty connected to the APIs.
 Started preparing Project report document.
 Developed SQL queries to modify the functionality of the API's.
-Resolved bugs/defected logged during testing.
+Resolved bugs/defects logged during testing.
 Completed Sprint-3.
