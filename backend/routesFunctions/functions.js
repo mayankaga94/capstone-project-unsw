@@ -92,7 +92,7 @@ module.exports = {
                     }
                 });
             }
-            catch{
+            catch(err){
                 return res.status(500).send(err);
             }
     },
@@ -417,7 +417,7 @@ module.exports = {
                     })
                 } 
             } 
-        catch{
+        catch(err){
             return res.status(500).send(err); 
         }
     },
