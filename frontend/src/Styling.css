@@ -968,6 +968,11 @@ background-color : #414141
 .nightmode .cartItems a{
     color:white !important;
 }
+.common-marginborder .fa-cart-plus{
+    font-size: 130px;
+    padding:20px;
+    color:#ccc
+}
 @media only screen and (max-width: 968px)  and (min-width: 769px) {
 .cartItems{
     padding-left: 10px;
@@ -980,6 +985,11 @@ background-color : #414141
 }
 }
 @media only screen and (max-width: 768px) {
+    .common-marginborder .fa-cart-plus{
+    font-size: 50px;
+    padding:10px;
+    color:#ccc
+}
     .genresWrap{
         padding-left:0;
     }
