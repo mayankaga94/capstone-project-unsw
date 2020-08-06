@@ -11,19 +11,33 @@ Uploaded app.js to github along with sample user model installed required librar
 Added initial routes.
 
 Week 4
-Added review logic in the backend
+Added review logic in the backend.
+Reviews can be deleted and edited.
+All reviews can be fetched and displayed.
 
 Week 5
-Added rating logic in the backend
+Added rating logic in the backend.
+Ratings can be deleted.
+Bug fixes in reviews.
 
 Week 6
-Added voting feature for users in the backend
+Added voting feature for users in the backend. 
+Added gamification system through voting, users added points based on votes.
+Votes can be deleted or changed if already voted.
+Updated all functions to be async compatible and tested all components again.
 
 Week 7 
-Added user library functionality in the backend
+Added user library functionality in the backend. 
+User can buy a book, purchased books can be displayed.
 
 Week 8 
-Added user wishlists functionality in the backend
+Added user wishlists functionality in the backend. 
+User can add wishlist, delete wishlist and similarly 
+add and delete books from a wishlist
 
 Week 9
-Integrated recommendation system with the backend
+Integrated recommendation system with the backend. 
+Added features to wishlist, bug fixes in user library.
+
+Week 10
+Contributed to project report, bug fixes and testing in backend.
