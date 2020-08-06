@@ -1,15 +1,6 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose")
-
-// DB config
-const db = require('./config/keys').MongoURI
-
-// Connect to mongo atlas
-mongoose.connect(db,{useNewUrlParser: true})
-    .then(() => console.log('MongoDb Connected....'))
-    .catch(err => console.log(err));
 
 //-------------------------------middlewares---------------------------------//
 
