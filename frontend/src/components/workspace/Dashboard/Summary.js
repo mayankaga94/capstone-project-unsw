@@ -31,7 +31,7 @@ export default function  Details() {
     const level =  userData.user.level
     const dob =  userData.user.dob
     const points =  userData.user.points
-
+console.log(loggedINUser)
 
         return (
             <div className ="upperSection col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
@@ -62,13 +62,12 @@ export default function  Details() {
                             <div className = "col-lg-4 col-md-4 col-sm-4">
                                 <div className = "avatarHeading">Avatar</div>
                                 <div>
-                                { loggedINUser && level === 0 ? <img className = "avatar" src = "https://png.pngtree.com/png-clipart/20190620/ourlarge/pngtree-blue-baby-boy-sleeping-png-image_1507070.jpg"></img>
+                                { loggedINUser && level < 1 ? <img className = "avatar" src = "https://png.pngtree.com/png-clipart/20190620/ourlarge/pngtree-blue-baby-boy-sleeping-png-image_1507070.jpg"></img>
                                 :null}
                                 {loggedINUser && level === 1 ? <img className = "avatar" src = "https://i.dlpng.com/static/png/6933155_preview.png"></img>:null}
                                 {loggedINUser && level >= 2 ? <img  className = "avatar"src = "https://png.pngtree.com/png-clipart/20190412/ourlarge/pngtree-young-muslim-reading-al-quran-png-image_934610.jpg"></img>:null}     
                                 </div>
                                 <div>
-                               
                                 </div>
                             </div>
                     </div> </>) : null}

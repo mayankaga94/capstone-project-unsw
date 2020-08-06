@@ -32,7 +32,7 @@ export default function WishlistComponent(props) {
                 </div>
                 <div>
                     {subList && subList.map((subList,index) =>(    
-                        <Sublist  title = { subList.title} author = {subList.author} name = {wishlistName}  user = {user} isbn  = {subList.ISBN} index = {index} />
+                        <Sublist title = { subList.title} author = {subList.author} name = {wishlistName}  user = {user} isbn  = {subList.ISBN} index = {index} />
                     ))}
                 </div>
 

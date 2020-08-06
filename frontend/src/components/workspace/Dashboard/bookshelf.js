@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react'
 import UserContext from '../../../context/usercontext';
 import Pdf from "../../../../src/book.pdf";
-
+import { Link } from 'react-router-dom'
 
 export default function Bookshelf(props) {
 
@@ -11,6 +11,7 @@ export default function Bookshelf(props) {
 
     const empty = props.empty
     const title = props.library.title
+    const idbnlink = props.library.ISBN
     const author = props.library.author
     const genre = props.library.genre
     const readbook = props.library.readBook
@@ -56,10 +57,14 @@ export default function Bookshelf(props) {
                         {empty ? 
                         (<span>the cart is empty</span>) : (
                          <> 
+                         
                             <div className = "row" >
                                 <div className = "col-xs-8 col-lg-8 col-md-8 col-md-8">
-                                    <div>{title} </div> 
-                                    <div>{author}</div>
+
+                                 <Link to  ={'/bookdetails/' + idbnlink}>
+                                        <div>{title} </div> 
+                                        <div>{author}</div>
+                                    </Link>
                                     <div className ="read_genre">{genre}</div>
                                     {(bookRead.read === 0 &&  readbook === 0)  ? <button  className = "markRead" onClick = { ()=> markRead(id,1)}>Mark as read</button>  :<div><i className="fa fa-check" aria-hidden="true"></i></div> }                   
                                     </div>

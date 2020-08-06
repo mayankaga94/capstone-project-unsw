@@ -410,8 +410,6 @@ border-radius: 10px;
 }
 .booklist.addwishlist{
     margin-right: 30px;
-    background-color: green;
-
 }
 
 .similar h1{
@@ -431,7 +429,20 @@ border-radius: 10px;
     background: #ccc;
     min-height: 60px;
     width:30%;
+    font-size: 14px;
+    vertical-align: middle;
     color : black;
+}
+.nightmode .commentBox{
+    font-size: 14px;
+    outline: none;
+    text-shadow: none;
+    border: none;
+    min-height: 60px;
+    width: 70%;
+    background: #1a1719;
+    vertical-align: middle;
+    color: white;
 }
 .commentBox{
     font-size: 14px;
@@ -698,6 +709,7 @@ text-align: left;
 
 .wishlistWrapper{
     /* background-color: #ccc; */
+    text-align:center;
 }
 .createWishlist input{
     border-radius: 20px;
@@ -869,7 +881,25 @@ margin-bottom: 20px;
 
 
 
+.userName{
+    text-transform: capitalize;
+    font-size: 16px;
+    padding-left: 10px;
 
+}
+
+.nightmode .reviewsWrap{
+background-color : #414141
+}
+
+.fa-cart-plus.emptylibrary{
+    font-size: 153px;
+    padding: 64px;
+    color: #ccc;
+}
+.cartItems a{
+    color:black !important;
+}
 @media only screen and (max-width: 768px) {
     .bookHeadingWrap{
         margin: 0 auto;

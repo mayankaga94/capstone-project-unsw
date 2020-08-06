@@ -12,8 +12,8 @@ export default function VotingSystem(props) {
    const voterID =  props.voterID
     const loggedInUser = props.userID
     const reviewID = props.reviewID
+    const acessLevel =props.acessLevel
     const votes  = props.votes
-    const acessLevel = props.acessLevel
     const notUpdateVote =  0 
     const updateVote =  1 
     // const updateVote =  1
@@ -27,17 +27,14 @@ export default function VotingSystem(props) {
     const upVote = () =>{
 
 
-        console.log(voteUpdate )
-
-        setupvoteTrack(!upvoteTrack)
-        setdownVoteTrack(true)
+        
         try{
             if (voterID == loggedInUser) {
                 alert("you cannot upvote your own comment")
             }
             else{
-                // if (upvoteTrack){
-                // }
+                setupvoteTrack(!upvoteTrack)
+        setdownVoteTrack(true)
                         let vote = 1,
                         voteInfo = {
                             vote: 1,
@@ -66,18 +63,18 @@ export default function VotingSystem(props) {
     }
     const downVote = () =>{
 
-        setdownVoteTrack(!downvoteTrack)
-        setupvoteTrack(true)
+        
 
         try{
             if (voterID == loggedInUser) {
-                alert("you cannot downVote your own comment")
+                alert("you cannot downpvote your own comment")
             }
-            else if(  acessLevel < 1){
-                alert("you cannot downVote at htis level")
+            else if (acessLevel <1){
+                alert("you cannot donvvote at this level")
             }
             else{
-         
+                setdownVoteTrack(!downvoteTrack)
+                setupvoteTrack(true)
                     // updateVote = updateVote - 1
                     let vote = -1,
                     voteInfo = {
@@ -113,55 +110,73 @@ export default function VotingSystem(props) {
                         <span className = "reviewStart">   
                         {loggedInUser === voterID ? 
                         <>
-                                       <button onClick={() =>{props.callupFunction(reviewID);upVote()}}> 
+                                       <button onClick={() =>{props.callupFunction({
+                                            votes : notUpdateVote
+                                                }, reviewID);upVote()}}> 
                                             <span> <i className="fa fa-thumbs-up" aria-hidden="true"></i></span>
                                             
                                             </button>
                                         </>
-                                    :<>  
+                                    :
+                                    
+                                    
+                                    <>  
+                                    {upvoteTrack? 
 
-                                    {upvoteTrack ?
                                                 <button onClick={() =>{props.callupFunction({
-                                                    votes :  votes + 1
+                                                    votes :  votes + updateVote
                                                         }, reviewID);upVote()}}> 
                                                     <span> <i className="fa fa-thumbs-up" aria-hidden="true"></i></span>
-                                                    </button>     
-                                                    : <span> <i className="fa fa-thumbs-up" aria-hidden="true"></i></span>}        
+                                                    </button>        
+                                           :   
+                                            <span> <i className="fa fa-thumbs-up" aria-hidden="true"></i></span>
+                                           
+
+                                                    }
 
                                     </>   
+
+
                                 }                   
                         </span>
                     </div>
                     <div className = "downvotes">
                             <span className = "reviewStart"> 
-                            {loggedInUser === voterID ? 
+                            {loggedInUser === voterID   ? 
                                     <>
-                                        <button onClick={() =>{props.calldownFunction(
-                                       reviewID);downVote()}}> 
+                                        <button onClick={() =>{props.calldownFunction({
+                                        votes : votes -  notUpdateDownVote
+                                            }, reviewID);downVote()}}> 
                                         <span> <i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
                                         </button>
                                         </>
                             :     <>  
 
-
-                            {downvoteTrack  ?
+                                {downvoteTrack?  
+                                
                                         <>
-                                    {acessLevel <1 ? 
-                                            <>
-                                                <button onClick={() =>{props.calldownFunction(reviewID);downVote()}}> 
-                                                    <span> <i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
-                                                    </button>   
-                                            </>
-                                             :
+
+                                        {acessLevel <1 ?
+
+                                         <button onClick={() =>{props.calldownFunction({
+                                            votes : votes  +  notUpdateDownVote
+                                                }, reviewID);downVote()}}> 
+                                            <span> <i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
+                                            </button>   
+                                            :
                                             <button onClick={() =>{props.calldownFunction({
-                                                votes : votes  - 1
+                                                votes : votes  +  updatedownVote
                                                     }, reviewID);downVote()}}> 
                                                 <span> <i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
                                                 </button>   
-                                                }
-                                            </>
                                             
-                                            :   <span> <i className="fa fa-thumbs-down" aria-hidden="true"></i></span> }
+                                            }
+
+                                        </>
+                                            :
+                                                      <span> <i className="fa fa-thumbs-down" aria-hidden="true"></i></span>
+                                                    }        
+
                                  </>
                         }   
                         </span>

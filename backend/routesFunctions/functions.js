@@ -408,7 +408,7 @@ module.exports = {
                 res.status(500).send('book not exist')
             }
             else{
-                let query = "SELECT u.firstname,u.lastname,r.userid,r.votes,r.comment,r.bookid\
+                let query = "SELECT u.firstname,u.lastname,r.userid,r.votes,r.comment,r.bookid,r.reviewid\
                 FROM review r join user u on u.userid = r.userid \
                 WHERE r.bookid=?";
                 var bookReview = await pool.query(query, bookreviewID)
@@ -601,7 +601,6 @@ module.exports = {
         try {
             
             let {reviewid, userid, vote} = req.body.voteInfo
-            console.log(req.body.voteInfo)
             // if user has alredy voted
             var result = await pool.query("SELECT * from vote where userid=? and reviewid=?",[userid,reviewid])
             var user = await pool.query("SELECT userid FROM review WHERE reviewid=?",reviewid);

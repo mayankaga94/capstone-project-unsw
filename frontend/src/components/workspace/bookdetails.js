@@ -21,12 +21,15 @@ export default function Bookdetails() {
         const [review, setReview] =  useState([]);
 
         useEffect(() => {
+          
             getBook()
         }, [id])
 
+
+
         const  callupFunction = (newvote, reviewID) =>{
             let updatedReview = review.map(reviews=>{
-                if(reviews.reviewID === reviewID){
+                if(reviews.reviewid === reviewID){
                     reviews.votes = newvote.votes
                 }
                 return reviews
@@ -37,7 +40,7 @@ export default function Bookdetails() {
         const  calldownFunction = (newvote, reviewID) =>{
 
                 let updatedReview = review.map(reviews=>{
-                    if(reviews.reviewID === reviewID){
+                    if(reviews.reviewid === reviewID){
                         reviews.votes = newvote.votes
                     }
                     return reviews
@@ -45,11 +48,23 @@ export default function Bookdetails() {
                  setReview(updatedReview)
     }
 
+
+
         const callReviewFunction = (newReview)=>{
+
+
+                console.log(newReview)
+
             const createdObject = {
-                user : newReview.userID,
+                user : newReview.userid,
                 comment: newReview.comment,
                 votes : newReview.votes
+
+
+                // bookid: id,
+                // userid:  userlogged,
+                // comment : comm,
+                // votes : 0
 
             }
             setReview([...review, createdObject])
@@ -59,9 +74,8 @@ export default function Bookdetails() {
 
         const callreviewDeleteFunction = (newReview)=>{
 
-            console.log(newReview.delete)
-            console.log(review)
-            setReview(review.filter((k, index) => k.reviewID !== newReview.delete ))
+        alert("hii")
+            setReview(review.filter((k, index) => k.reviewid !== newReview.delete ))
         }
         // ---------------------------------
         const getPost =async() =>{
@@ -76,7 +90,6 @@ export default function Bookdetails() {
                  })
                  .then((response) => {          
                     response.json().then((data) => {
-                            // console.log(data);
                             setReview(data.bookReview)
                         });
                     });
@@ -106,7 +119,7 @@ export default function Bookdetails() {
             <div>
                 <h1> Book</h1>
                 {book.map((book,index) => (
-                <Book key = {"dookDetails"+index} callReviewFunction = {callReviewFunction}  callreviewDeleteFunction  = {callreviewDeleteFunction} callupFunction = {callupFunction}  calldownFunction = {calldownFunction} bookReview = {review} Likes = {book.Likes}  pagecount = {book.pagecount}  ISBN = {book.ISBN}  genre = {book.genre}  description = {book.description}  rating = {book.rating} author = {book.author} url = {book.image} name = {book.title} /> 
+                <Book key = {"dookDetails"+index} name = {book.firstname} callReviewFunction = {callReviewFunction}  callreviewDeleteFunction  = {callreviewDeleteFunction} callupFunction = {callupFunction}  calldownFunction = {calldownFunction} bookReview = {review} Likes = {book.Likes} votes = {book.votes} pagecount = {book.pagecount}  ISBN = {book.ISBN}  genre = {book.genre}  description = {book.description}  rating = {book.rating} author = {book.author} url = {book.image} name = {book.title} /> 
                 ))} 
             </div>
         )

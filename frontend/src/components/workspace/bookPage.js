@@ -52,6 +52,7 @@ export  const Rating = styled.div`
 
 export default function Bookpage (props){
 
+
     
     const { userData, setUserData } = useContext(UserContext);
     const loggedINUser = userData && userData.user && userData.user.userid
@@ -61,16 +62,81 @@ export default function Bookpage (props){
 
     const [purchase, setPurchase] = useState({purchased:false});
 
+    const [bookpurchased, setbookpurchased] = useState(true)
+
+
+
+
+    const id  = useParams();
+
+
+    useEffect(() => {
+    const cartDetails = {"userid":loggedINUser,"ISBN":id.id}        
+    var raw = JSON.stringify(cartDetails);
+
+        var requestOptions = {
+        method: 'POST',
+        headers : {
+            "Content-type": "application/json"
+        },
+        body: raw,
+        redirect: 'follow'
+        };
+
+
+    fetch("http://localhost:5000/user/library", requestOptions)
+            .then(response => {
+
+                if (response.status !== 200){
+                  
+                    setbookpurchased(false)
+                }
+                else{
+                response.text()}
+            }
+                )
+            .then(result => console.log("hiiiii",result)
+            )
+            .catch(error => {
+                console.log('error', error)
+               
+            }
+           );
+    },[])
+
+
+
+
+    useEffect(() => {
+          
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+    }, [props.ISBN])
+
+
+   
+
+
+
+
     useEffect(() => {
         getQuotes();
     }, [])
 
 
+
+
+
+
 //       ------------- wiishlist--------------
 const [createList, setCreateList] = useState({list:"inactive"})
+
+
+
+const [bookwishlist, setbookwishlist] = useState(true)
     
 
 const createWishlist = () =>{
+
 
     if (createList.length ===0){
     
@@ -78,19 +144,23 @@ const createWishlist = () =>{
     else{
      
     }
+
     const myList = {
         list:"",
         items:[[["neel"],["horror"]]]
 }
-
     setCreateList({list:"active",
         myList});
+
     return  <h1>hiiiii</h1>
     
  }
-
  const addingTowishlist = () =>{
     createWishlist()
+}
+
+const alreadyadded = () =>{
+    alert("item already in your shelf")
 }
 
     const getQuotes = async() =>{
@@ -101,18 +171,13 @@ const createWishlist = () =>{
         setquotes(data[0])
         }
         // adding items to wishlist
-        const id  = useParams();
-
-
-
+        // const id  = useParams();
           const   rendercom =() =>{
                 setComp({
                     show : !comp.show
                 })
           }
-        const renderReviews = () => {
-            const reviews  = props.bookReview;
-        }
+
         const buybooknotlogged =() =>{
             alert("you need to login")
         }
@@ -140,6 +205,9 @@ const createWishlist = () =>{
         }
         const buybook  = () =>{
 
+
+            setbookpurchased(false)
+
             const cartDetails = {"userid":loggedINUser,"ISBN":id.id}        
             var raw = JSON.stringify(cartDetails);
 
@@ -159,8 +227,7 @@ const createWishlist = () =>{
                 .catch(error => console.log('error', error));
         }
         const ratingChanged = (newRating) => {
-            console.log(newRating);
-
+  
             const ratingDetails = {
                 "bookid":id.id,
                 "userid": loggedINUser,
@@ -197,7 +264,7 @@ const createWishlist = () =>{
                           <Book ><span className = "bookHeading">Author: </span><span className = "bookDescprops"> {props.author} </span></Book> 
                           <Book><span className = "bookHeading">Rating: </span> <span className = "bookDescprops">{props.rating}  {props.Likes} </span></Book>
                             <Book><span className = "bookHeading">No.of pages: </span> <span className = "bookDescprops">{props.pagecount}</span></Book>
-                            <Book><span className = "bookHeading">Genre:</span>{props.genre} <span className = "bookHeading d-none d-sm-block ">  </span><span className = "bookDescprops d-none d-sm-block">ISBN: {props.ISBN}</span></Book>
+                            <Book><span className = "bookHeading">Genre:</span>{props.genre}<span className = "bookDescprops bookHeading d-none d-sm-block">ISBN: {props.ISBN}</span></Book>
                             <div className=" bookHeading">
                                     <span>Description</span>
                                     <Book className = "description">{props.description}</Book>
@@ -214,17 +281,40 @@ const createWishlist = () =>{
                                  </div> ):null}
 
                                 <div className= ""> 
-                                {!userData.user ?   <span className ="booklist addwishlist"  onClick ={()=>buybooknotlogged()} ><i className="fa fa-shopping-cart" aria-hidden="true"><span className="fa-text">Buy Book</span></i> 
-                                  
-                                  </span>:   <span className ="booklist addwishlist" onClick ={()=>buybook()} ><i className="fa fa-shopping-cart" aria-hidden="true"><span className="fa-text">Buy Book</span></i> 
-                                  
-                                  </span>}
-                                  
-                                  {/* {!userData.user ? */}
-                                  {!userData.user ?    <span className =" addwishlist" onClick={() => buybooknotlogged()} ><i className="fa fa-heart" aria-hidden="true"><span className="fa-text">Add To Wishlist</span></i> 
-                                 </span>: <span className =" addwishlist" onClick={() =>addingTowishlist()} ><i className="fa fa-heart" aria-hidden="true"><span className="fa-text">Add To Wishlist</span></i> 
-                                    </span>
+                                {!userData.user ?  
+                                
+                                <span className ="booklist addwishlist"  onClick ={()=>buybooknotlogged()} ><i className="fa fa-shopping-cart" aria-hidden="true"><span className="fa-text">Buy Book</span></i></span>    
+                                
+                                : 
+                                    <> 
+                                        {bookpurchased ?
+                                              <span className ="booklist addwishlist" onClick ={()=>buybook()} ><i className="fa fa-shopping-cart" aria-hidden="true"><span className="fa-text">Buy Book</span></i> </span>
+                                        :  
+                                        <span className ="booklist addwishlist" onClick ={()=>alreadyadded()}  ><i className="fa fa-shopping-cart" aria-hidden="true"><span className="fa-text">In Shelf</span></i> </span>     
+                                        }
+                                    </>
                                   }
+                                  
+
+
+
+
+                                  {/* ---------------------------------------book purchase ends --------------------------- */}
+                                  {/* {!userData.user ? */}
+                                  {!userData.user ?  
+
+                                   <span className =" addwishlist" onClick={() => buybooknotlogged()} ><i className="fa fa-heart" aria-hidden="true"><span className="fa-text">Add To Wishlist</span></i>   </span>
+                                   : 
+
+                                   <>
+
+                                    {bookwishlist ?
+                                    <span className =" addwishlist" onClick={() =>addingTowishlist()} ><i className="fa fa-heart" aria-hidden="true"><span className="fa-text">Add To Wishlist</span></i>  </span>
+                                        :    <span className =" addwishlist"><i className="fa fa fa-check" aria-hidden="true"><span className="fa-text">Added to</span></i>  </span> }
+                                  </>
+                                
+                                
+                                }
                                 </div>
                                 {/* <Wishlist  /> */}
                                 { createList.list ==="active" ?    <CustomWishlist   name = {props.name}  ISBN = {id.id} genre = {props.genre} /> : null }
@@ -245,7 +335,7 @@ const createWishlist = () =>{
                                 <div className = "reviewWrapper">
                                  </div>
                                  { props.bookReview && props.bookReview.map((review,index) =>(
-                                        <><Review  key ={"bookPage"+index}  callreviewDeleteFunction = { props.callreviewDeleteFunction} calldownFunction = {props.calldownFunction} callupFunction = {props.callupFunction}  user = {review.user}  comment = {review.comment} reviewid = {review.reviewID} userid= {review.userid} votes = {review.votes}/></>        
+                                        <><Review  key ={"bookPage"+index}  callreviewDeleteFunction = { props.callreviewDeleteFunction} calldownFunction = {props.calldownFunction} callupFunction = {props.callupFunction}  user = {review.user} firstname  = {review.firstname}  comment = {review.comment} reviewid = {review.reviewid} userid= {review.userid} votes = {review.votes}/></>        
                                          ))     
                                 }        
                             </div> 

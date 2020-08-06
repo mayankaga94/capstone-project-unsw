@@ -42,7 +42,6 @@ export default function Cart(props) {
 
         const markRead = () =>{
 
-            alert("hi")
         }
 
 
@@ -51,8 +50,13 @@ export default function Cart(props) {
                   
                     <div className = "common-marginborder">     
                     <div className = "libraryHeader">Your Shelf </div>
-                    <div className = "totalBooks"><span className = "">Total Books:</span> {library.length}</div>
-                      {! library ? (<>cart is empty</>) : (library.map((library,index)=>(
+
+                    {library?
+                    <div className = "totalBooks"><span className = "">Total Books:</span>{library.length}</div>
+:
+                     <div className = "totalBooks"><span className = "">Total Books:</span>Cart is Empty</div>
+                    }
+                      {!library ? (<>  <i class="fa fa-cart-plus emptylibrary"  aria-hidden="true"></i></>) : library && (library.map((library,index)=>(
                             <Bookshelf markRead = {markRead} id = {library } key  = {"library" + index } library = {library}/ >)
                         ))
                       }

@@ -7,6 +7,7 @@ export default function Sublist(props) {
     const [bookRead, setbookRead] =useState({delete:0})
     const wishlistName = props.name
     const index = props.index
+    const isbn = props.isbn
     const user = props.user
     const title = props.title
     const author = props.author
@@ -38,10 +39,17 @@ export default function Sublist(props) {
             <div className = "wishlistContainer clearfix">  
                   {bookRead.delete === 1 ? null :
                   <>
-                          <div className ="listcontainer"> <div>{author}</div>
+
+                  <Link to  ={'/bookdetails/' + isbn}>
+                          <div className ="listcontainer"> 
+                          
+                          <div>{author}</div>
+
                           <div>
                            By:  {title}
+
                             </div></div>
+                            </Link>
                           <button   onClick = {()=>deleteitem(wishlistName,props.isbn,user, index, 1) }  className = "todoDelete"><i class="fa fa-trash" aria-hidden="true"></i></button>
                           <Link to  ={'/bookdetails/' + props.isbn}>  <button className = "tobuy"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Buy</button></Link>
                   </> 

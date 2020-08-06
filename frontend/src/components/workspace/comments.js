@@ -7,19 +7,12 @@ export default function Comments(props) {
     const { userData, setUserData } = useContext(UserContext);
     const [comm, setcomment] =useState([])
     const {id}  = useParams();
-
-
     const userlogged =   userData && userData.user && userData.user.userid
-
-
-    console.log("ddddddddddddd",userlogged)
     const resetValue = () =>{
-      alert("bii")
         setcomment([""])
       }
 
     const postComment =()=>{
-    
        let  details ={
             bookid: id,
             userid:  userData.user.userid,
@@ -41,7 +34,7 @@ export default function Comments(props) {
     
     return (
         <div className = "comment">
-                <input  className = "commentBox" type = "textbox" placeholder = "Enter your review" onChange = {(e) =>setcomment(e.target.value)}></input>
+                <input  value  = {comm} className = "commentBox" type = "textbox" placeholder = "Enter your review" onChange = {(e) =>setcomment(e.target.value)}></input>
                 <button  className = "commentButton" onClick={()=>{props.callReviewFunction({
               bookid: id,
               userid:  userlogged,

@@ -15,6 +15,8 @@ z-index :999;
 export default function Registration () {
 
         const [firstName, setfirstname] = useState();
+
+        const [resetVal, setresetVal] = useState ();
         const [lastName, setlastname] = useState();
         const [password, setpassword] = useState();
         const [password2, setpasswordCheck] = useState();
@@ -34,6 +36,14 @@ export default function Registration () {
             .then((response) => {
              response.json().then((data) => {
 
+                if (response.status !== 200){
+                    alert("registration failed")
+                }
+                else{
+                 setresetVal("")
+                 alert("Congrats, You have been registered")
+                }
+
                  });
              });
         }
@@ -43,12 +53,12 @@ export default function Registration () {
                     <Register>
                         <div className = "registrationHeading">Register</div>
                         <form onSubmit = {submit} >
-                            <input  placeholder ="Enter Your First Name" id="firstnam"  className = "registerDetails" onChange = {(e) =>setfirstname(e.target.value)}></input>
-                            <input placeholder ="Enter your Last name" id="lastname" className = "registerDetails"  onChange = {(e) =>setlastname(e.target.value)}></input>
-                            <input  placeholder ="Enter Password"type = "password" className = "registerDetails" id="registerPassword"  onChange = {(e) =>setpassword(e.target.value)}></input>
-                            <input  placeholder ="Enter Password Again"type = "password" className = "registerDetails" id="registerPassword2" onChange = {(e) =>setpasswordCheck(e.target.value)} ></input>                    
-                            <input  placeholder ="Enter DOB in (yyy-mm-dd) "id="dob" className = "registerDetails" onChange = {(e) =>setdob(e.target.value)} ></input>
-                            <input  placeholder ="Enter Your Email ID" id="emailID"  className = "registerDetails"onChange = {(e) =>setemail(e.target.value)} ></input>        
+                            <input   value  = {resetVal } placeholder ="Enter Your First Name" id="firstnam"  className = "registerDetails" onChange = {(e) =>setfirstname(e.target.value)}></input>
+                            <input   value  = {resetVal }placeholder ="Enter your Last name" id="lastname" className = "registerDetails"  onChange = {(e) =>setlastname(e.target.value)}></input>
+                            <input  value  = {resetVal }  placeholder ="Enter Password"type = "password" className = "registerDetails" id="registerPassword"  onChange = {(e) =>setpassword(e.target.value)}></input>
+                            <input   value  = {resetVal } placeholder ="Enter Password Again"type = "password" className = "registerDetails" id="registerPassword2" onChange = {(e) =>setpasswordCheck(e.target.value)} ></input>                    
+                            <input   value  = {resetVal } placeholder ="Enter DOB in (yyy-mm-dd) "id="dob" className = "registerDetails" onChange = {(e) =>setdob(e.target.value)} ></input>
+                            <input    value  = {resetVal } placeholder ="Enter Your Email ID" id="emailID"  className = "registerDetails"onChange = {(e) =>setemail(e.target.value)} ></input>        
                             <input  className = "registrationButton" type="submit" value="Register" />
                         </form >          
                     </Register>
