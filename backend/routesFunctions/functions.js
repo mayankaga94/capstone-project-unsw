@@ -374,25 +374,6 @@ module.exports = {
                     success : true,
                     message : "Book Added"
                 });
-                // pool.query(query, ISBN, (err, result) => {
-                //     if (err) throw err;
-                //     if (result.length > 0){
-                //         return res.status(200).send({
-                //             success: true,
-                //             message: 'Book already exists'
-                //         });
-                //     }
-                //     else{
-                //         let query = "INSERT INTO book_dataset VALUES (?,?,?,?,?,?,?,?,?,?)";
-                //         pool.query(query, [title, author, 1.0, 0, "0", description, ISBN, genre, image, pagecount], (err, result) => {
-                //             if (err) throw err;
-                //             return res.status(200).send({
-                //                 success : true,
-                //                 message : "Book Added"
-                //             })
-                //         })
-                //     }
-                // })
             }
         }
         catch(err){
@@ -444,25 +425,6 @@ module.exports = {
                     success : true,
                     message : "Book Removed"
                 });
-                // pool.query(query, ISBN, (err, result) => {
-                //     if (err) throw err;
-                //     if (result.length == 0){
-                //         return res.status(200).send({
-                //             success: true,
-                //             message: 'Book does not exist'
-                //         });
-                //     }
-                //     else{
-                //         let query = "DELETE FROM book_dataset WHERE ISBN = ?";
-                //         pool.query(query, ISBN, (err, result) => {
-                //             if (err) throw err;
-                //             return res.status(200).send({
-                //                 success : true,
-                //                 message : "Book Removed"
-                //             })
-                //         })
-                //     }
-                // })
             }
         }
         catch(err){
